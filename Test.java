@@ -48,10 +48,12 @@ public class Test extends TestCase {
         super(name);
     }
 
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
     }
 
+    @Override
     protected void tearDown() throws Exception {
         super.tearDown();
     }
@@ -84,7 +86,7 @@ public class Test extends TestCase {
 
     public void testJSON() throws Exception {
     	double       eps = 2.220446049250313e-16;
-        Iterator     iterator;
+        Iterator<String>     iterator;
         JSONArray    jsonarray;
         JSONObject   jsonobject;
         JSONStringer jsonstringer;
@@ -1251,7 +1253,7 @@ public class Test extends TestCase {
                 "    \"9223372036854775808\"\n" +
                 "]", jsonarray.toString(4));
 
-        List expectedKeys = new ArrayList(6);
+        List<String> expectedKeys = new ArrayList<String>(6);
         expectedKeys.add("int");
         expectedKeys.add("string");
         expectedKeys.add("longer");
@@ -1344,8 +1346,8 @@ public class Test extends TestCase {
         assertEquals("<book><chapter>Content of the first chapter</chapter><chapter>Content of the second chapter<chapter>Content of the first subchapter</chapter><chapter>Content of the second subchapter</chapter></chapter><chapter>Third Chapter</chapter></book>",
                 JSONML.toString(jsonarray));
 
-        Collection collection = null;
-        Map map = null;
+        Collection<?> collection = null;
+        Map<String,?> map = null;
 
         jsonobject = new JSONObject(map);
         jsonarray = new JSONArray(collection);
@@ -1673,6 +1675,7 @@ public class Test extends TestCase {
                     JSONObject.doubleToString(this.aNumber) + "}";
         }
 
+        @Override
         public String toString() {
             return this.getString() + " " + this.getNumber() + " " +
                     this.isBoolean() + "." + this.getBENT() + " " + this.getX();

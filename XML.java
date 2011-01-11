@@ -391,7 +391,7 @@ public class XML {
         JSONArray    ja;
         JSONObject   jo;
         String       key;
-        Iterator     keys;
+        Iterator<String>     keys;
         int          length;
         String       string;
         Object       value;
