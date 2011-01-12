@@ -102,7 +102,7 @@ public class Test extends TestCase {
         jsonobject = new WritableJSONObject();
         object = null;
         jsonobject.put("booga", object);
-        jsonobject.put("wooga", WritableJSONObject.NULL);
+        jsonobject.put("wooga", JSONObject.NULL);
         assertEquals("{\"wooga\":null}", jsonobject.toString());
         assertTrue(jsonobject.isNull("booga"));
 
@@ -508,7 +508,7 @@ public class Test extends TestCase {
         jsonobject.put("double", 123456789012345678901234567890.);
         jsonobject.put("true", true);
         jsonobject.put("false", false);
-        jsonobject.put("null", WritableJSONObject.NULL);
+        jsonobject.put("null", JSONObject.NULL);
         jsonobject.put("bool", "true");
         jsonobject.put("zero", -0.0);
         jsonobject.put("\\u2028", "\u2028");

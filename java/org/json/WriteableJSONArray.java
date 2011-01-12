@@ -108,7 +108,7 @@ public class WriteableJSONArray
       for (;;) {
         if (x.nextClean() == ',') {
           x.back();
-          this.myArrayList.add(WritableJSONObject.NULL);
+          this.myArrayList.add(JSONObject.NULL);
         } else {
           x.back();
           this.myArrayList.add(x.nextValue());
@@ -346,7 +346,7 @@ public class WriteableJSONArray
       throws JSONException
   {
     Object object = get(index);
-    return object == WritableJSONObject.NULL ? null : object.toString();
+    return object == JSONObject.NULL ? null : object.toString();
   }
 
   /**
@@ -358,7 +358,7 @@ public class WriteableJSONArray
    */
   public boolean isNull(int index)
   {
-    return WritableJSONObject.NULL.equals(opt(index));
+    return JSONObject.NULL.equals(opt(index));
   }
 
   /**
@@ -863,7 +863,7 @@ public class WriteableJSONArray
       this.myArrayList.set(index, value);
     } else {
       while (index != length()) {
-        put(WritableJSONObject.NULL);
+        put(JSONObject.NULL);
       }
       put(value);
     }

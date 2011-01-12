@@ -94,63 +94,9 @@ public class WritableJSONObject
 {
 
   /**
-   * JSONObject.NULL is equivalent to the value that JavaScript calls null,
-   * whilst Java's null is equivalent to the value that JavaScript calls
-   * undefined.
-   */
-  private static final class Null
-  {
-
-    /**
-     * There is only intended to be a single instance of the NULL object, so
-     * the clone method returns itself.
-     * 
-     * @return NULL.
-     */
-    @Override
-    protected final Object clone()
-    {
-      return this;
-    }
-
-    /**
-     * A Null object is equal to the null value and to itself.
-     * 
-     * @param object
-     *          An object to test for nullness.
-     * @return true if the object parameter is the JSONObject.NULL object or
-     *         null.
-     */
-    @Override
-    public boolean equals(Object object)
-    {
-      return object == null || object == this;
-    }
-
-    /**
-     * Get the "null" string value.
-     * 
-     * @return The string "null".
-     */
-    @Override
-    public String toString()
-    {
-      return "null";
-    }
-  }
-
-  /**
    * The map where the JSONObject's properties are kept.
    */
   private Map<String, Object> map;
-
-  /**
-   * It is sometimes more convenient and less ambiguous to have a
-   * <code>NULL</code> object than to use Java's <code>null</code> value.
-   * <code>JSONObject.NULL.equals(null)</code> returns <code>true</code>.
-   * <code>JSONObject.NULL.toString()</code> returns <code>"null"</code>.
-   */
-  public static final Object NULL = new Null();
 
   /**
    * Construct an empty JSONObject.
@@ -683,7 +629,7 @@ public class WritableJSONObject
       throws JSONException
   {
     Object object = get(key);
-    return object == NULL ? null : object.toString();
+    return object == JSONObject.NULL ? null : object.toString();
   }
 
   /**
@@ -741,7 +687,7 @@ public class WritableJSONObject
    */
   public boolean isNull(String key)
   {
-    return WritableJSONObject.NULL.equals(opt(key));
+    return JSONObject.NULL.equals(opt(key));
   }
 
   /**
@@ -1020,7 +966,7 @@ public class WritableJSONObject
                           String defaultValue)
   {
     Object object = opt(key);
-    return NULL.equals(object) ? defaultValue : object.toString();
+    return JSONObject.NULL.equals(object) ? defaultValue : object.toString();
   }
 
   private void populateMap(Object bean)
@@ -1371,7 +1317,7 @@ public class WritableJSONObject
       return Boolean.FALSE;
     }
     if (string.equalsIgnoreCase("null")) {
-      return WritableJSONObject.NULL;
+      return JSONObject.NULL;
     }
 
     /*
@@ -1708,10 +1654,10 @@ public class WritableJSONObject
   {
     try {
       if (object == null) {
-        return NULL;
+        return JSONObject.NULL;
       }
       if (object instanceof WritableJSONObject || object instanceof WriteableJSONArray
-        || NULL.equals(object) || object instanceof JSONString
+        || JSONObject.NULL.equals(object) || object instanceof JSONString
         || object instanceof Byte || object instanceof Character
         || object instanceof Short || object instanceof Integer
         || object instanceof Long || object instanceof Boolean

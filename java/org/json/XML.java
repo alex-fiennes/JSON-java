@@ -308,7 +308,7 @@ public class XML {
             return Boolean.FALSE;
         }
         if (string.equalsIgnoreCase("null")) {
-            return WritableJSONObject.NULL;
+            return JSONObject.NULL;
         }
 
 // If it might be a number, try converting it. If that doesn't work, 
