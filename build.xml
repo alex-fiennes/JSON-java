@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="JSON-java" default="all">
+
+    <property name="project.deps" value="."/>
+    
+    <!-- Place any project-specific properties above this line -->
+    <import file="${basedir}/../build/build-common.xml" />
+
+</project>
