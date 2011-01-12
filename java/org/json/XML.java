@@ -124,11 +124,11 @@ public class XML {
      * @return true if the close tag is processed.
      * @throws JSONException
      */
-    private static boolean parse(XMLTokener x, JSONObject context,
+    private static boolean parse(XMLTokener x, WritableJSONObject context,
                                  String name) throws JSONException {
         char       c;
         int        i;
-        JSONObject jsonobject = null;
+        WritableJSONObject jsonobject = null;
         String     string;
         String     tagName;
         Object     token;
@@ -210,7 +210,7 @@ public class XML {
         } else {
             tagName = (String)token;
             token = null;
-            jsonobject = new JSONObject();
+            jsonobject = new WritableJSONObject();
             for (;;) {
                 if (token == null) {
                     token = x.nextToken();
@@ -308,7 +308,7 @@ public class XML {
             return Boolean.FALSE;
         }
         if (string.equalsIgnoreCase("null")) {
-            return JSONObject.NULL;
+            return WritableJSONObject.NULL;
         }
 
 // If it might be a number, try converting it. If that doesn't work, 
@@ -356,8 +356,8 @@ public class XML {
      * @return A JSONObject containing the structured data from the XML string.
      * @throws JSONException
      */
-    public static JSONObject toJSONObject(String string) throws JSONException {
-        JSONObject jo = new JSONObject();
+    public static WritableJSONObject toJSONObject(String string) throws JSONException {
+        WritableJSONObject jo = new WritableJSONObject();
         XMLTokener x = new XMLTokener(string);
         while (x.more() && x.skipPast("<")) {
             parse(x, jo, null);
@@ -388,14 +388,14 @@ public class XML {
             throws JSONException {
         StringBuffer sb = new StringBuffer();
         int          i;
-        JSONArray    ja;
-        JSONObject   jo;
+        WriteableJSONArray    ja;
+        WritableJSONObject   jo;
         String       key;
         Iterator<String>     keys;
         int          length;
         String       string;
         Object       value;
-        if (object instanceof JSONObject) {
+        if (object instanceof WritableJSONObject) {
 
 // Emit <tagName>
 
@@ -407,7 +407,7 @@ public class XML {
 
 // Loop thru the keys.
 
-            jo = (JSONObject)object;
+            jo = (WritableJSONObject)object;
             keys = jo.keys();
             while (keys.hasNext()) {
                 key = keys.next().toString();
@@ -424,8 +424,8 @@ public class XML {
 // Emit content in body
 
                 if (key.equals("content")) {
-                    if (value instanceof JSONArray) {
-                        ja = (JSONArray)value;
+                    if (value instanceof WriteableJSONArray) {
+                        ja = (WriteableJSONArray)value;
                         length = ja.length();
                         for (i = 0; i < length; i += 1) {
                             if (i > 0) {
@@ -439,12 +439,12 @@ public class XML {
 
 // Emit an array of similar keys
 
-                } else if (value instanceof JSONArray) {
-                    ja = (JSONArray)value;
+                } else if (value instanceof WriteableJSONArray) {
+                    ja = (WriteableJSONArray)value;
                     length = ja.length();
                     for (i = 0; i < length; i += 1) {
                     	value = ja.get(i);
-                    	if (value instanceof JSONArray) {
+                    	if (value instanceof WriteableJSONArray) {
                             sb.append('<');
                             sb.append(key);
                             sb.append('>');
@@ -480,8 +480,8 @@ public class XML {
 // XML does not have good support for arrays. If an array appears in a place
 // where XML is lacking, synthesize an <array> element.
 
-        } else if (object instanceof JSONArray) {
-            ja = (JSONArray)object;
+        } else if (object instanceof WriteableJSONArray) {
+            ja = (WriteableJSONArray)object;
             length = ja.length();
             for (i = 0; i < length; i += 1) {
                 sb.append(toString(ja.opt(i), tagName == null ? "array" : tagName));

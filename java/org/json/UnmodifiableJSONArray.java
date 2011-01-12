@@ -5,9 +5,9 @@ import java.util.Collection;
 import java.util.Map;
 
 public class UnmodifiableJSONArray
-  implements JSONArrayI
+  implements JSONArray
 {
-  public static UnmodifiableJSONArray getInstance(JSONArrayI jArr)
+  public static UnmodifiableJSONArray getInstance(JSONArray jArr)
   {
     if (jArr == null) {
       throw new NullPointerException();
@@ -18,9 +18,9 @@ public class UnmodifiableJSONArray
     return new UnmodifiableJSONArray(jArr);
   }
   
-  private final JSONArrayI __jArr;
+  private final JSONArray __jArr;
   
-  private UnmodifiableJSONArray(JSONArrayI jArr)
+  private UnmodifiableJSONArray(JSONArray jArr)
   {
     __jArr = jArr;
   }
@@ -54,14 +54,14 @@ public class UnmodifiableJSONArray
   }
 
   @Override
-  public JSONArrayI getJSONArray(int index)
+  public JSONArray getJSONArray(int index)
       throws JSONException
   {
     return UnmodifiableJSONArray.getInstance(__jArr.getJSONArray(index));
   }
 
   @Override
-  public JSONObjectI getJSONObject(int index)
+  public JSONObject getJSONObject(int index)
       throws JSONException
   {
     return UnmodifiableJSONObject.getInstance(__jArr.getJSONObject(index));
@@ -146,13 +146,13 @@ public class UnmodifiableJSONArray
   }
 
   @Override
-  public JSONArrayI optJSONArray(int index)
+  public JSONArray optJSONArray(int index)
   {
     return UnmodifiableJSONArray.getInstance(__jArr.optJSONArray(index));
   }
 
   @Override
-  public JSONObjectI optJSONObject(int index)
+  public JSONObject optJSONObject(int index)
   {
     return UnmodifiableJSONObject.getInstance(__jArr.optJSONObject(index));
   }
@@ -184,50 +184,50 @@ public class UnmodifiableJSONArray
   }
 
   @Override
-  public JSONArrayI put(boolean value)
+  public JSONArray put(boolean value)
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public JSONArrayI put(Collection<?> value)
+  public JSONArray put(Collection<?> value)
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public JSONArrayI put(double value)
+  public JSONArray put(double value)
       throws JSONException
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public JSONArrayI put(int value)
+  public JSONArray put(int value)
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public JSONArrayI put(long value)
+  public JSONArray put(long value)
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public JSONArrayI put(Map<String, ?> value)
+  public JSONArray put(Map<String, ?> value)
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public JSONArrayI put(Object value)
+  public JSONArray put(Object value)
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public JSONArrayI put(int index,
+  public JSONArray put(int index,
                         boolean value)
       throws JSONException
   {
@@ -235,7 +235,7 @@ public class UnmodifiableJSONArray
   }
 
   @Override
-  public JSONArrayI put(int index,
+  public JSONArray put(int index,
                         Collection<?> value)
       throws JSONException
   {
@@ -243,7 +243,7 @@ public class UnmodifiableJSONArray
   }
 
   @Override
-  public JSONArrayI put(int index,
+  public JSONArray put(int index,
                         double value)
       throws JSONException
   {
@@ -251,7 +251,7 @@ public class UnmodifiableJSONArray
   }
 
   @Override
-  public JSONArrayI put(int index,
+  public JSONArray put(int index,
                         int value)
       throws JSONException
   {
@@ -259,7 +259,7 @@ public class UnmodifiableJSONArray
   }
 
   @Override
-  public JSONArrayI put(int index,
+  public JSONArray put(int index,
                         long value)
       throws JSONException
   {
@@ -267,7 +267,7 @@ public class UnmodifiableJSONArray
   }
 
   @Override
-  public JSONArrayI put(int index,
+  public JSONArray put(int index,
                         Map<String, ?> value)
       throws JSONException
   {
@@ -275,7 +275,7 @@ public class UnmodifiableJSONArray
   }
 
   @Override
-  public JSONArrayI put(int index,
+  public JSONArray put(int index,
                         Object value)
       throws JSONException
   {
@@ -289,7 +289,7 @@ public class UnmodifiableJSONArray
   }
 
   @Override
-  public JSONObjectI toJSONObject(JSONArrayI names)
+  public JSONObject toJSONObject(JSONArray names)
       throws JSONException
   {
     return UnmodifiableJSONObject.getInstance(__jArr.toJSONObject(names));

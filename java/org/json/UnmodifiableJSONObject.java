@@ -6,9 +6,9 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class UnmodifiableJSONObject
-  implements JSONObjectI
+  implements JSONObject
 {
-  public static UnmodifiableJSONObject getInstance(JSONObjectI jObj)
+  public static UnmodifiableJSONObject getInstance(JSONObject jObj)
   {
     if (jObj == null) {
       throw new NullPointerException();
@@ -19,15 +19,15 @@ public class UnmodifiableJSONObject
     return new UnmodifiableJSONObject(jObj);
   }
 
-  private final JSONObjectI __jObj;
+  private final JSONObject __jObj;
 
-  private UnmodifiableJSONObject(JSONObjectI jObj)
+  private UnmodifiableJSONObject(JSONObject jObj)
   {
     __jObj = jObj;
   }
 
   @Override
-  public JSONObjectI accumulate(String key,
+  public JSONObject accumulate(String key,
                                 Object value)
       throws JSONException
   {
@@ -35,7 +35,7 @@ public class UnmodifiableJSONObject
   }
 
   @Override
-  public JSONObjectI append(String key,
+  public JSONObject append(String key,
                             Object value)
       throws JSONException
   {
@@ -105,7 +105,7 @@ public class UnmodifiableJSONObject
   }
 
   @Override
-  public JSONObjectI increment(String key)
+  public JSONObject increment(String key)
       throws JSONException
   {
     throw new UnsupportedOperationException();
@@ -219,7 +219,7 @@ public class UnmodifiableJSONObject
   }
 
   @Override
-  public JSONObjectI put(String key,
+  public JSONObject put(String key,
                          boolean value)
       throws JSONException
   {
@@ -227,7 +227,7 @@ public class UnmodifiableJSONObject
   }
 
   @Override
-  public JSONObjectI put(String key,
+  public JSONObject put(String key,
                          Collection<?> value)
       throws JSONException
   {
@@ -235,7 +235,7 @@ public class UnmodifiableJSONObject
   }
 
   @Override
-  public JSONObjectI put(String key,
+  public JSONObject put(String key,
                          double value)
       throws JSONException
   {
@@ -243,7 +243,7 @@ public class UnmodifiableJSONObject
   }
 
   @Override
-  public JSONObjectI put(String key,
+  public JSONObject put(String key,
                          int value)
       throws JSONException
   {
@@ -251,7 +251,7 @@ public class UnmodifiableJSONObject
   }
 
   @Override
-  public JSONObjectI put(String key,
+  public JSONObject put(String key,
                          long value)
       throws JSONException
   {
@@ -259,7 +259,7 @@ public class UnmodifiableJSONObject
   }
 
   @Override
-  public JSONObjectI put(String key,
+  public JSONObject put(String key,
                          Map<String, ?> value)
       throws JSONException
   {
@@ -267,7 +267,7 @@ public class UnmodifiableJSONObject
   }
 
   @Override
-  public JSONObjectI put(String key,
+  public JSONObject put(String key,
                          Object value)
       throws JSONException
   {
@@ -275,7 +275,7 @@ public class UnmodifiableJSONObject
   }
 
   @Override
-  public JSONObjectI putOnce(String key,
+  public JSONObject putOnce(String key,
                              Object value)
       throws JSONException
   {
@@ -283,7 +283,7 @@ public class UnmodifiableJSONObject
   }
 
   @Override
-  public JSONObjectI putOpt(String key,
+  public JSONObject putOpt(String key,
                             Object value)
       throws JSONException
   {
@@ -303,7 +303,7 @@ public class UnmodifiableJSONObject
   }
 
   @Override
-  public UnmodifiableJSONArray toJSONArray(JSONArrayI names)
+  public UnmodifiableJSONArray toJSONArray(JSONArray names)
       throws JSONException
   {
     return UnmodifiableJSONArray.getInstance(__jObj.toJSONArray(names));

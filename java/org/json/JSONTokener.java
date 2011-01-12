@@ -359,10 +359,10 @@ public class JSONTokener {
                 return nextString(c);
             case '{':
                 back();
-                return new JSONObject(this);
+                return new WritableJSONObject(this);
             case '[':
                 back();
-                return new JSONArray(this);
+                return new WriteableJSONArray(this);
         }
 
         /*
@@ -385,7 +385,7 @@ public class JSONTokener {
         if (string.equals("")) {
             throw syntaxError("Missing value");
         }
-        return JSONObject.stringToValue(string);
+        return WritableJSONObject.stringToValue(string);
     }
 
 

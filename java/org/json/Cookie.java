@@ -78,9 +78,9 @@ public class Cookie {
      *  members.
      * @throws JSONException
      */
-    public static JSONObject toJSONObject(String string) throws JSONException {
+    public static WritableJSONObject toJSONObject(String string) throws JSONException {
         String         name;
-        JSONObject     jo = new JSONObject();
+        WritableJSONObject     jo = new WritableJSONObject();
         Object         value;
         JSONTokener x = new JSONTokener(string);
         jo.put("name", x.nextTo('='));
@@ -115,7 +115,7 @@ public class Cookie {
      * @return A cookie specification string
      * @throws JSONException
      */
-    public static String toString(JSONObjectI jo) throws JSONException {
+    public static String toString(JSONObject jo) throws JSONException {
         StringBuffer sb = new StringBuffer();
 
         sb.append(escape(jo.getString("name")));

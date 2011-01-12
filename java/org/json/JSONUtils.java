@@ -9,21 +9,21 @@ public class JSONUtils
 
   public static Object unmodifiable(Object obj)
   {
-    if (obj instanceof JSONObjectI) {
-      return UnmodifiableJSONObject.getInstance((JSONObjectI) obj);
+    if (obj instanceof JSONObject) {
+      return UnmodifiableJSONObject.getInstance((JSONObject) obj);
     }
-    if (obj instanceof JSONArrayI) {
-      return UnmodifiableJSONArray.getInstance((JSONArrayI) obj);
+    if (obj instanceof JSONArray) {
+      return UnmodifiableJSONArray.getInstance((JSONArray) obj);
     }
     return obj;
   }
   
-  public static UnmodifiableJSONObject unmodifiable(JSONObjectI jObj)
+  public static UnmodifiableJSONObject unmodifiable(JSONObject jObj)
   {
     return UnmodifiableJSONObject.getInstance(jObj);
   }
   
-  public static UnmodifiableJSONArray unmodifiable(JSONArrayI jArr)
+  public static UnmodifiableJSONArray unmodifiable(JSONArray jArr)
   {
     return UnmodifiableJSONArray.getInstance(jArr);
   }

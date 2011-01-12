@@ -59,7 +59,7 @@ public class Test extends TestCase {
     }
 
     public void testXML() throws Exception {
-        JSONObject jsonobject;
+        WritableJSONObject jsonobject;
         String string;
 
         jsonobject = XML.toJSONObject("<![CDATA[This is a collection of test patterns and examples for org.json.]]>  Ignore the stuff past the end.  ");
@@ -73,13 +73,13 @@ public class Test extends TestCase {
     }
 
     public void testNull() throws Exception {
-        JSONObject jsonobject;
+        WritableJSONObject jsonobject;
 
-        jsonobject = new JSONObject("{\"message\":\"null\"}");
+        jsonobject = new WritableJSONObject("{\"message\":\"null\"}");
         assertFalse(jsonobject.isNull("message"));
         assertEquals("null", jsonobject.getString("message"));
 
-        jsonobject = new JSONObject("{\"message\":null}");
+        jsonobject = new WritableJSONObject("{\"message\":null}");
         assertTrue(jsonobject.isNull("message"));
         assertEquals(null, jsonobject.getString("message"));
     }
@@ -87,8 +87,8 @@ public class Test extends TestCase {
     public void testJSON() throws Exception {
     	double       eps = 2.220446049250313e-16;
         Iterator<String>     iterator;
-        JSONArray    jsonarray;
-        JSONObject   jsonobject;
+        WriteableJSONArray    jsonarray;
+        WritableJSONObject   jsonobject;
         JSONStringer jsonstringer;
         Object       object;
         String       string;
@@ -96,24 +96,24 @@ public class Test extends TestCase {
         Beany beanie = new Beany("A beany object", 42, true);
 
         string = "[0.1]";
-        jsonarray = new JSONArray(string);
+        jsonarray = new WriteableJSONArray(string);
         assertEquals("[0.1]", jsonarray.toString());
 
-        jsonobject = new JSONObject();
+        jsonobject = new WritableJSONObject();
         object = null;
         jsonobject.put("booga", object);
-        jsonobject.put("wooga", JSONObject.NULL);
+        jsonobject.put("wooga", WritableJSONObject.NULL);
         assertEquals("{\"wooga\":null}", jsonobject.toString());
         assertTrue(jsonobject.isNull("booga"));
 
-        jsonobject = new JSONObject();
+        jsonobject = new WritableJSONObject();
         jsonobject.increment("two");
         jsonobject.increment("two");
         assertEquals("{\"two\":2}", jsonobject.toString());
         assertEquals(2, jsonobject.getInt("two"));
 
         string = "{     \"list of lists\" : [         [1, 2, 3],         [4, 5, 6],     ] }";
-        jsonobject = new JSONObject(string);
+        jsonobject = new WritableJSONObject(string);
         assertEquals("{\"list of lists\": [\n" +
                 "    [\n" +
                 "        1,\n" +
@@ -351,12 +351,12 @@ public class Test extends TestCase {
                 "    \"modified\": \"2006-12-31T23:59\"\n" +
                 "}}", jsonobject.toString(4));
 
-        jsonobject = new JSONObject(beanie);
+        jsonobject = new WritableJSONObject(beanie);
         //assertEquals("{\"string\":\"A beany object\",\"BENT\":\"All uppercase key\",\"boolean\":true,\"number\":42,\"x\":\"x\"}"
         //        , jsonobject.toString());
 
         string = "{ \"entity\": { \"imageURL\": \"\", \"name\": \"IXXXXXXXXXXXXX\", \"id\": 12336, \"ratingCount\": null, \"averageRating\": null } }";
-        jsonobject = new JSONObject(string);
+        jsonobject = new WritableJSONObject(string);
         assertEquals("{\"entity\": {\n" +
                 "  \"averageRating\": null,\n" +
                 "  \"id\": 12336,\n" +
@@ -383,7 +383,7 @@ public class Test extends TestCase {
                 .endObject()
                 .endArray()
                 .key("obj keys")
-                .value(JSONObject.getNames(beanie))
+                .value(WritableJSONObject.getNames(beanie))
                 .endObject()
                 .toString();
         assertEquals("{\"single\":\"MARIE HAA'S\",\"Johnny\":\"MARIE HAA\\\\'S\",\"foo\":\"bar\",\"baz\":[{\"quux\":\"Thanks, Josh!\"}],\"obj keys\":[\"aString\",\"aNumber\",\"aBoolean\"]}"
@@ -462,14 +462,14 @@ public class Test extends TestCase {
                 "    {},\n" +
                 "    {\"one\": 1},\n" +
                 "    {\"A beany object\": 42}\n" +
-                "]", new JSONArray(jsonstringer.toString()).toString(4));
+                "]", new WriteableJSONArray(jsonstringer.toString()).toString(4));
 
         int ar[] = {1, 2, 3};
-        JSONArray ja = new JSONArray(ar);
+        WriteableJSONArray ja = new WriteableJSONArray(ar);
         assertEquals("[1,2,3]", ja.toString());
 
         String sa[] = {"aString", "aNumber", "aBoolean"};
-        jsonobject = new JSONObject(beanie, sa);
+        jsonobject = new WritableJSONObject(beanie, sa);
         jsonobject.put("Testing JSONString interface", beanie);
         assertEquals("{\n" +
                 "    \"Testing JSONString interface\": {\"A beany object\":42},\n" +
@@ -478,7 +478,7 @@ public class Test extends TestCase {
                 "    \"aString\": \"A beany object\"\n" +
                 "}", jsonobject.toString(4));
 
-        jsonobject = new JSONObject("{slashes: '///', closetag: '</script>', backslash:'\\\\', ei: {quotes: '\"\\''},eo: {a: '\"quoted\"', b:\"don't\"}, quotes: [\"'\", '\"']}");
+        jsonobject = new WritableJSONObject("{slashes: '///', closetag: '</script>', backslash:'\\\\', ei: {quotes: '\"\\''},eo: {a: '\"quoted\"', b:\"don't\"}, quotes: [\"'\", '\"']}");
         assertEquals("{\n" +
                 "  \"backslash\": \"\\\\\",\n" +
                 "  \"closetag\": \"<\\/script>\",\n" +
@@ -496,19 +496,19 @@ public class Test extends TestCase {
         assertEquals("<quotes>'</quotes><quotes>&quot;</quotes><slashes>///</slashes><ei><quotes>&quot;'</quotes></ei><eo><b>don't</b><a>&quot;quoted&quot;</a></eo><closetag>&lt;/script&gt;</closetag><backslash>\\</backslash>",
                 XML.toString(jsonobject));
 
-        jsonobject = new JSONObject(
+        jsonobject = new WritableJSONObject(
                 "{foo: [true, false,9876543210,    0.0, 1.00000001,  1.000000000001, 1.00000000000000001," +
                         " .00000000000000001, 2.00, 0.1, 2e100, -32,[],{}, \"string\"], " +
                         "  to   : null, op : 'Good'," +
                         "ten:10} postfix comment");
         jsonobject.put("String", "98.6");
-        jsonobject.put("JSONObject", new JSONObject());
-        jsonobject.put("JSONArray", new JSONArray());
+        jsonobject.put("JSONObject", new WritableJSONObject());
+        jsonobject.put("JSONArray", new WriteableJSONArray());
         jsonobject.put("int", 57);
         jsonobject.put("double", 123456789012345678901234567890.);
         jsonobject.put("true", true);
         jsonobject.put("false", false);
-        jsonobject.put("null", JSONObject.NULL);
+        jsonobject.put("null", WritableJSONObject.NULL);
         jsonobject.put("bool", "true");
         jsonobject.put("zero", -0.0);
         jsonobject.put("\\u2028", "\u2028");
@@ -520,9 +520,9 @@ public class Test extends TestCase {
         jsonarray.put("so <fine>.");
         jsonarray.put(true);
         jsonarray.put(false);
-        jsonarray.put(new JSONArray());
-        jsonarray.put(new JSONObject());
-        jsonobject.put("keys", JSONObject.getNames(jsonobject));
+        jsonarray.put(new WriteableJSONArray());
+        jsonarray.put(new WritableJSONObject());
+        jsonobject.put("keys", WritableJSONObject.getNames(jsonobject));
         assertEquals("{\n" +
                 "    \"JSONArray\": [],\n" +
                 "    \"JSONObject\": {},\n" +
@@ -978,7 +978,7 @@ public class Test extends TestCase {
                 "Server: Apache/1.3.23 (Unix) mod_perl/1.26\r\n\r\n",
                 HTTP.toString(jsonobject));
 
-        jsonobject = new JSONObject("{nix: null, nux: false, null: 'null', 'Request-URI': '/', Method: 'GET', 'HTTP-Version': 'HTTP/1.0'}");
+        jsonobject = new WritableJSONObject("{nix: null, nux: false, null: 'null', 'Request-URI': '/', Method: 'GET', 'HTTP-Version': 'HTTP/1.0'}");
         assertEquals("{\n" +
                 "  \"HTTP-Version\": \"HTTP/1.0\",\n" +
                 "  \"Method\": \"GET\",\n" +
@@ -1062,7 +1062,7 @@ public class Test extends TestCase {
         assertEquals("<SOAP-ENV:Envelope><SOAP-ENV:Body><ns1:doGoogleSearch><oe>latin1<xsi:type>xsd:string</xsi:type></oe><SOAP-ENV:encodingStyle>http://schemas.xmlsoap.org/soap/encoding/</SOAP-ENV:encodingStyle><lr><xsi:type>xsd:string</xsi:type></lr><start>0<xsi:type>xsd:int</xsi:type></start><q>'+search+'<xsi:type>xsd:string</xsi:type></q><ie>latin1<xsi:type>xsd:string</xsi:type></ie><safeSearch>false<xsi:type>xsd:boolean</xsi:type></safeSearch><xmlns:ns1>urn:GoogleSearch</xmlns:ns1><restrict><xsi:type>xsd:string</xsi:type></restrict><filter>true<xsi:type>xsd:boolean</xsi:type></filter><maxResults>10<xsi:type>xsd:int</xsi:type></maxResults><key>GOOGLEKEY<xsi:type>xsd:string</xsi:type></key></ns1:doGoogleSearch></SOAP-ENV:Body><xmlns:xsd>http://www.w3.org/1999/XMLSchema</xmlns:xsd><xmlns:xsi>http://www.w3.org/1999/XMLSchema-instance</xmlns:xsi><xmlns:SOAP-ENV>http://schemas.xmlsoap.org/soap/envelope/</xmlns:SOAP-ENV></SOAP-ENV:Envelope>",
                 XML.toString(jsonobject));
 
-        jsonobject = new JSONObject("{Envelope: {Body: {\"ns1:doGoogleSearch\": {oe: \"latin1\", filter: true, q: \"'+search+'\", key: \"GOOGLEKEY\", maxResults: 10, \"SOAP-ENV:encodingStyle\": \"http://schemas.xmlsoap.org/soap/encoding/\", start: 0, ie: \"latin1\", safeSearch:false, \"xmlns:ns1\": \"urn:GoogleSearch\"}}}}");
+        jsonobject = new WritableJSONObject("{Envelope: {Body: {\"ns1:doGoogleSearch\": {oe: \"latin1\", filter: true, q: \"'+search+'\", key: \"GOOGLEKEY\", maxResults: 10, \"SOAP-ENV:encodingStyle\": \"http://schemas.xmlsoap.org/soap/encoding/\", start: 0, ie: \"latin1\", safeSearch:false, \"xmlns:ns1\": \"urn:GoogleSearch\"}}}}");
         assertEquals("{\"Envelope\": {\"Body\": {\"ns1:doGoogleSearch\": {\n" +
                 "  \"SOAP-ENV:encodingStyle\": \"http://schemas.xmlsoap.org/soap/encoding/\",\n" +
                 "  \"filter\": true,\n" +
@@ -1096,18 +1096,18 @@ public class Test extends TestCase {
         assertEquals("f%25oo=blah;expires=April 24, 2002;secure",
                 Cookie.toString(jsonobject));
 
-        jsonobject = new JSONObject("{script: 'It is not allowed in HTML to send a close script tag in a string<script>because it confuses browsers</script>so we insert a backslash before the /'}");
+        jsonobject = new WritableJSONObject("{script: 'It is not allowed in HTML to send a close script tag in a string<script>because it confuses browsers</script>so we insert a backslash before the /'}");
         assertEquals("{\"script\":\"It is not allowed in HTML to send a close script tag in a string<script>because it confuses browsers<\\/script>so we insert a backslash before the /\"}",
                 jsonobject.toString());
 
         JSONTokener jsontokener = new JSONTokener("{op:'test', to:'session', pre:1}{op:'test', to:'session', pre:2}");
-        jsonobject = new JSONObject(jsontokener);
+        jsonobject = new WritableJSONObject(jsontokener);
         assertEquals("{\"to\":\"session\",\"op\":\"test\",\"pre\":1}",
                 jsonobject.toString());
         assertEquals(1, jsonobject.optInt("pre"));
         int i = jsontokener.skipTo('{');
         assertEquals(123, i);
-        jsonobject = new JSONObject(jsontokener);
+        jsonobject = new WritableJSONObject(jsontokener);
         assertEquals("{\"to\":\"session\",\"op\":\"test\",\"pre\":2}",
                 jsonobject.toString());
 
@@ -1144,13 +1144,13 @@ public class Test extends TestCase {
                 "    }\n" +
                 "]", jsonarray.toString(4));
 
-        jsonarray = new JSONArray(" [\"<escape>\", next is an implied null , , ok,] ");
+        jsonarray = new WriteableJSONArray(" [\"<escape>\", next is an implied null , , ok,] ");
         assertEquals("[\"<escape>\",\"next is an implied null\",null,\"ok\"]",
                 jsonarray.toString());
         assertEquals("<array>&lt;escape&gt;</array><array>next is an implied null</array><array>null</array><array>ok</array>",
                 XML.toString(jsonarray));
 
-        jsonobject = new JSONObject("{ fun => with non-standard forms ; forgiving => This package can be used to parse formats that are similar to but not stricting conforming to JSON; why=To make it easier to migrate existing data to JSON,one = [[1.00]]; uno=[[{1=>1}]];'+':+6e66 ;pluses=+++;empty = '' , 'double':0.666,true: TRUE, false: FALSE, null=NULL;[true] = [[!,@;*]]; string=>  o. k. ; \r oct=0666; hex=0x666; dec=666; o=0999; noh=0x0x}");
+        jsonobject = new WritableJSONObject("{ fun => with non-standard forms ; forgiving => This package can be used to parse formats that are similar to but not stricting conforming to JSON; why=To make it easier to migrate existing data to JSON,one = [[1.00]]; uno=[[{1=>1}]];'+':+6e66 ;pluses=+++;empty = '' , 'double':0.666,true: TRUE, false: FALSE, null=NULL;[true] = [[!,@;*]]; string=>  o. k. ; \r oct=0666; hex=0x666; dec=666; o=0999; noh=0x0x}");
         assertEquals("{\n" +
                 "    \"+\": 6.0E66,\n" +
                 "    \"[true]\": [[\n" +
@@ -1179,7 +1179,7 @@ public class Test extends TestCase {
         assertTrue(jsonobject.getBoolean("true"));
         assertFalse(jsonobject.getBoolean("false"));
 
-        jsonobject = new JSONObject(jsonobject, new String[]{"dec", "oct", "hex", "missing"});
+        jsonobject = new WritableJSONObject(jsonobject, new String[]{"dec", "oct", "hex", "missing"});
         assertEquals("{\n" +
                 "    \"dec\": 666,\n" +
                 "    \"hex\": 1638,\n" +
@@ -1189,7 +1189,7 @@ public class Test extends TestCase {
         assertEquals("[[\"<escape>\",\"next is an implied null\",null,\"ok\"],{\"oct\":666,\"dec\":666,\"hex\":1638}]",
                 new JSONStringer().array().value(jsonarray).value(jsonobject).endArray().toString());
 
-        jsonobject = new JSONObject("{string: \"98.6\", long: 2147483648, int: 2147483647, longer: 9223372036854775807, double: 9223372036854775808}");
+        jsonobject = new WritableJSONObject("{string: \"98.6\", long: 2147483648, int: 2147483647, longer: 9223372036854775807, double: 9223372036854775808}");
         assertEquals("{\n" +
                 "    \"double\": \"9223372036854775808\",\n" +
                 "    \"int\": 2147483647,\n" +
@@ -1245,7 +1245,7 @@ public class Test extends TestCase {
                 "    \"string\": \"98.6\"\n" +
                 "}", jsonobject.toString(4));
 
-        jsonarray = new JSONArray("[2147483647, 2147483648, 9223372036854775807, 9223372036854775808]");
+        jsonarray = new WriteableJSONArray("[2147483647, 2147483648, 9223372036854775807, 9223372036854775808]");
         assertEquals("[\n" +
                 "    2147483647,\n" +
                 "    2147483648,\n" +
@@ -1270,7 +1270,7 @@ public class Test extends TestCase {
 
 
         // accumulate
-        jsonobject = new JSONObject();
+        jsonobject = new WritableJSONObject();
         jsonobject.accumulate("stooge", "Curly");
         jsonobject.accumulate("stooge", "Larry");
         jsonobject.accumulate("stooge", "Moe");
@@ -1349,8 +1349,8 @@ public class Test extends TestCase {
         Collection<?> collection = null;
         Map<String,?> map = null;
 
-        jsonobject = new JSONObject(map);
-        jsonarray = new JSONArray(collection);
+        jsonobject = new WritableJSONObject(map);
+        jsonarray = new WriteableJSONArray(collection);
         jsonobject.append("stooge", "Joe DeRita");
         jsonobject.append("stooge", "Shemp");
         jsonobject.accumulate("stooges", "Curly");
@@ -1386,7 +1386,7 @@ public class Test extends TestCase {
                 "}", jsonobject.toString(4));
 
         string = "{plist=Apple; AnimalSmells = { pig = piggish; lamb = lambish; worm = wormy; }; AnimalSounds = { pig = oink; lamb = baa; worm = baa;  Lisa = \"Why is the worm talking like a lamb?\" } ; AnimalColors = { pig = pink; lamb = black; worm = pink; } } ";
-        jsonobject = new JSONObject(string);
+        jsonobject = new WritableJSONObject(string);
         assertEquals("{\n" +
                 "    \"AnimalColors\": {\n" +
                 "        \"lamb\": \"black\",\n" +
@@ -1408,7 +1408,7 @@ public class Test extends TestCase {
                 "}", jsonobject.toString(4));
 
         string = " [\"San Francisco\", \"New York\", \"Seoul\", \"London\", \"Seattle\", \"Shanghai\"]";
-        jsonarray = new JSONArray(string);
+        jsonarray = new WriteableJSONArray(string);
         assertEquals("[\"San Francisco\",\"New York\",\"Seoul\",\"London\",\"Seattle\",\"Shanghai\"]",
                 jsonarray.toString());
 
@@ -1478,12 +1478,12 @@ public class Test extends TestCase {
     }
 
     public void testExceptions() throws Exception {
-        JSONArray jsonarray = null;
-        JSONObject jsonobject;
+        WriteableJSONArray jsonarray = null;
+        WritableJSONObject jsonobject;
         String string;
 
         try {
-            jsonarray = new JSONArray("[\n\r\n\r}");
+            jsonarray = new WriteableJSONArray("[\n\r\n\r}");
             System.out.println(jsonarray.toString());
             fail("expecting JSONException here.");
         } catch (JSONException jsone) {
@@ -1491,7 +1491,7 @@ public class Test extends TestCase {
         }
 
         try {
-            jsonarray = new JSONArray("<\n\r\n\r      ");
+            jsonarray = new WriteableJSONArray("<\n\r\n\r      ");
             System.out.println(jsonarray.toString());
             fail("expecting JSONException here.");
         } catch (JSONException jsone) {
@@ -1499,7 +1499,7 @@ public class Test extends TestCase {
         }
 
         try {
-            jsonarray = new JSONArray();
+            jsonarray = new WriteableJSONArray();
             jsonarray.put(Double.NEGATIVE_INFINITY);
             jsonarray.put(Double.NaN);
             System.out.println(jsonarray.toString());
@@ -1508,7 +1508,7 @@ public class Test extends TestCase {
             assertEquals("JSON does not allow non-finite numbers.", jsone.getMessage());
         }
 
-        jsonobject = new JSONObject();
+        jsonobject = new WritableJSONObject();
         try {
             System.out.println(jsonobject.getDouble("stooge"));
             fail("expecting JSONException here.");
@@ -1573,7 +1573,7 @@ public class Test extends TestCase {
         }
 
         try {
-            jsonarray = new JSONArray(new Object());
+            jsonarray = new WriteableJSONArray(new Object());
             System.out.println(jsonarray.toString());
             fail("expecting JSONException here.");
         } catch (JSONException jsone) {
@@ -1582,7 +1582,7 @@ public class Test extends TestCase {
 
         try {
             string = "[)";
-            jsonarray = new JSONArray(string);
+            jsonarray = new WriteableJSONArray(string);
             System.out.println(jsonarray.toString());
             fail("expecting JSONException here.");
         } catch (JSONException jsone) {
@@ -1609,7 +1609,7 @@ public class Test extends TestCase {
 
         try {
             string = "{\"koda\": true, \"koda\": true}";
-            jsonobject = new JSONObject(string);
+            jsonobject = new WritableJSONObject(string);
             System.out.println(jsonobject.toString(4));
             fail("expecting JSONException here.");
         } catch (JSONException jsone) {
@@ -1671,8 +1671,8 @@ public class Test extends TestCase {
         }
 
         public String toJSONString() {
-            return "{" + JSONObject.quote(this.aString) + ":" +
-                    JSONObject.doubleToString(this.aNumber) + "}";
+            return "{" + WritableJSONObject.quote(this.aString) + ":" +
+                    WritableJSONObject.doubleToString(this.aNumber) + "}";
         }
 
         @Override

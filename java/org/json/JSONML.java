@@ -46,13 +46,13 @@ public class JSONML {
      * @throws JSONException
      */
     private static Object parse(XMLTokener x, boolean arrayForm, 
-    		JSONArray ja) throws JSONException {
+    		WriteableJSONArray ja) throws JSONException {
         String     attribute;
         char       c;
         String	   closeTag = null;
         int        i;
-        JSONArray  newja = null;
-        JSONObject newjo = null;
+        WriteableJSONArray  newja = null;
+        WritableJSONObject newjo = null;
         Object     token;
         String	   tagName = null;
         
@@ -129,8 +129,8 @@ public class JSONML {
 			            throw x.syntaxError("Bad tagName '" + token + "'.");		        		
 		        	}
 		        	tagName = (String)token;
-		            newja = new JSONArray();		
-		            newjo = new JSONObject();
+		            newja = new WriteableJSONArray();		
+		            newjo = new WritableJSONObject();
 		        	if (arrayForm) {
 			            newja.put(tagName);
 			            if (ja != null) {
@@ -238,7 +238,7 @@ public class JSONML {
      * @return A JSONArray containing the structured data from the XML string.
      * @throws JSONException
      */
-    public static JSONArray toJSONArray(String string) throws JSONException {
+    public static WriteableJSONArray toJSONArray(String string) throws JSONException {
     	return toJSONArray(new XMLTokener(string));
     }
 
@@ -255,8 +255,8 @@ public class JSONML {
      * @return A JSONArray containing the structured data from the XML string.
      * @throws JSONException
      */
-    public static JSONArray toJSONArray(XMLTokener x) throws JSONException {
-    	return (JSONArray)parse(x, true, null);
+    public static WriteableJSONArray toJSONArray(XMLTokener x) throws JSONException {
+    	return (WriteableJSONArray)parse(x, true, null);
     }
 
     
@@ -273,8 +273,8 @@ public class JSONML {
      * @return A JSONObject containing the structured data from the XML string.
      * @throws JSONException
      */
-    public static JSONObject toJSONObject(XMLTokener x) throws JSONException {
-       	return (JSONObject)parse(x, false, null);
+    public static WritableJSONObject toJSONObject(XMLTokener x) throws JSONException {
+       	return (WritableJSONObject)parse(x, false, null);
     }
     
     
@@ -291,7 +291,7 @@ public class JSONML {
      * @return A JSONObject containing the structured data from the XML string.
      * @throws JSONException
      */
-    public static JSONObject toJSONObject(String string) throws JSONException {
+    public static WritableJSONObject toJSONObject(String string) throws JSONException {
     	return toJSONObject(new XMLTokener(string));
     }
 
@@ -302,9 +302,9 @@ public class JSONML {
      * @return An XML string.
      * @throws JSONException
      */
-    public static String toString(JSONArrayI ja) throws JSONException {
+    public static String toString(JSONArray ja) throws JSONException {
     	int			 i;
-    	JSONObjectI   jo;
+    	JSONObject   jo;
     	String       key;
 	    Iterator<String>     keys;
 	    int			 length;
@@ -322,9 +322,9 @@ public class JSONML {
 		sb.append(tagName);
 		
 		object = ja.opt(1);
-		if (object instanceof JSONObjectI) {
+		if (object instanceof JSONObject) {
 			i = 2;
-			jo = (JSONObjectI)object;
+			jo = (JSONObject)object;
 			
 // Emit the attributes
 			
@@ -360,10 +360,10 @@ public class JSONML {
 			    if (object != null) {
 			    	if (object instanceof String) {
 			    		sb.append(XML.escape(object.toString()));
-					} else if (object instanceof JSONObject) {
-						sb.append(toString((JSONObject)object));
-					} else if (object instanceof JSONArray) {
-						sb.append(toString((JSONArray)object));
+					} else if (object instanceof WritableJSONObject) {
+						sb.append(toString((WritableJSONObject)object));
+					} else if (object instanceof WriteableJSONArray) {
+						sb.append(toString((WriteableJSONArray)object));
 					}
 			    }
 			} while (i < length);
@@ -384,10 +384,10 @@ public class JSONML {
      * @return An XML string.
      * @throws JSONException
      */
-	public static String toString(JSONObjectI jo) throws JSONException {
+	public static String toString(JSONObject jo) throws JSONException {
 	    StringBuffer sb = new StringBuffer();
 	    int          i;
-	    JSONArrayI    ja;
+	    JSONArray    ja;
 	    String       key;
 	    Iterator<String>     keys;
 	    int          length;
@@ -439,10 +439,10 @@ public class JSONML {
 			    if (object != null) {
 			    	if (object instanceof String) {
 			    		sb.append(XML.escape(object.toString()));
-					} else if (object instanceof JSONObjectI) {
-						sb.append(toString((JSONObjectI)object));
-					} else if (object instanceof JSONArrayI) {
-						sb.append(toString((JSONArrayI)object));
+					} else if (object instanceof JSONObject) {
+						sb.append(toString((JSONObject)object));
+					} else if (object instanceof JSONArray) {
+						sb.append(toString((JSONArray)object));
 					}
 			    }
 			}
