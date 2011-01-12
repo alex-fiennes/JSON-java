@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<ivy-module version="2.0" 
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd"
+            xmlns:e="http://ant.apache.org/ivy/extra">
+    <info
+        organisation="org.json"
+        module="build"
+        status="release"/>
+    <configurations>
+    <include file="../build/ivy/configurations.ivy.xml"/>
+    </configurations>
+        
+	<dependencies defaultconf="compile">
+  
+        <!-- ............................................................. -->
+        <!-- compile -->
+        <dependency org="junit" name="junit" rev="4.8.1"/>
+        <!-- ............................................................. -->
+        <!-- provided -->
+        <!-- ............................................................. -->
+        <!-- test -->
+        <!-- ............................................................. -->
+        <!-- overrides -->
+
+    </dependencies>
+</ivy-module>

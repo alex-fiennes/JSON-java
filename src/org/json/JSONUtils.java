@@ -17,4 +17,14 @@ public class JSONUtils
     }
     return obj;
   }
+  
+  public static UnmodifiableJSONObject unmodifiable(JSONObjectI jObj)
+  {
+    return UnmodifiableJSONObject.getInstance(jObj);
+  }
+  
+  public static UnmodifiableJSONArray unmodifiable(JSONArrayI jArr)
+  {
+    return UnmodifiableJSONArray.getInstance(jArr);
+  }
 }
