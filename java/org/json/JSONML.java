@@ -302,9 +302,9 @@ public class JSONML {
      * @return An XML string.
      * @throws JSONException
      */
-    public static String toString(JSONArray ja) throws JSONException {
+    public static String toString(JSONArrayI ja) throws JSONException {
     	int			 i;
-    	JSONObject   jo;
+    	JSONObjectI   jo;
     	String       key;
 	    Iterator<String>     keys;
 	    int			 length;
@@ -322,9 +322,9 @@ public class JSONML {
 		sb.append(tagName);
 		
 		object = ja.opt(1);
-		if (object instanceof JSONObject) {
+		if (object instanceof JSONObjectI) {
 			i = 2;
-			jo = (JSONObject)object;
+			jo = (JSONObjectI)object;
 			
 // Emit the attributes
 			
@@ -384,10 +384,10 @@ public class JSONML {
      * @return An XML string.
      * @throws JSONException
      */
-	public static String toString(JSONObject jo) throws JSONException {
+	public static String toString(JSONObjectI jo) throws JSONException {
 	    StringBuffer sb = new StringBuffer();
 	    int          i;
-	    JSONArray    ja;
+	    JSONArrayI    ja;
 	    String       key;
 	    Iterator<String>     keys;
 	    int          length;
@@ -439,10 +439,10 @@ public class JSONML {
 			    if (object != null) {
 			    	if (object instanceof String) {
 			    		sb.append(XML.escape(object.toString()));
-					} else if (object instanceof JSONObject) {
-						sb.append(toString((JSONObject)object));
-					} else if (object instanceof JSONArray) {
-						sb.append(toString((JSONArray)object));
+					} else if (object instanceof JSONObjectI) {
+						sb.append(toString((JSONObjectI)object));
+					} else if (object instanceof JSONArrayI) {
+						sb.append(toString((JSONArrayI)object));
 					}
 			    }
 			}

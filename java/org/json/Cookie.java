@@ -115,7 +115,7 @@ public class Cookie {
      * @return A cookie specification string
      * @throws JSONException
      */
-    public static String toString(JSONObject jo) throws JSONException {
+    public static String toString(JSONObjectI jo) throws JSONException {
         StringBuffer sb = new StringBuffer();
 
         sb.append(escape(jo.getString("name")));

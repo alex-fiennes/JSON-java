@@ -78,7 +78,7 @@ public class JSONWriter {
     /**
      * The object/array stack.
      */
-    private JSONObject stack[];
+    private JSONObjectI stack[];
 
     /**
      * The stack top index. A value of 0 indicates that the stack is empty.
@@ -96,7 +96,7 @@ public class JSONWriter {
     public JSONWriter(Writer w) {
         this.comma = false;
         this.mode = 'i';
-        this.stack = new JSONObject[maxdepth];
+        this.stack = new JSONObjectI[maxdepth];
         this.top = 0;
         this.writer = w;
     }
