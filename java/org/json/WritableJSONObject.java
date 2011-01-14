@@ -117,7 +117,7 @@ public class WritableJSONObject
    *          An array of strings.
    */
   public WritableJSONObject(WritableJSONObject jo,
-                    String[] names)
+                            String[] names)
   {
     this();
     for (int i = 0; i < names.length; i += 1) {
@@ -248,7 +248,7 @@ public class WritableJSONObject
    *          the object.
    */
   public WritableJSONObject(Object object,
-                    String names[])
+                            String names[])
   {
     this();
     Class<?> c = object.getClass();
@@ -289,7 +289,7 @@ public class WritableJSONObject
    *           If any JSONExceptions are detected.
    */
   public WritableJSONObject(String baseName,
-                    Locale locale) throws JSONException
+                            Locale locale) throws JSONException
   {
     this();
     ResourceBundle r =
@@ -342,13 +342,14 @@ public class WritableJSONObject
    *           If the value is an invalid number or if the key is null.
    */
   public WritableJSONObject accumulate(String key,
-                               Object value)
+                                       Object value)
       throws JSONException
   {
     testValidity(value);
     Object object = opt(key);
     if (object == null) {
-      put(key, value instanceof WriteableJSONArray ? new WriteableJSONArray().put(value) : value);
+      put(key, value instanceof WriteableJSONArray ? new WriteableJSONArray()
+        .put(value) : value);
     } else if (object instanceof WriteableJSONArray) {
       ((WriteableJSONArray) object).put(value);
     } else {
@@ -373,7 +374,7 @@ public class WritableJSONObject
    *           key is not a JSONArray.
    */
   public WritableJSONObject append(String key,
-                           Object value)
+                                   Object value)
       throws JSONException
   {
     testValidity(value);
@@ -900,7 +901,9 @@ public class WritableJSONObject
   public WritableJSONObject optJSONObject(String key)
   {
     Object object = opt(key);
-    return object instanceof WritableJSONObject ? (WritableJSONObject) object : null;
+    return object instanceof WritableJSONObject
+        ? (WritableJSONObject) object
+        : null;
   }
 
   /**
@@ -1025,7 +1028,7 @@ public class WritableJSONObject
    *           If the key is null.
    */
   public WritableJSONObject put(String key,
-                        boolean value)
+                                boolean value)
       throws JSONException
   {
     put(key, value ? Boolean.TRUE : Boolean.FALSE);
@@ -1044,7 +1047,7 @@ public class WritableJSONObject
    * @throws JSONException
    */
   public WritableJSONObject put(String key,
-                        Collection<?> value)
+                                Collection<?> value)
       throws JSONException
   {
     put(key, new WriteableJSONArray(value));
@@ -1063,7 +1066,7 @@ public class WritableJSONObject
    *           If the key is null or if the number is invalid.
    */
   public WritableJSONObject put(String key,
-                        double value)
+                                double value)
       throws JSONException
   {
     put(key, new Double(value));
@@ -1082,7 +1085,7 @@ public class WritableJSONObject
    *           If the key is null.
    */
   public WritableJSONObject put(String key,
-                        int value)
+                                int value)
       throws JSONException
   {
     put(key, new Integer(value));
@@ -1101,7 +1104,7 @@ public class WritableJSONObject
    *           If the key is null.
    */
   public WritableJSONObject put(String key,
-                        long value)
+                                long value)
       throws JSONException
   {
     put(key, new Long(value));
@@ -1120,7 +1123,7 @@ public class WritableJSONObject
    * @throws JSONException
    */
   public WritableJSONObject put(String key,
-                        Map<String, ?> value)
+                                Map<String, ?> value)
       throws JSONException
   {
     put(key, new WritableJSONObject(value));
@@ -1142,7 +1145,7 @@ public class WritableJSONObject
    *           If the value is non-finite number or if the key is null.
    */
   public WritableJSONObject put(String key,
-                        Object value)
+                                Object value)
       throws JSONException
   {
     if (key == null) {
@@ -1169,7 +1172,7 @@ public class WritableJSONObject
    *           if the key is a duplicate
    */
   public WritableJSONObject putOnce(String key,
-                            Object value)
+                                    Object value)
       throws JSONException
   {
     if (key != null && value != null) {
@@ -1196,7 +1199,7 @@ public class WritableJSONObject
    *           If the value is a non-finite number.
    */
   public WritableJSONObject putOpt(String key,
-                           Object value)
+                                   Object value)
       throws JSONException
   {
     if (key != null && value != null) {
@@ -1626,11 +1629,13 @@ public class WritableJSONObject
     if (value instanceof WriteableJSONArray) {
       return ((WriteableJSONArray) value).toString(indentFactor, indent);
     }
-    if (value instanceof Map<?,?>) {
-      return new WritableJSONObject((Map<?,?>) value).toString(indentFactor, indent);
+    if (value instanceof Map<?, ?>) {
+      return new WritableJSONObject((Map<?, ?>) value).toString(indentFactor,
+                                                                indent);
     }
     if (value instanceof Collection<?>) {
-      return new WriteableJSONArray((Collection<?>) value).toString(indentFactor, indent);
+      return new WriteableJSONArray((Collection<?>) value)
+        .toString(indentFactor, indent);
     }
     if (value.getClass().isArray()) {
       return new WriteableJSONArray(value).toString(indentFactor, indent);
@@ -1656,7 +1661,8 @@ public class WritableJSONObject
       if (object == null) {
         return JSONObject.NULL;
       }
-      if (object instanceof WritableJSONObject || object instanceof WriteableJSONArray
+      if (object instanceof WritableJSONObject
+        || object instanceof WriteableJSONArray
         || JSONObject.NULL.equals(object) || object instanceof JSONString
         || object instanceof Byte || object instanceof Character
         || object instanceof Short || object instanceof Integer
@@ -1672,8 +1678,8 @@ public class WritableJSONObject
       if (object.getClass().isArray()) {
         return new WriteableJSONArray(object);
       }
-      if (object instanceof Map<?,?>) {
-        return new WritableJSONObject((Map<?,?>) object);
+      if (object instanceof Map<?, ?>) {
+        return new WritableJSONObject((Map<?, ?>) object);
       }
       Package objectPackage = object.getClass().getPackage();
       String objectPackageName =
