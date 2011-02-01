@@ -96,14 +96,37 @@ public class WritableJSONObject
   /**
    * The map where the JSONObject's properties are kept.
    */
-  private Map<String, Object> map;
+  private final Map<String, Object> __map;
 
   /**
    * Construct an empty JSONObject.
    */
   public WritableJSONObject()
   {
-    this.map = new HashMap<String, Object>();
+    this.__map = new HashMap<String, Object>();
+  }
+  
+  public boolean equalsMap(Map<String, Object> map)
+  {
+    return this.__map.equals(map);
+  }
+  
+  @Override
+  public boolean equals(Object obj)
+  {
+    if (this == obj) {
+      return true;
+    }
+    if (obj instanceof JSONObject) {
+      return ((JSONObject) obj).equalsMap(this.__map);
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode()
+  {
+    return __map.hashCode();
   }
 
   /**
@@ -197,14 +220,14 @@ public class WritableJSONObject
    */
   public WritableJSONObject(Map<String, Object> map)
   {
-    this.map = new HashMap<String, Object>();
+    this.__map = new HashMap<String, Object>();
     if (map != null) {
       Iterator<Entry<String, Object>> i = map.entrySet().iterator();
       while (i.hasNext()) {
         Entry<String, ?> e = i.next();
         Object value = e.getValue();
         if (value != null) {
-          this.map.put(e.getKey(), wrap(value));
+          this.__map.put(e.getKey(), wrap(value));
         }
       }
     }
@@ -642,7 +665,7 @@ public class WritableJSONObject
    */
   public boolean has(String key)
   {
-    return this.map.containsKey(key);
+    return this.__map.containsKey(key);
   }
 
   /**
@@ -698,7 +721,7 @@ public class WritableJSONObject
    */
   public Iterator<String> keys()
   {
-    return this.map.keySet().iterator();
+    return this.__map.keySet().iterator();
   }
 
   /**
@@ -708,7 +731,7 @@ public class WritableJSONObject
    */
   public int length()
   {
-    return this.map.size();
+    return this.__map.size();
   }
 
   /**
@@ -769,7 +792,7 @@ public class WritableJSONObject
    */
   public Object opt(String key)
   {
-    return key == null ? null : this.map.get(key);
+    return key == null ? null : this.__map.get(key);
   }
 
   /**
@@ -1007,7 +1030,7 @@ public class WritableJSONObject
 
             Object result = method.invoke(bean, (Object[]) null);
             if (result != null) {
-              map.put(key, wrap(result));
+              __map.put(key, wrap(result));
             }
           }
         }
@@ -1153,7 +1176,7 @@ public class WritableJSONObject
     }
     if (value != null) {
       testValidity(value);
-      this.map.put(key, value);
+      this.__map.put(key, value);
     } else {
       remove(key);
     }
@@ -1286,7 +1309,7 @@ public class WritableJSONObject
    */
   public Object remove(String key)
   {
-    return this.map.remove(key);
+    return this.__map.remove(key);
   }
 
   /**
@@ -1297,7 +1320,7 @@ public class WritableJSONObject
    */
   public Iterator<String> sortedKeys()
   {
-    return new TreeSet<String>(this.map.keySet()).iterator();
+    return new TreeSet<String>(this.__map.keySet()).iterator();
   }
 
   /**
@@ -1432,7 +1455,7 @@ public class WritableJSONObject
         Object o = keys.next();
         sb.append(quote(o.toString()));
         sb.append(':');
-        sb.append(valueToString(this.map.get(o)));
+        sb.append(valueToString(this.__map.get(o)));
       }
       sb.append('}');
       return sb.toString();
@@ -1494,7 +1517,7 @@ public class WritableJSONObject
       object = keys.next();
       sb.append(quote(object.toString()));
       sb.append(": ");
-      sb.append(valueToString(this.map.get(object), indentFactor, indent));
+      sb.append(valueToString(this.__map.get(object), indentFactor, indent));
     } else {
       while (keys.hasNext()) {
         object = keys.next();
@@ -1509,7 +1532,7 @@ public class WritableJSONObject
         sb.append(quote(object.toString()));
         sb.append(": ");
         sb
-          .append(valueToString(this.map.get(object), indentFactor, newindent));
+          .append(valueToString(this.__map.get(object), indentFactor, newindent));
       }
       if (sb.length() > 1) {
         sb.append('\n');
@@ -1719,7 +1742,7 @@ public class WritableJSONObject
         Object key = keys.next();
         writer.write(quote(key.toString()));
         writer.write(':');
-        Object value = this.map.get(key);
+        Object value = this.__map.get(key);
         if (value instanceof WritableJSONObject) {
           ((WritableJSONObject) value).write(writer);
         } else if (value instanceof WriteableJSONArray) {
