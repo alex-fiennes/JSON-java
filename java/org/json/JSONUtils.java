@@ -1,5 +1,6 @@
 package org.json;
 
+
 public class JSONUtils
 {
   private JSONUtils()
@@ -17,22 +18,25 @@ public class JSONUtils
     }
     return obj;
   }
-  
+
   public static UnmodifiableJSONObject unmodifiable(JSONObject jObj)
   {
     return UnmodifiableJSONObject.getInstance(jObj);
   }
-  
+
   public static UnmodifiableJSONArray unmodifiable(JSONArray jArr)
   {
     return UnmodifiableJSONArray.getInstance(jArr);
   }
-  
+
   /**
    * Transform NULL into null
-   * @param obj The compulsory object
+   * 
+   * @param obj
+   *          The compulsory object
    * @return obj or null if obj equalled NULL
-   * @throws NullPointerException if obj was null
+   * @throws NullPointerException
+   *           if obj was null
    * @see JSONObject#NULL
    */
   public static Object stripNULL(Object obj)
