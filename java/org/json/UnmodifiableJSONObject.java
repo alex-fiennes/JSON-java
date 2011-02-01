@@ -328,4 +328,24 @@ public class UnmodifiableJSONObject
   {
     return __jObj.toString();
   }
+
+  @Override
+  public boolean equalsMap(Map<String, Object> map)
+  {
+    return __jObj.equalsMap(map);
+  }
+
+  @Override
+  public boolean equals(Object obj)
+  {
+    return __jObj.equals(obj);
+  }
+
+  @Override
+  public int hashCode()
+  {
+    return __jObj.hashCode();
+  }
+  
+  
 }
