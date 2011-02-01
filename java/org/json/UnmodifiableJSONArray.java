@@ -2,6 +2,7 @@ package org.json;
 
 import java.io.Writer;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 public class UnmodifiableJSONArray
@@ -314,4 +315,24 @@ public class UnmodifiableJSONArray
   {
     return __jArr.write(writer);
   }
+
+  @Override
+  public boolean equals(Object obj)
+  {
+    return __jArr.equals(obj);
+  }
+
+  @Override
+  public int hashCode()
+  {
+    return __jArr.hashCode();
+  }
+
+  @Override
+  public boolean equalsList(List<Object> list)
+  {
+    return __jArr.equalsList(list);
+  }
+  
+  
 }
