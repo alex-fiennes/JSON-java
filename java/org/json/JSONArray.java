@@ -2,11 +2,14 @@ package org.json;
 
 import java.io.Writer;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 public interface JSONArray
 {
 
+  public boolean equalsList(List<Object> list);
+  
   /**
    * Get the object value associated with an index.
    * 
