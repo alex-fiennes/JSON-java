@@ -62,6 +62,8 @@ public interface JSONObject
    */
   public static final Object NULL = new JSONObject.Null();
 
+  public boolean equalsMap(Map<String,Object> map);
+  
   /**
    * Accumulate values under a key. It is similar to the put method except that
    * if there is already an object stored under the key then a JSONArray is
