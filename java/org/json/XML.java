@@ -388,7 +388,7 @@ public class XML {
             throws JSONException {
         StringBuffer sb = new StringBuffer();
         int          i;
-        WriteableJSONArray    ja;
+        WritableJSONArray    ja;
         WritableJSONObject   jo;
         String       key;
         Iterator<String>     keys;
@@ -424,8 +424,8 @@ public class XML {
 // Emit content in body
 
                 if (key.equals("content")) {
-                    if (value instanceof WriteableJSONArray) {
-                        ja = (WriteableJSONArray)value;
+                    if (value instanceof WritableJSONArray) {
+                        ja = (WritableJSONArray)value;
                         length = ja.length();
                         for (i = 0; i < length; i += 1) {
                             if (i > 0) {
@@ -439,12 +439,12 @@ public class XML {
 
 // Emit an array of similar keys
 
-                } else if (value instanceof WriteableJSONArray) {
-                    ja = (WriteableJSONArray)value;
+                } else if (value instanceof WritableJSONArray) {
+                    ja = (WritableJSONArray)value;
                     length = ja.length();
                     for (i = 0; i < length; i += 1) {
                     	value = ja.get(i);
-                    	if (value instanceof WriteableJSONArray) {
+                    	if (value instanceof WritableJSONArray) {
                             sb.append('<');
                             sb.append(key);
                             sb.append('>');
@@ -480,8 +480,8 @@ public class XML {
 // XML does not have good support for arrays. If an array appears in a place
 // where XML is lacking, synthesize an <array> element.
 
-        } else if (object instanceof WriteableJSONArray) {
-            ja = (WriteableJSONArray)object;
+        } else if (object instanceof WritableJSONArray) {
+            ja = (WritableJSONArray)object;
             length = ja.length();
             for (i = 0; i < length; i += 1) {
                 sb.append(toString(ja.opt(i), tagName == null ? "array" : tagName));

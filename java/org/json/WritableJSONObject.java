@@ -371,12 +371,12 @@ public class WritableJSONObject
     testValidity(value);
     Object object = opt(key);
     if (object == null) {
-      put(key, value instanceof WriteableJSONArray ? new WriteableJSONArray()
+      put(key, value instanceof WritableJSONArray ? new WritableJSONArray()
         .put(value) : value);
-    } else if (object instanceof WriteableJSONArray) {
-      ((WriteableJSONArray) object).put(value);
+    } else if (object instanceof WritableJSONArray) {
+      ((WritableJSONArray) object).put(value);
     } else {
-      put(key, new WriteableJSONArray().put(object).put(value));
+      put(key, new WritableJSONArray().put(object).put(value));
     }
     return this;
   }
@@ -403,9 +403,9 @@ public class WritableJSONObject
     testValidity(value);
     Object object = opt(key);
     if (object == null) {
-      put(key, new WriteableJSONArray().put(value));
-    } else if (object instanceof WriteableJSONArray) {
-      put(key, ((WriteableJSONArray) object).put(value));
+      put(key, new WritableJSONArray().put(value));
+    } else if (object instanceof WritableJSONArray) {
+      put(key, ((WritableJSONArray) object).put(value));
     } else {
       throw new JSONException("JSONObject[" + key + "] is not a JSONArray.");
     }
@@ -543,12 +543,12 @@ public class WritableJSONObject
    * @throws JSONException
    *           if the key is not found or if the value is not a JSONArray.
    */
-  public WriteableJSONArray getJSONArray(String key)
+  public WritableJSONArray getJSONArray(String key)
       throws JSONException
   {
     Object object = get(key);
-    if (object instanceof WriteableJSONArray) {
-      return (WriteableJSONArray) object;
+    if (object instanceof WritableJSONArray) {
+      return (WritableJSONArray) object;
     }
     throw new JSONException("JSONObject[" + quote(key)
       + "] is not a JSONArray.");
@@ -741,9 +741,9 @@ public class WritableJSONObject
    * @return A JSONArray containing the key strings, or null if the JSONObject
    *         is empty.
    */
-  public WriteableJSONArray names()
+  public WritableJSONArray names()
   {
-    WriteableJSONArray ja = new WriteableJSONArray();
+    WritableJSONArray ja = new WritableJSONArray();
     Iterator<String> keys = keys();
     while (keys.hasNext()) {
       ja.put(keys.next());
@@ -907,10 +907,10 @@ public class WritableJSONObject
    *          A key string.
    * @return A JSONArray which is the value.
    */
-  public WriteableJSONArray optJSONArray(String key)
+  public WritableJSONArray optJSONArray(String key)
   {
     Object o = opt(key);
-    return o instanceof WriteableJSONArray ? (WriteableJSONArray) o : null;
+    return o instanceof WritableJSONArray ? (WritableJSONArray) o : null;
   }
 
   /**
@@ -1073,7 +1073,7 @@ public class WritableJSONObject
                                 Collection<?> value)
       throws JSONException
   {
-    put(key, new WriteableJSONArray(value));
+    put(key, new WritableJSONArray(value));
     return this;
   }
 
@@ -1416,13 +1416,13 @@ public class WritableJSONObject
    * @throws JSONException
    *           If any of the values are non-finite numbers.
    */
-  public WriteableJSONArray toJSONArray(JSONArray names)
+  public WritableJSONArray toJSONArray(JSONArray names)
       throws JSONException
   {
     if (names == null || names.length() == 0) {
       return null;
     }
-    WriteableJSONArray ja = new WriteableJSONArray();
+    WritableJSONArray ja = new WritableJSONArray();
     for (int i = 0; i < names.length(); i += 1) {
       ja.put(this.opt(names.getString(i)));
     }
@@ -1590,17 +1590,17 @@ public class WritableJSONObject
       return numberToString((Number) value);
     }
     if (value instanceof Boolean || value instanceof WritableJSONObject
-      || value instanceof WriteableJSONArray) {
+      || value instanceof WritableJSONArray) {
       return value.toString();
     }
     if (value instanceof Map<?, ?>) {
       return new WritableJSONObject((Map<?, ?>) value).toString();
     }
     if (value instanceof Collection<?>) {
-      return new WriteableJSONArray((Collection<?>) value).toString();
+      return new WritableJSONArray((Collection<?>) value).toString();
     }
     if (value.getClass().isArray()) {
-      return new WriteableJSONArray(value).toString();
+      return new WritableJSONArray(value).toString();
     }
     return quote(value.toString());
   }
@@ -1649,19 +1649,19 @@ public class WritableJSONObject
     if (value instanceof WritableJSONObject) {
       return ((WritableJSONObject) value).toString(indentFactor, indent);
     }
-    if (value instanceof WriteableJSONArray) {
-      return ((WriteableJSONArray) value).toString(indentFactor, indent);
+    if (value instanceof WritableJSONArray) {
+      return ((WritableJSONArray) value).toString(indentFactor, indent);
     }
     if (value instanceof Map<?, ?>) {
       return new WritableJSONObject((Map<?, ?>) value).toString(indentFactor,
                                                                 indent);
     }
     if (value instanceof Collection<?>) {
-      return new WriteableJSONArray((Collection<?>) value)
+      return new WritableJSONArray((Collection<?>) value)
         .toString(indentFactor, indent);
     }
     if (value.getClass().isArray()) {
-      return new WriteableJSONArray(value).toString(indentFactor, indent);
+      return new WritableJSONArray(value).toString(indentFactor, indent);
     }
     return quote(value.toString());
   }
@@ -1685,7 +1685,7 @@ public class WritableJSONObject
         return JSONObject.NULL;
       }
       if (object instanceof WritableJSONObject
-        || object instanceof WriteableJSONArray
+        || object instanceof WritableJSONArray
         || JSONObject.NULL.equals(object) || object instanceof JSONString
         || object instanceof Byte || object instanceof Character
         || object instanceof Short || object instanceof Integer
@@ -1696,10 +1696,10 @@ public class WritableJSONObject
       }
 
       if (object instanceof Collection<?>) {
-        return new WriteableJSONArray((Collection<?>) object);
+        return new WritableJSONArray((Collection<?>) object);
       }
       if (object.getClass().isArray()) {
-        return new WriteableJSONArray(object);
+        return new WritableJSONArray(object);
       }
       if (object instanceof Map<?, ?>) {
         return new WritableJSONObject((Map<?, ?>) object);
@@ -1745,8 +1745,8 @@ public class WritableJSONObject
         Object value = this.__map.get(key);
         if (value instanceof WritableJSONObject) {
           ((WritableJSONObject) value).write(writer);
-        } else if (value instanceof WriteableJSONArray) {
-          ((WriteableJSONArray) value).write(writer);
+        } else if (value instanceof WritableJSONArray) {
+          ((WritableJSONArray) value).write(writer);
         } else {
           writer.write(valueToString(value));
         }

@@ -87,7 +87,7 @@ public class Test extends TestCase {
     public void testJSON() throws Exception {
     	double       eps = 2.220446049250313e-16;
         Iterator<String>     iterator;
-        WriteableJSONArray    jsonarray;
+        WritableJSONArray    jsonarray;
         WritableJSONObject   jsonobject;
         JSONStringer jsonstringer;
         Object       object;
@@ -96,7 +96,7 @@ public class Test extends TestCase {
         Beany beanie = new Beany("A beany object", 42, true);
 
         string = "[0.1]";
-        jsonarray = new WriteableJSONArray(string);
+        jsonarray = new WritableJSONArray(string);
         assertEquals("[0.1]", jsonarray.toString());
 
         jsonobject = new WritableJSONObject();
@@ -462,10 +462,10 @@ public class Test extends TestCase {
                 "    {},\n" +
                 "    {\"one\": 1},\n" +
                 "    {\"A beany object\": 42}\n" +
-                "]", new WriteableJSONArray(jsonstringer.toString()).toString(4));
+                "]", new WritableJSONArray(jsonstringer.toString()).toString(4));
 
         int ar[] = {1, 2, 3};
-        WriteableJSONArray ja = new WriteableJSONArray(ar);
+        WritableJSONArray ja = new WritableJSONArray(ar);
         assertEquals("[1,2,3]", ja.toString());
 
         String sa[] = {"aString", "aNumber", "aBoolean"};
@@ -503,7 +503,7 @@ public class Test extends TestCase {
                         "ten:10} postfix comment");
         jsonobject.put("String", "98.6");
         jsonobject.put("JSONObject", new WritableJSONObject());
-        jsonobject.put("JSONArray", new WriteableJSONArray());
+        jsonobject.put("JSONArray", new WritableJSONArray());
         jsonobject.put("int", 57);
         jsonobject.put("double", 123456789012345678901234567890.);
         jsonobject.put("true", true);
@@ -520,7 +520,7 @@ public class Test extends TestCase {
         jsonarray.put("so <fine>.");
         jsonarray.put(true);
         jsonarray.put(false);
-        jsonarray.put(new WriteableJSONArray());
+        jsonarray.put(new WritableJSONArray());
         jsonarray.put(new WritableJSONObject());
         jsonobject.put("keys", WritableJSONObject.getNames(jsonobject));
         assertEquals("{\n" +
@@ -1144,7 +1144,7 @@ public class Test extends TestCase {
                 "    }\n" +
                 "]", jsonarray.toString(4));
 
-        jsonarray = new WriteableJSONArray(" [\"<escape>\", next is an implied null , , ok,] ");
+        jsonarray = new WritableJSONArray(" [\"<escape>\", next is an implied null , , ok,] ");
         assertEquals("[\"<escape>\",\"next is an implied null\",null,\"ok\"]",
                 jsonarray.toString());
         assertEquals("<array>&lt;escape&gt;</array><array>next is an implied null</array><array>null</array><array>ok</array>",
@@ -1245,7 +1245,7 @@ public class Test extends TestCase {
                 "    \"string\": \"98.6\"\n" +
                 "}", jsonobject.toString(4));
 
-        jsonarray = new WriteableJSONArray("[2147483647, 2147483648, 9223372036854775807, 9223372036854775808]");
+        jsonarray = new WritableJSONArray("[2147483647, 2147483648, 9223372036854775807, 9223372036854775808]");
         assertEquals("[\n" +
                 "    2147483647,\n" +
                 "    2147483648,\n" +
@@ -1350,7 +1350,7 @@ public class Test extends TestCase {
         Map<String,?> map = null;
 
         jsonobject = new WritableJSONObject(map);
-        jsonarray = new WriteableJSONArray(collection);
+        jsonarray = new WritableJSONArray(collection);
         jsonobject.append("stooge", "Joe DeRita");
         jsonobject.append("stooge", "Shemp");
         jsonobject.accumulate("stooges", "Curly");
@@ -1408,7 +1408,7 @@ public class Test extends TestCase {
                 "}", jsonobject.toString(4));
 
         string = " [\"San Francisco\", \"New York\", \"Seoul\", \"London\", \"Seattle\", \"Shanghai\"]";
-        jsonarray = new WriteableJSONArray(string);
+        jsonarray = new WritableJSONArray(string);
         assertEquals("[\"San Francisco\",\"New York\",\"Seoul\",\"London\",\"Seattle\",\"Shanghai\"]",
                 jsonarray.toString());
 
@@ -1478,12 +1478,12 @@ public class Test extends TestCase {
     }
 
     public void testExceptions() throws Exception {
-        WriteableJSONArray jsonarray = null;
+        WritableJSONArray jsonarray = null;
         WritableJSONObject jsonobject;
         String string;
 
         try {
-            jsonarray = new WriteableJSONArray("[\n\r\n\r}");
+            jsonarray = new WritableJSONArray("[\n\r\n\r}");
             System.out.println(jsonarray.toString());
             fail("expecting JSONException here.");
         } catch (JSONException jsone) {
@@ -1491,7 +1491,7 @@ public class Test extends TestCase {
         }
 
         try {
-            jsonarray = new WriteableJSONArray("<\n\r\n\r      ");
+            jsonarray = new WritableJSONArray("<\n\r\n\r      ");
             System.out.println(jsonarray.toString());
             fail("expecting JSONException here.");
         } catch (JSONException jsone) {
@@ -1499,7 +1499,7 @@ public class Test extends TestCase {
         }
 
         try {
-            jsonarray = new WriteableJSONArray();
+            jsonarray = new WritableJSONArray();
             jsonarray.put(Double.NEGATIVE_INFINITY);
             jsonarray.put(Double.NaN);
             System.out.println(jsonarray.toString());
@@ -1573,7 +1573,7 @@ public class Test extends TestCase {
         }
 
         try {
-            jsonarray = new WriteableJSONArray(new Object());
+            jsonarray = new WritableJSONArray(new Object());
             System.out.println(jsonarray.toString());
             fail("expecting JSONException here.");
         } catch (JSONException jsone) {
@@ -1582,7 +1582,7 @@ public class Test extends TestCase {
 
         try {
             string = "[)";
-            jsonarray = new WriteableJSONArray(string);
+            jsonarray = new WritableJSONArray(string);
             System.out.println(jsonarray.toString());
             fail("expecting JSONException here.");
         } catch (JSONException jsone) {

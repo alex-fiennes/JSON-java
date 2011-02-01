@@ -92,8 +92,8 @@ public class CDL {
      * @return A JSONArray of strings.
      * @throws JSONException
      */
-    public static WriteableJSONArray rowToJSONArray(JSONTokener x) throws JSONException {
-        WriteableJSONArray ja = new WriteableJSONArray();
+    public static WritableJSONArray rowToJSONArray(JSONTokener x) throws JSONException {
+        WritableJSONArray ja = new WritableJSONArray();
         for (;;) {
             String value = getValue(x);
             char c = x.next();
@@ -130,7 +130,7 @@ public class CDL {
      */
     public static WritableJSONObject rowToJSONObject(JSONArray names, JSONTokener x)
             throws JSONException {
-        WriteableJSONArray ja = rowToJSONArray(x);
+        WritableJSONArray ja = rowToJSONArray(x);
         return ja != null ? ja.toJSONObject(names) :  null;
     }
 
@@ -178,7 +178,7 @@ public class CDL {
      * @return A JSONArray of JSONObjects.
      * @throws JSONException
      */
-    public static WriteableJSONArray toJSONArray(String string) throws JSONException {
+    public static WritableJSONArray toJSONArray(String string) throws JSONException {
         return toJSONArray(new JSONTokener(string));
     }
 
@@ -189,7 +189,7 @@ public class CDL {
      * @return A JSONArray of JSONObjects.
      * @throws JSONException
      */
-    public static WriteableJSONArray toJSONArray(JSONTokener x) throws JSONException {
+    public static WritableJSONArray toJSONArray(JSONTokener x) throws JSONException {
         return toJSONArray(rowToJSONArray(x), x);
     }
 
@@ -201,7 +201,7 @@ public class CDL {
      * @return A JSONArray of JSONObjects.
      * @throws JSONException
      */
-    public static WriteableJSONArray toJSONArray(WriteableJSONArray names, String string)
+    public static WritableJSONArray toJSONArray(WritableJSONArray names, String string)
             throws JSONException {
         return toJSONArray(names, new JSONTokener(string));
     }
@@ -214,12 +214,12 @@ public class CDL {
      * @return A JSONArray of JSONObjects.
      * @throws JSONException
      */
-    public static WriteableJSONArray toJSONArray(JSONArray names, JSONTokener x)
+    public static WritableJSONArray toJSONArray(JSONArray names, JSONTokener x)
             throws JSONException {
         if (names == null || names.length() == 0) {
             return null;
         }
-        WriteableJSONArray ja = new WriteableJSONArray();
+        WritableJSONArray ja = new WritableJSONArray();
         for (;;) {
             JSONObject jo = rowToJSONObject(names, x);
             if (jo == null) {

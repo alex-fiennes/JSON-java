@@ -46,12 +46,12 @@ public class JSONML {
      * @throws JSONException
      */
     private static Object parse(XMLTokener x, boolean arrayForm, 
-    		WriteableJSONArray ja) throws JSONException {
+    		WritableJSONArray ja) throws JSONException {
         String     attribute;
         char       c;
         String	   closeTag = null;
         int        i;
-        WriteableJSONArray  newja = null;
+        WritableJSONArray  newja = null;
         WritableJSONObject newjo = null;
         Object     token;
         String	   tagName = null;
@@ -129,7 +129,7 @@ public class JSONML {
 			            throw x.syntaxError("Bad tagName '" + token + "'.");		        		
 		        	}
 		        	tagName = (String)token;
-		            newja = new WriteableJSONArray();		
+		            newja = new WritableJSONArray();		
 		            newjo = new WritableJSONObject();
 		        	if (arrayForm) {
 			            newja.put(tagName);
@@ -238,7 +238,7 @@ public class JSONML {
      * @return A JSONArray containing the structured data from the XML string.
      * @throws JSONException
      */
-    public static WriteableJSONArray toJSONArray(String string) throws JSONException {
+    public static WritableJSONArray toJSONArray(String string) throws JSONException {
     	return toJSONArray(new XMLTokener(string));
     }
 
@@ -255,8 +255,8 @@ public class JSONML {
      * @return A JSONArray containing the structured data from the XML string.
      * @throws JSONException
      */
-    public static WriteableJSONArray toJSONArray(XMLTokener x) throws JSONException {
-    	return (WriteableJSONArray)parse(x, true, null);
+    public static WritableJSONArray toJSONArray(XMLTokener x) throws JSONException {
+    	return (WritableJSONArray)parse(x, true, null);
     }
 
     
@@ -362,8 +362,8 @@ public class JSONML {
 			    		sb.append(XML.escape(object.toString()));
 					} else if (object instanceof WritableJSONObject) {
 						sb.append(toString((WritableJSONObject)object));
-					} else if (object instanceof WriteableJSONArray) {
-						sb.append(toString((WriteableJSONArray)object));
+					} else if (object instanceof WritableJSONArray) {
+						sb.append(toString((WritableJSONArray)object));
 					}
 			    }
 			} while (i < length);

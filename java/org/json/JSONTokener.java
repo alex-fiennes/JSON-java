@@ -362,7 +362,7 @@ public class JSONTokener {
                 return new WritableJSONObject(this);
             case '[':
                 back();
-                return new WriteableJSONArray(this);
+                return new WritableJSONArray(this);
         }
 
         /*

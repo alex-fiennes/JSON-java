@@ -73,7 +73,7 @@ import java.util.Map;
  * @author JSON.org
  * @version 2010-12-28
  */
-public class WriteableJSONArray
+public class WritableJSONArray
   implements JSONArray
 {
 
@@ -85,7 +85,7 @@ public class WriteableJSONArray
   /**
    * Construct an empty JSONArray.
    */
-  public WriteableJSONArray()
+  public WritableJSONArray()
   {
     this.myArrayList = new ArrayList<Object>();
   }
@@ -98,7 +98,7 @@ public class WriteableJSONArray
    * @throws JSONException
    *           If there is a syntax error.
    */
-  public WriteableJSONArray(JSONTokener x) throws JSONException
+  public WritableJSONArray(JSONTokener x) throws JSONException
   {
     this();
     if (x.nextClean() != '[') {
@@ -141,7 +141,7 @@ public class WriteableJSONArray
    * @throws JSONException
    *           If there is a syntax error.
    */
-  public WriteableJSONArray(String source) throws JSONException
+  public WritableJSONArray(String source) throws JSONException
   {
     this(new JSONTokener(source));
   }
@@ -152,7 +152,7 @@ public class WriteableJSONArray
    * @param collection
    *          A Collection.
    */
-  public WriteableJSONArray(Collection<?> collection)
+  public WritableJSONArray(Collection<?> collection)
   {
     this.myArrayList = new ArrayList<Object>();
     if (collection != null) {
@@ -169,7 +169,7 @@ public class WriteableJSONArray
    * @throws JSONException
    *           If not an array.
    */
-  public WriteableJSONArray(Object array) throws JSONException
+  public WritableJSONArray(Object array) throws JSONException
   {
     this();
     if (array.getClass().isArray()) {
@@ -282,12 +282,12 @@ public class WriteableJSONArray
    *           If there is no value for the index. or if the value is not a
    *           JSONArray
    */
-  public WriteableJSONArray getJSONArray(int index)
+  public WritableJSONArray getJSONArray(int index)
       throws JSONException
   {
     Object object = get(index);
-    if (object instanceof WriteableJSONArray) {
-      return (WriteableJSONArray) object;
+    if (object instanceof WritableJSONArray) {
+      return (WritableJSONArray) object;
     }
     throw new JSONException("JSONArray[" + index + "] is not a JSONArray.");
   }
@@ -524,10 +524,10 @@ public class WriteableJSONArray
    * @return A JSONArray value, or null if the index has no value, or if the
    *         value is not a JSONArray.
    */
-  public WriteableJSONArray optJSONArray(int index)
+  public WritableJSONArray optJSONArray(int index)
   {
     Object o = opt(index);
-    return o instanceof WriteableJSONArray ? (WriteableJSONArray) o : null;
+    return o instanceof WritableJSONArray ? (WritableJSONArray) o : null;
   }
 
   /**
@@ -618,7 +618,7 @@ public class WriteableJSONArray
    *          A boolean value.
    * @return this.
    */
-  public WriteableJSONArray put(boolean value)
+  public WritableJSONArray put(boolean value)
   {
     put(value ? Boolean.TRUE : Boolean.FALSE);
     return this;
@@ -632,9 +632,9 @@ public class WriteableJSONArray
    *          A Collection value.
    * @return this.
    */
-  public WriteableJSONArray put(Collection<?> value)
+  public WritableJSONArray put(Collection<?> value)
   {
-    put(new WriteableJSONArray(value));
+    put(new WritableJSONArray(value));
     return this;
   }
 
@@ -647,7 +647,7 @@ public class WriteableJSONArray
    *           if the value is not finite.
    * @return this.
    */
-  public WriteableJSONArray put(double value)
+  public WritableJSONArray put(double value)
       throws JSONException
   {
     Double d = new Double(value);
@@ -663,7 +663,7 @@ public class WriteableJSONArray
    *          An int value.
    * @return this.
    */
-  public WriteableJSONArray put(int value)
+  public WritableJSONArray put(int value)
   {
     put(new Integer(value));
     return this;
@@ -676,7 +676,7 @@ public class WriteableJSONArray
    *          A long value.
    * @return this.
    */
-  public WriteableJSONArray put(long value)
+  public WritableJSONArray put(long value)
   {
     put(new Long(value));
     return this;
@@ -690,7 +690,7 @@ public class WriteableJSONArray
    *          A Map value.
    * @return this.
    */
-  public WriteableJSONArray put(Map<String, ?> value)
+  public WritableJSONArray put(Map<String, ?> value)
   {
     put(new WritableJSONObject(value));
     return this;
@@ -705,7 +705,7 @@ public class WriteableJSONArray
    *          object.
    * @return this.
    */
-  public WriteableJSONArray put(Object value)
+  public WritableJSONArray put(Object value)
   {
     this.myArrayList.add(value);
     return this;
@@ -724,7 +724,7 @@ public class WriteableJSONArray
    * @throws JSONException
    *           If the index is negative.
    */
-  public WriteableJSONArray put(int index,
+  public WritableJSONArray put(int index,
                        boolean value)
       throws JSONException
   {
@@ -744,11 +744,11 @@ public class WriteableJSONArray
    * @throws JSONException
    *           If the index is negative or if the value is not finite.
    */
-  public WriteableJSONArray put(int index,
+  public WritableJSONArray put(int index,
                        Collection<?> value)
       throws JSONException
   {
-    put(index, new WriteableJSONArray(value));
+    put(index, new WritableJSONArray(value));
     return this;
   }
 
@@ -765,7 +765,7 @@ public class WriteableJSONArray
    * @throws JSONException
    *           If the index is negative or if the value is not finite.
    */
-  public WriteableJSONArray put(int index,
+  public WritableJSONArray put(int index,
                        double value)
       throws JSONException
   {
@@ -786,7 +786,7 @@ public class WriteableJSONArray
    * @throws JSONException
    *           If the index is negative.
    */
-  public WriteableJSONArray put(int index,
+  public WritableJSONArray put(int index,
                        int value)
       throws JSONException
   {
@@ -807,7 +807,7 @@ public class WriteableJSONArray
    * @throws JSONException
    *           If the index is negative.
    */
-  public WriteableJSONArray put(int index,
+  public WritableJSONArray put(int index,
                        long value)
       throws JSONException
   {
@@ -828,7 +828,7 @@ public class WriteableJSONArray
    *           If the index is negative or if the the value is an invalid
    *           number.
    */
-  public WriteableJSONArray put(int index,
+  public WritableJSONArray put(int index,
                        Map<String, ?> value)
       throws JSONException
   {
@@ -852,7 +852,7 @@ public class WriteableJSONArray
    *           If the index is negative or if the the value is an invalid
    *           number.
    */
-  public WriteableJSONArray put(int index,
+  public WritableJSONArray put(int index,
                        Object value)
       throws JSONException
   {
@@ -1024,8 +1024,8 @@ public class WriteableJSONArray
         Object v = this.myArrayList.get(i);
         if (v instanceof WritableJSONObject) {
           ((WritableJSONObject) v).write(writer);
-        } else if (v instanceof WriteableJSONArray) {
-          ((WriteableJSONArray) v).write(writer);
+        } else if (v instanceof WritableJSONArray) {
+          ((WritableJSONArray) v).write(writer);
         } else {
           writer.write(WritableJSONObject.valueToString(v));
         }
