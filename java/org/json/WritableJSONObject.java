@@ -1092,7 +1092,7 @@ public class WritableJSONObject
                                 double value)
       throws JSONException
   {
-    put(key, new Double(value));
+    put(key, Double.valueOf(value));
     return this;
   }
 
@@ -1111,7 +1111,7 @@ public class WritableJSONObject
                                 int value)
       throws JSONException
   {
-    put(key, new Integer(value));
+    put(key, Integer.valueOf(value));
     return this;
   }
 
@@ -1130,7 +1130,7 @@ public class WritableJSONObject
                                 long value)
       throws JSONException
   {
-    put(key, new Long(value));
+    put(key, Long.valueOf(value));
     return this;
   }
 
@@ -1252,7 +1252,7 @@ public class WritableJSONObject
     String hhhh;
     int i;
     int len = string.length();
-    StringBuffer sb = new StringBuffer(len + 4);
+    StringBuilder sb = new StringBuilder(len + 4);
 
     sb.append('"');
     for (i = 0; i < len; i += 1) {
@@ -1359,7 +1359,7 @@ public class WritableJSONObject
       if (b == '0' && string.length() > 2
         && (string.charAt(1) == 'x' || string.charAt(1) == 'X')) {
         try {
-          return new Integer(Integer.parseInt(string.substring(2), 16));
+          return Integer.valueOf(Integer.parseInt(string.substring(2), 16));
         } catch (Exception ignore) {
         }
       }
@@ -1368,9 +1368,9 @@ public class WritableJSONObject
           || string.indexOf('E') > -1) {
           return Double.valueOf(string);
         } else {
-          Long myLong = new Long(string);
+          Long myLong = Long.valueOf(string);
           if (myLong.longValue() == myLong.intValue()) {
-            return new Integer(myLong.intValue());
+            return Integer.valueOf(myLong.intValue());
           } else {
             return myLong;
           }
@@ -1446,7 +1446,7 @@ public class WritableJSONObject
   {
     try {
       Iterator<String> keys = keys();
-      StringBuffer sb = new StringBuffer("{");
+      StringBuilder sb = new StringBuilder("{");
 
       while (keys.hasNext()) {
         if (sb.length() > 1) {
@@ -1512,7 +1512,7 @@ public class WritableJSONObject
     Iterator<String> keys = sortedKeys();
     int newindent = indent + indentFactor;
     Object object;
-    StringBuffer sb = new StringBuffer("{");
+    StringBuilder sb = new StringBuilder("{");
     if (length == 1) {
       object = keys.next();
       sb.append(quote(object.toString()));

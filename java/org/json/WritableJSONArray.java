@@ -377,7 +377,7 @@ public class WritableJSONArray
       throws JSONException
   {
     int len = length();
-    StringBuffer sb = new StringBuffer();
+    StringBuilder sb = new StringBuilder();
 
     for (int i = 0; i < len; i += 1) {
       if (i > 0) {
@@ -650,7 +650,7 @@ public class WritableJSONArray
   public WritableJSONArray put(double value)
       throws JSONException
   {
-    Double d = new Double(value);
+    Double d = Double.valueOf(value);
     WritableJSONObject.testValidity(d);
     put(d);
     return this;
@@ -665,7 +665,7 @@ public class WritableJSONArray
    */
   public WritableJSONArray put(int value)
   {
-    put(new Integer(value));
+    put(Integer.valueOf(value));
     return this;
   }
 
@@ -678,7 +678,7 @@ public class WritableJSONArray
    */
   public WritableJSONArray put(long value)
   {
-    put(new Long(value));
+    put(Long.valueOf(value));
     return this;
   }
 
@@ -769,7 +769,7 @@ public class WritableJSONArray
                        double value)
       throws JSONException
   {
-    put(index, new Double(value));
+    put(index, Double.valueOf(value));
     return this;
   }
 
@@ -790,7 +790,7 @@ public class WritableJSONArray
                        int value)
       throws JSONException
   {
-    put(index, new Integer(value));
+    put(index, Integer.valueOf(value));
     return this;
   }
 
@@ -811,7 +811,7 @@ public class WritableJSONArray
                        long value)
       throws JSONException
   {
-    put(index, new Long(value));
+    put(index, Long.valueOf(value));
     return this;
   }
 
@@ -971,7 +971,7 @@ public class WritableJSONArray
       return "[]";
     }
     int i;
-    StringBuffer sb = new StringBuffer("[");
+    StringBuilder sb = new StringBuilder("[");
     if (len == 1) {
       sb.append(WritableJSONObject.valueToString(this.myArrayList.get(0),
                                          indentFactor,
