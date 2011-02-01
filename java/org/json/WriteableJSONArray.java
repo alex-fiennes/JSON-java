@@ -24,6 +24,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -1036,4 +1037,30 @@ public class WriteableJSONArray
       throw new JSONException(e);
     }
   }
+
+  @Override
+  public boolean equals(Object obj)
+  {
+    if (this == obj) {
+      return true;
+    }
+    if (obj instanceof JSONArray) {
+      return ((JSONArray) obj).equalsList(myArrayList);
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode()
+  {
+    return myArrayList.hashCode();
+  }
+
+  @Override
+  public boolean equalsList(List<Object> list)
+  {
+    return myArrayList.equals(list);
+  }
+  
+  
 }
