@@ -105,12 +105,12 @@ public class WritableJSONObject
   {
     this.__map = new HashMap<String, Object>();
   }
-  
+
   public boolean equalsMap(Map<String, Object> map)
   {
     return this.__map.equals(map);
   }
-  
+
   @Override
   public boolean equals(Object obj)
   {
@@ -743,8 +743,13 @@ public class WritableJSONObject
    */
   public WritableJSONArray names()
   {
+    return names(this);
+  }
+
+  public static WritableJSONArray names(JSONObject jObj)
+  {
     WritableJSONArray ja = new WritableJSONArray();
-    Iterator<String> keys = keys();
+    Iterator<String> keys = jObj.keys();
     while (keys.hasNext()) {
       ja.put(keys.next());
     }
@@ -1419,12 +1424,19 @@ public class WritableJSONObject
   public WritableJSONArray toJSONArray(JSONArray names)
       throws JSONException
   {
+    return toJSONArray(this, names);
+  }
+
+  public static WritableJSONArray toJSONArray(JSONObject jObj,
+                                              JSONArray names)
+      throws JSONException
+  {
     if (names == null || names.length() == 0) {
       return null;
     }
     WritableJSONArray ja = new WritableJSONArray();
     for (int i = 0; i < names.length(); i += 1) {
-      ja.put(this.opt(names.getString(i)));
+      ja.put(jObj.opt(names.getString(i)));
     }
     return ja;
   }
@@ -1444,18 +1456,23 @@ public class WritableJSONObject
   @Override
   public String toString()
   {
+    return toString(this);
+  }
+
+  public static String toString(JSONObject jObj)
+  {
     try {
-      Iterator<String> keys = keys();
+      Iterator<String> keys = jObj.keys();
       StringBuilder sb = new StringBuilder("{");
 
       while (keys.hasNext()) {
         if (sb.length() > 1) {
           sb.append(',');
         }
-        Object o = keys.next();
-        sb.append(quote(o.toString()));
+        String string = keys.next();
+        sb.append(quote(string));
         sb.append(':');
-        sb.append(valueToString(this.__map.get(o)));
+        sb.append(valueToString(jObj.opt(string)));
       }
       sb.append('}');
       return sb.toString();
@@ -1504,23 +1521,31 @@ public class WritableJSONObject
                   int indent)
       throws JSONException
   {
+    return toString(this, indentFactor, indent);
+  }
+
+  public static String toString(JSONObject jObj,
+                                int indentFactor,
+                                int indent)
+      throws JSONException
+  {
     int i;
-    int length = this.length();
+    int length = jObj.length();
     if (length == 0) {
       return "{}";
     }
-    Iterator<String> keys = sortedKeys();
+    Iterator<String> keys = jObj.sortedKeys();
     int newindent = indent + indentFactor;
-    Object object;
+    String key;
     StringBuilder sb = new StringBuilder("{");
     if (length == 1) {
-      object = keys.next();
-      sb.append(quote(object.toString()));
+      key = keys.next();
+      sb.append(quote(key.toString()));
       sb.append(": ");
-      sb.append(valueToString(this.__map.get(object), indentFactor, indent));
+      sb.append(valueToString(jObj.opt(key), indentFactor, indent));
     } else {
       while (keys.hasNext()) {
-        object = keys.next();
+        key = keys.next();
         if (sb.length() > 1) {
           sb.append(",\n");
         } else {
@@ -1529,10 +1554,9 @@ public class WritableJSONObject
         for (i = 0; i < newindent; i += 1) {
           sb.append(' ');
         }
-        sb.append(quote(object.toString()));
+        sb.append(quote(key.toString()));
         sb.append(": ");
-        sb
-          .append(valueToString(this.__map.get(object), indentFactor, newindent));
+        sb.append(valueToString(jObj.opt(key), indentFactor, newindent));
       }
       if (sb.length() > 1) {
         sb.append('\n');
@@ -1543,6 +1567,7 @@ public class WritableJSONObject
     }
     sb.append('}');
     return sb.toString();
+
   }
 
   /**
@@ -1730,23 +1755,30 @@ public class WritableJSONObject
   public Writer write(Writer writer)
       throws JSONException
   {
+    return write(this, writer);
+  }
+
+  public static Writer write(JSONObject jObj,
+                             Writer writer)
+      throws JSONException
+  {
     try {
       boolean commanate = false;
-      Iterator<String> keys = keys();
+      Iterator<String> keys = jObj.keys();
       writer.write('{');
 
       while (keys.hasNext()) {
         if (commanate) {
           writer.write(',');
         }
-        Object key = keys.next();
+        String key = keys.next();
         writer.write(quote(key.toString()));
         writer.write(':');
-        Object value = this.__map.get(key);
-        if (value instanceof WritableJSONObject) {
-          ((WritableJSONObject) value).write(writer);
-        } else if (value instanceof WritableJSONArray) {
-          ((WritableJSONArray) value).write(writer);
+        Object value = jObj.opt(key);
+        if (value instanceof JSONObject) {
+          ((JSONObject) value).write(writer);
+        } else if (value instanceof JSONArray) {
+          ((JSONArray) value).write(writer);
         } else {
           writer.write(valueToString(value));
         }
