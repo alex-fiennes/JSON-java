@@ -1,12 +1,11 @@
 package org.json;
 
 import java.io.Writer;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
 public class UnmodifiableJSONObject
-  implements JSONObject
+  extends AbstractUnmodifiableJSONObject
 {
   public static UnmodifiableJSONObject getInstance(JSONObject jObj)
   {
@@ -18,28 +17,12 @@ public class UnmodifiableJSONObject
     }
     return new UnmodifiableJSONObject(jObj);
   }
-
+  
   private final JSONObject __jObj;
 
   private UnmodifiableJSONObject(JSONObject jObj)
   {
     __jObj = jObj;
-  }
-
-  @Override
-  public JSONObject accumulate(String key,
-                                Object value)
-      throws JSONException
-  {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
-  public JSONObject append(String key,
-                            Object value)
-      throws JSONException
-  {
-    throw new UnsupportedOperationException();
   }
 
   @Override
@@ -102,13 +85,6 @@ public class UnmodifiableJSONObject
   public boolean has(String key)
   {
     return __jObj.has(key);
-  }
-
-  @Override
-  public JSONObject increment(String key)
-      throws JSONException
-  {
-    throw new UnsupportedOperationException();
   }
 
   @Override
@@ -216,84 +192,6 @@ public class UnmodifiableJSONObject
                           String defaultValue)
   {
     return __jObj.optString(key, defaultValue);
-  }
-
-  @Override
-  public JSONObject put(String key,
-                         boolean value)
-      throws JSONException
-  {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
-  public JSONObject put(String key,
-                         Collection<?> value)
-      throws JSONException
-  {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
-  public JSONObject put(String key,
-                         double value)
-      throws JSONException
-  {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
-  public JSONObject put(String key,
-                         int value)
-      throws JSONException
-  {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
-  public JSONObject put(String key,
-                         long value)
-      throws JSONException
-  {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
-  public JSONObject put(String key,
-                         Map<String, ?> value)
-      throws JSONException
-  {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
-  public JSONObject put(String key,
-                         Object value)
-      throws JSONException
-  {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
-  public JSONObject putOnce(String key,
-                             Object value)
-      throws JSONException
-  {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
-  public JSONObject putOpt(String key,
-                            Object value)
-      throws JSONException
-  {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
-  public Object remove(String key)
-  {
-    throw new UnsupportedOperationException();
   }
 
   @Override
