@@ -61,6 +61,8 @@ public interface JSONObject
    * <code>JSONObject.NULL.toString()</code> returns <code>"null"</code>.
    */
   public static final Object NULL = new JSONObject.Null();
+  
+  public static final JSONObject EMPTY = UnmodifiableJSONObject.getInstance(new WritableJSONObject());
 
   public boolean equalsMap(Map<String,Object> map);
   
