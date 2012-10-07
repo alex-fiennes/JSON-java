@@ -1263,7 +1263,7 @@ public class Test extends TestCase {
 
         iterator = jsonobject.keys();
         while (iterator.hasNext()) {
-            string = (String) iterator.next();
+      string = iterator.next();
             assertTrue(expectedKeys.remove(string));
         }
         assertEquals(0, expectedKeys.size());
