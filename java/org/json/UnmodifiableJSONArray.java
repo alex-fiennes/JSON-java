@@ -2,6 +2,7 @@ package org.json;
 
 import java.io.Writer;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -18,9 +19,9 @@ public class UnmodifiableJSONArray
     }
     return new UnmodifiableJSONArray(jArr);
   }
-  
+
   private final JSONArray __jArr;
-  
+
   private UnmodifiableJSONArray(JSONArray jArr)
   {
     __jArr = jArr;
@@ -229,7 +230,7 @@ public class UnmodifiableJSONArray
 
   @Override
   public JSONArray put(int index,
-                        boolean value)
+                       boolean value)
       throws JSONException
   {
     throw new UnsupportedOperationException();
@@ -237,7 +238,7 @@ public class UnmodifiableJSONArray
 
   @Override
   public JSONArray put(int index,
-                        Collection<?> value)
+                       Collection<?> value)
       throws JSONException
   {
     throw new UnsupportedOperationException();
@@ -245,7 +246,7 @@ public class UnmodifiableJSONArray
 
   @Override
   public JSONArray put(int index,
-                        double value)
+                       double value)
       throws JSONException
   {
     throw new UnsupportedOperationException();
@@ -253,7 +254,7 @@ public class UnmodifiableJSONArray
 
   @Override
   public JSONArray put(int index,
-                        int value)
+                       int value)
       throws JSONException
   {
     throw new UnsupportedOperationException();
@@ -261,7 +262,7 @@ public class UnmodifiableJSONArray
 
   @Override
   public JSONArray put(int index,
-                        long value)
+                       long value)
       throws JSONException
   {
     throw new UnsupportedOperationException();
@@ -269,7 +270,7 @@ public class UnmodifiableJSONArray
 
   @Override
   public JSONArray put(int index,
-                        Map<String, ?> value)
+                       Map<String, ?> value)
       throws JSONException
   {
     throw new UnsupportedOperationException();
@@ -277,7 +278,7 @@ public class UnmodifiableJSONArray
 
   @Override
   public JSONArray put(int index,
-                        Object value)
+                       Object value)
       throws JSONException
   {
     throw new UnsupportedOperationException();
@@ -301,7 +302,7 @@ public class UnmodifiableJSONArray
       throws JSONException
   {
     return __jArr.toString(indentFactor);
-  }  
+  }
 
   @Override
   public String toString()
@@ -333,6 +334,30 @@ public class UnmodifiableJSONArray
   {
     return __jArr.equalsList(list);
   }
-  
-  
+
+  @Override
+  public Iterator<Object> iterator()
+  {
+    final Iterator<?> i = __jArr.iterator();
+    return new Iterator<Object>() {
+      @Override
+      public boolean hasNext()
+      {
+        return i.hasNext();
+      }
+
+      @Override
+      public Object next()
+      {
+        return i.next();
+      }
+
+      @Override
+      public void remove()
+      {
+        throw new UnsupportedOperationException("UnmodifiableJSONArray doesn't support iterator().remove()");
+      }
+    };
+  }
+
 }
