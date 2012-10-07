@@ -218,16 +218,16 @@ public class WritableJSONObject
    *          A map object that can be used to initialize the contents of the
    *          JSONObject.
    */
-  public WritableJSONObject(Map<String, Object> map)
+  public <K,V> WritableJSONObject(Map<K, V> map)
   {
     this.__map = new HashMap<String, Object>();
     if (map != null) {
-      Iterator<Entry<String, Object>> i = map.entrySet().iterator();
+      Iterator<Entry<K, V>> i = map.entrySet().iterator();
       while (i.hasNext()) {
-        Entry<String, ?> e = i.next();
-        Object value = e.getValue();
+        Entry<K, V> e = i.next();
+        V value = e.getValue();
         if (value != null) {
-          this.__map.put(e.getKey(), wrap(value));
+          this.__map.put(e.getKey().toString(), wrap(value));
         }
       }
     }
@@ -611,7 +611,7 @@ public class WritableJSONObject
     String[] names = new String[length];
     int i = 0;
     while (iterator.hasNext()) {
-      names[i] = (String) iterator.next();
+      names[i] = iterator.next();
       i += 1;
     }
     return names;
