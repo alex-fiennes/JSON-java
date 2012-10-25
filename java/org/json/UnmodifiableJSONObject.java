@@ -244,6 +244,19 @@ public class UnmodifiableJSONObject
   {
     return __jObj.hashCode();
   }
+
+  @Override
+  public Integer optInteger(String key)
+  {
+    return __jObj.optInteger(key);
+  }
+
+  @Override
+  public Integer optInteger(String key,
+                            Integer defaultValue)
+  {
+    return __jObj.optInteger(key, defaultValue);
+  }
   
   
 }
