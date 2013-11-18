@@ -6,4 +6,12 @@
     <!-- Place any project-specific properties above this line -->
     <import file="${basedir}/../build/build-common.xml" />
 
+    <target name="javadoc" depends="compile">
+        <javadoc.local>
+            <links>
+            	<link href="http://download.oracle.com/javase/6/docs/api" />
+            </links>
+        </javadoc.local>
+    </target>
+
 </project>
