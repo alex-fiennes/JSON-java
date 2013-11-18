@@ -13,7 +13,8 @@ public interface JSONObject
    */
   static final class Null
   {
-
+    private Null() { }
+    
     /**
      * There is only intended to be a single instance of the NULL object, so the clone method
      * returns itself.
@@ -39,6 +40,12 @@ public interface JSONObject
       return object == null || object == this;
     }
 
+    @Override
+    public int hashCode()
+    {
+      return 0;
+    }
+
     /**
      * Get the "null" string value.
      * 
@@ -49,6 +56,7 @@ public interface JSONObject
     {
       return "null";
     }
+
   }
 
   /**
