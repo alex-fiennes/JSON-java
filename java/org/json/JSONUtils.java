@@ -1,5 +1,6 @@
 package org.json;
 
+import java.util.Iterator;
 
 public class JSONUtils
 {
@@ -27,6 +28,42 @@ public class JSONUtils
   public static UnmodifiableJSONArray unmodifiable(JSONArray jArr)
   {
     return UnmodifiableJSONArray.getInstance(jArr);
+  }
+
+  public static WritableJSONObject writableDeepCopy(JSONObject jObj)
+      throws JSONException
+  {
+    WritableJSONObject copy = new WritableJSONObject();
+    Iterator<String> keys = jObj.keys();
+    while (keys.hasNext()) {
+      String key = keys.next();
+      Object value = jObj.opt(key);
+      if (value instanceof JSONObject) {
+        copy.put(key, writableDeepCopy((JSONObject) value));
+      } else if (value instanceof JSONArray) {
+        copy.put(key, writableDeepCopy((JSONArray) value));
+      } else {
+        copy.put(key, value);
+      }
+    }
+    return copy;
+  }
+  
+  public static WritableJSONArray writableDeepCopy(JSONArray jArr)
+      throws JSONException
+  {
+    WritableJSONArray copy = new WritableJSONArray();
+    for (int i = 0; i < jArr.length(); i++) {
+      Object value = jArr.get(i);
+      if (value instanceof JSONObject) {
+        copy.put(writableDeepCopy((JSONObject) value));
+      } else if (value instanceof JSONArray) {
+        copy.put(writableDeepCopy((JSONArray) value));
+      } else {
+        copy.put(value);
+      }
+    }
+    return copy;
   }
 
   /**
