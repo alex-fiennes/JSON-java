@@ -209,7 +209,6 @@ public class UnmodifiableJSONObject
 
   @Override
   public String toString(int indentFactor)
-      throws JSONException
   {
     return __jObj.toString(indentFactor);
   }

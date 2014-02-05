@@ -610,11 +610,8 @@ public interface JSONObject
    * @return a printable, displayable, portable, transmittable representation of the object,
    *         beginning with <code>{</code>&nbsp;<small>(left brace)</small> and ending with
    *         <code>}</code>&nbsp;<small>(right brace)</small>.
-   * @throws JSONException
-   *           If the object contains an invalid number.
    */
-  public String toString(int indentFactor)
-      throws JSONException;
+  public String toString(int indentFactor);
 
   /**
    * Write the contents of the JSONObject as JSON text to a writer. For compactness, no whitespace

@@ -538,10 +538,9 @@ public interface JSONArray
    *         object, beginning with <code>[</code>&nbsp;<small>(left
    *         bracket)</small> and ending with <code>]</code>&nbsp;<small>(right
    *         bracket)</small>.
-   * @throws JSONException
+   * @throws RuntimeException if there is an unformattable item inside the JSONArray.
    */
-  public String toString(int indentFactor)
-      throws JSONException;
+  public String toString(int indentFactor);
 
   /**
    * Write the contents of the JSONArray as JSON text to a writer. For

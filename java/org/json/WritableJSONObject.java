@@ -1436,7 +1436,6 @@ public class WritableJSONObject
    *           If the object contains an invalid number.
    */
   public String toString(int indentFactor)
-      throws JSONException
   {
     return toString(indentFactor, 0);
   }
@@ -1453,12 +1452,11 @@ public class WritableJSONObject
    * @return a printable, displayable, transmittable representation of the object, beginning with
    *         <code>{</code>&nbsp;<small>(left brace)</small> and ending with <code>}</code>
    *         &nbsp;<small>(right brace)</small>.
-   * @throws JSONException
+   * @throws RuntimeException
    *           If the object contains an invalid number.
    */
   String toString(int indentFactor,
                   int indent)
-      throws JSONException
   {
     return toString(this, indentFactor, indent);
   }
@@ -1466,47 +1464,49 @@ public class WritableJSONObject
   public static String toString(JSONObject jObj,
                                 int indentFactor,
                                 int indent)
-      throws JSONException
   {
-    int i;
-    int length = jObj.length();
-    if (length == 0) {
-      return "{}";
-    }
-    Iterator<String> keys = jObj.sortedKeys();
-    int newindent = indent + indentFactor;
-    String key;
-    StringBuilder sb = new StringBuilder("{");
-    if (length == 1) {
-      key = keys.next();
-      sb.append(quote(key.toString()));
-      sb.append(": ");
-      sb.append(valueToString(jObj.opt(key), indentFactor, indent));
-    } else {
-      while (keys.hasNext()) {
+    try {
+      int i;
+      int length = jObj.length();
+      if (length == 0) {
+        return "{}";
+      }
+      Iterator<String> keys = jObj.sortedKeys();
+      int newindent = indent + indentFactor;
+      String key;
+      StringBuilder sb = new StringBuilder("{");
+      if (length == 1) {
         key = keys.next();
-        if (sb.length() > 1) {
-          sb.append(",\n");
-        } else {
-          sb.append('\n');
-        }
-        for (i = 0; i < newindent; i += 1) {
-          sb.append(' ');
-        }
         sb.append(quote(key.toString()));
         sb.append(": ");
-        sb.append(valueToString(jObj.opt(key), indentFactor, newindent));
-      }
-      if (sb.length() > 1) {
-        sb.append('\n');
-        for (i = 0; i < indent; i += 1) {
-          sb.append(' ');
+        sb.append(valueToString(jObj.opt(key), indentFactor, indent));
+      } else {
+        while (keys.hasNext()) {
+          key = keys.next();
+          if (sb.length() > 1) {
+            sb.append(",\n");
+          } else {
+            sb.append('\n');
+          }
+          for (i = 0; i < newindent; i += 1) {
+            sb.append(' ');
+          }
+          sb.append(quote(key.toString()));
+          sb.append(": ");
+          sb.append(valueToString(jObj.opt(key), indentFactor, newindent));
+        }
+        if (sb.length() > 1) {
+          sb.append('\n');
+          for (i = 0; i < indent; i += 1) {
+            sb.append(' ');
+          }
         }
       }
+      sb.append('}');
+      return sb.toString();
+    } catch (JSONException e) {
+      throw new RuntimeException(e);
     }
-    sb.append('}');
-    return sb.toString();
-
   }
 
   /**

@@ -904,7 +904,6 @@ public class WritableJSONArray
    * @throws JSONException
    */
   public String toString(int indentFactor)
-      throws JSONException
   {
     return toString(indentFactor, 0);
   }
@@ -922,35 +921,40 @@ public class WritableJSONArray
    */
   String toString(int indentFactor,
                   int indent)
-      throws JSONException
   {
-    int len = length();
-    if (len == 0) {
-      return "[]";
-    }
-    int i;
-    StringBuilder sb = new StringBuilder("[");
-    if (len == 1) {
-      sb.append(WritableJSONObject.valueToString(this.myArrayList.get(0), indentFactor, indent));
-    } else {
-      int newindent = indent + indentFactor;
-      sb.append('\n');
-      for (i = 0; i < len; i += 1) {
-        if (i > 0) {
-          sb.append(",\n");
+    try {
+      int len = length();
+      if (len == 0) {
+        return "[]";
+      }
+      int i;
+      StringBuilder sb = new StringBuilder("[");
+      if (len == 1) {
+        sb.append(WritableJSONObject.valueToString(this.myArrayList.get(0), indentFactor, indent));
+      } else {
+        int newindent = indent + indentFactor;
+        sb.append('\n');
+        for (i = 0; i < len; i += 1) {
+          if (i > 0) {
+            sb.append(",\n");
+          }
+          for (int j = 0; j < newindent; j += 1) {
+            sb.append(' ');
+          }
+          sb.append(WritableJSONObject.valueToString(this.myArrayList.get(i),
+                                                     indentFactor,
+                                                     newindent));
         }
-        for (int j = 0; j < newindent; j += 1) {
+        sb.append('\n');
+        for (i = 0; i < indent; i += 1) {
           sb.append(' ');
         }
-        sb.append(WritableJSONObject.valueToString(this.myArrayList.get(i), indentFactor, newindent));
       }
-      sb.append('\n');
-      for (i = 0; i < indent; i += 1) {
-        sb.append(' ');
-      }
+      sb.append(']');
+      return sb.toString();
+    } catch (JSONException e) {
+      throw new RuntimeException(e);
     }
-    sb.append(']');
-    return sb.toString();
   }
 
   /**

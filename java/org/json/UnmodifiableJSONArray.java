@@ -299,7 +299,6 @@ public class UnmodifiableJSONArray
 
   @Override
   public String toString(int indentFactor)
-      throws JSONException
   {
     return __jArr.toString(indentFactor);
   }
