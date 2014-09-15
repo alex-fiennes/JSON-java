@@ -553,5 +553,7 @@ public interface JSONArray
    */
   public Writer write(Writer writer)
       throws JSONException;
+  
+  public int indexOf(Object value);
 
 }

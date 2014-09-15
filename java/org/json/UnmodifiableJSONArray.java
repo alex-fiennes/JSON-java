@@ -359,4 +359,10 @@ public class UnmodifiableJSONArray
     };
   }
 
+  @Override
+  public int indexOf(Object value)
+  {
+    return __jArr.indexOf(value);
+  }
+
 }

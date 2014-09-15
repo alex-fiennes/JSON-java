@@ -1026,4 +1026,10 @@ public class WritableJSONArray
     return myArrayList.iterator();
   }
 
+  @Override
+  public int indexOf(Object value)
+  {
+    return myArrayList.indexOf(value);
+  }
+
 }
