@@ -17,7 +17,7 @@ public class UnmodifiableJSONObject
     }
     return new UnmodifiableJSONObject(jObj);
   }
-  
+
   private final JSONObject __jObj;
 
   private UnmodifiableJSONObject(JSONObject jObj)
@@ -159,13 +159,15 @@ public class UnmodifiableJSONObject
   @Override
   public UnmodifiableJSONArray optJSONArray(String key)
   {
-    return UnmodifiableJSONArray.getInstance(__jObj.optJSONArray(key));
+    JSONArray jArr = __jObj.optJSONArray(key);
+    return jArr == null ? null : UnmodifiableJSONArray.getInstance(jArr);
   }
 
   @Override
   public UnmodifiableJSONObject optJSONObject(String key)
   {
-    return UnmodifiableJSONObject.getInstance(__jObj.optJSONObject(key));
+    JSONObject jObj = __jObj.optJSONObject(key);
+    return jObj == null ? null : UnmodifiableJSONObject.getInstance(jObj);
   }
 
   @Override
@@ -256,6 +258,5 @@ public class UnmodifiableJSONObject
   {
     return __jObj.optInteger(key, defaultValue);
   }
-  
-  
+
 }
