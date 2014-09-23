@@ -15,16 +15,22 @@ public class UnmodifiableJSONObject
     if (jObj instanceof UnmodifiableJSONObject) {
       return (UnmodifiableJSONObject) jObj;
     }
-    return new UnmodifiableJSONObject(jObj);
+    return new UnmodifiableJSONObject((WritableJSONObject) jObj);
   }
 
-  private final JSONObject __jObj;
+  private final WritableJSONObject __jObj;
 
-  private UnmodifiableJSONObject(JSONObject jObj)
+  private UnmodifiableJSONObject(WritableJSONObject jObj)
   {
     __jObj = jObj;
   }
-
+  
+  @Override
+  public WritableJSONObject writableClone()
+  {
+    return __jObj.clone();
+  }
+  
   @Override
   public Object get(String key)
       throws JSONException

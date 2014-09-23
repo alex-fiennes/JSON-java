@@ -64,7 +64,7 @@ import java.util.Map;
  * @version 2010-12-28
  */
 public class WritableJSONArray
-  implements JSONArray
+  implements JSONArray, Cloneable
 {
 
   /**
@@ -78,6 +78,30 @@ public class WritableJSONArray
   public WritableJSONArray()
   {
     this.myArrayList = new ArrayList<Object>();
+  }
+
+  @Override
+  public WritableJSONArray writableClone()
+  {
+    return this.clone();
+  }
+
+  @Override
+  public WritableJSONArray clone()
+  {
+    WritableJSONArray clone = new WritableJSONArray();
+    try {
+      for (Object value : this.myArrayList) {
+        if (value instanceof Cloneable) {
+          clone.put(value.getClass().getMethod("clone").invoke(value));
+        } else {
+          clone.put(value);
+        }
+      }
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+    return clone;
   }
 
   /**
@@ -849,6 +873,11 @@ public class WritableJSONArray
     Object o = opt(index);
     this.myArrayList.remove(index);
     return o;
+  }
+
+  public boolean remove(Object object)
+  {
+    return this.myArrayList.remove(object);
   }
 
   /**

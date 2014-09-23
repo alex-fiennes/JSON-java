@@ -18,17 +18,18 @@ package org.json;
 import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import java.util.TreeSet;
-import java.util.Map.Entry;
 
 /**
  * A JSONObject is an unordered collection of name/value pairs. Its external form is a string
@@ -77,7 +78,7 @@ import java.util.Map.Entry;
  * @version 2010-12-28
  */
 public class WritableJSONObject
-  implements JSONObject
+  implements JSONObject, Cloneable
 {
 
   /**
@@ -91,6 +92,35 @@ public class WritableJSONObject
   public WritableJSONObject()
   {
     this.__map = new HashMap<String, Object>();
+  }
+  
+  
+
+  @Override
+  public WritableJSONObject writableClone()
+  {
+    return this.clone();
+  }
+
+
+
+  @Override
+  public WritableJSONObject clone()
+  {
+    WritableJSONObject clone = new WritableJSONObject();
+    try {
+      for (Map.Entry<String, Object> entry : __map.entrySet()) {
+        Object value = entry.getValue();
+        if (value instanceof Cloneable) {
+          clone.put(entry.getKey(), value.getClass().getMethod("clone").invoke(value));
+        } else {
+          clone.put(entry.getKey(), value);
+        }
+      }
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+    return clone;
   }
 
   public boolean equalsMap(Map<String, Object> map)

@@ -13,6 +13,8 @@ public interface JSONArray
 
   public boolean equalsList(List<Object> list);
   
+  public WritableJSONArray writableClone();
+  
   /**
    * Get the object value associated with an index.
    * 
@@ -499,6 +501,13 @@ public interface JSONArray
    *         no value.
    */
   public Object remove(int index);
+  
+  /**
+   * Remove the first instance of an Object from the array.
+   * @param obj The object to be removed from the array.
+   * @return true if it is has been removed.
+   */
+  public boolean remove(Object obj);
 
   /**
    * Produce a JSONObject by combining a JSONArray of names with the values of
@@ -555,5 +564,4 @@ public interface JSONArray
       throws JSONException;
   
   public int indexOf(Object value);
-
 }

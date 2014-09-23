@@ -17,14 +17,20 @@ public class UnmodifiableJSONArray
     if (jArr instanceof UnmodifiableJSONArray) {
       return (UnmodifiableJSONArray) jArr;
     }
-    return new UnmodifiableJSONArray(jArr);
+    return new UnmodifiableJSONArray((WritableJSONArray) jArr);
   }
 
-  private final JSONArray __jArr;
+  private final WritableJSONArray __jArr;
 
-  private UnmodifiableJSONArray(JSONArray jArr)
+  private UnmodifiableJSONArray(WritableJSONArray jArr)
   {
     __jArr = jArr;
+  }
+
+  @Override
+  public WritableJSONArray writableClone()
+  {
+    return __jArr.clone();
   }
 
   @Override
@@ -295,6 +301,13 @@ public class UnmodifiableJSONArray
       throws JSONException
   {
     return UnmodifiableJSONObject.getInstance(__jArr.toJSONObject(names));
+  }
+
+  @Override
+  public boolean remove(Object obj)
+      throws UnsupportedOperationException
+  {
+    throw new UnsupportedOperationException();
   }
 
   @Override

@@ -70,6 +70,8 @@ public interface JSONObject
       UnmodifiableJSONObject.getInstance(new WritableJSONObject());
 
   public boolean equalsMap(Map<String, Object> map);
+  
+  public WritableJSONObject writableClone();
 
   /**
    * Accumulate values under a key. It is similar to the put method except that if there is already
