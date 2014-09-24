@@ -600,6 +600,7 @@ public interface JSONObject
    *         beginning with <code>{</code>&nbsp;<small>(left brace)</small> and ending with
    *         <code>}</code>&nbsp;<small>(right brace)</small>.
    */
+  @Override
   public String toString();
 
   /**

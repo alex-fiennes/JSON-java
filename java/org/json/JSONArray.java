@@ -9,6 +9,7 @@ import java.util.Map;
 public interface JSONArray
   extends Iterable<Object>
 {
+  @Override
   public Iterator<Object> iterator();
 
   public boolean equalsList(List<Object> list);
@@ -535,6 +536,7 @@ public interface JSONArray
    * @return a printable, displayable, transmittable representation of the
    *         array.
    */
+  @Override
   public String toString();
 
   /**

@@ -18,7 +18,6 @@ package org.json;
 import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Collection;
@@ -123,6 +122,7 @@ public class WritableJSONObject
     return clone;
   }
 
+  @Override
   public boolean equalsMap(Map<String, Object> map)
   {
     return this.__map.equals(map);
@@ -368,6 +368,7 @@ public class WritableJSONObject
    * @throws JSONException
    *           If the value is an invalid number or if the key is null.
    */
+  @Override
   public WritableJSONObject accumulate(String key,
                                        Object value)
       throws JSONException
@@ -398,6 +399,7 @@ public class WritableJSONObject
    *           If the key is null or if the current value associated with the key is not a
    *           JSONArray.
    */
+  @Override
   public WritableJSONObject append(String key,
                                    Object value)
       throws JSONException
@@ -450,6 +452,7 @@ public class WritableJSONObject
    * @throws JSONException
    *           if the key is not found.
    */
+  @Override
   public Object get(String key)
       throws JSONException
   {
@@ -472,6 +475,7 @@ public class WritableJSONObject
    * @throws JSONException
    *           if the value is not a Boolean or the String "true" or "false".
    */
+  @Override
   public boolean getBoolean(String key)
       throws JSONException
   {
@@ -496,6 +500,7 @@ public class WritableJSONObject
    *           if the key is not found or if the value is not a Number object and cannot be
    *           converted to a number.
    */
+  @Override
   public double getDouble(String key)
       throws JSONException
   {
@@ -518,6 +523,7 @@ public class WritableJSONObject
    * @throws JSONException
    *           if the key is not found or if the value cannot be converted to an integer.
    */
+  @Override
   public int getInt(String key)
       throws JSONException
   {
@@ -540,6 +546,7 @@ public class WritableJSONObject
    * @throws JSONException
    *           if the key is not found or if the value is not a JSONArray.
    */
+  @Override
   public WritableJSONArray getJSONArray(String key)
       throws JSONException
   {
@@ -559,6 +566,7 @@ public class WritableJSONObject
    * @throws JSONException
    *           if the key is not found or if the value is not a JSONObject.
    */
+  @Override
   public WritableJSONObject getJSONObject(String key)
       throws JSONException
   {
@@ -578,6 +586,7 @@ public class WritableJSONObject
    * @throws JSONException
    *           if the key is not found or if the value cannot be converted to a long.
    */
+  @Override
   public long getLong(String key)
       throws JSONException
   {
@@ -644,6 +653,7 @@ public class WritableJSONObject
    * @throws JSONException
    *           if the key is not found.
    */
+  @Override
   public String getString(String key)
       throws JSONException
   {
@@ -658,6 +668,7 @@ public class WritableJSONObject
    *          A key string.
    * @return true if the key exists in the JSONObject.
    */
+  @Override
   public boolean has(String key)
   {
     return this.__map.containsKey(key);
@@ -675,6 +686,7 @@ public class WritableJSONObject
    *           If there is already a property with this name that is not an Integer, Long, Double,
    *           or Float.
    */
+  @Override
   public WritableJSONObject increment(String key)
       throws JSONException
   {
@@ -703,6 +715,7 @@ public class WritableJSONObject
    * @return true if there is no value associated with the key or if the value is the
    *         JSONObject.NULL object.
    */
+  @Override
   public boolean isNull(String key)
   {
     return JSONObject.NULL.equals(opt(key));
@@ -713,6 +726,7 @@ public class WritableJSONObject
    * 
    * @return An iterator of the keys.
    */
+  @Override
   public Iterator<String> keys()
   {
     return this.__map.keySet().iterator();
@@ -723,6 +737,7 @@ public class WritableJSONObject
    * 
    * @return The number of keys in the JSONObject.
    */
+  @Override
   public int length()
   {
     return this.__map.size();
@@ -733,6 +748,7 @@ public class WritableJSONObject
    * 
    * @return A JSONArray containing the key strings, or null if the JSONObject is empty.
    */
+  @Override
   public WritableJSONArray names()
   {
     return names(this);
@@ -786,6 +802,7 @@ public class WritableJSONObject
    *          A key string.
    * @return An object which is the value, or null if there is no value.
    */
+  @Override
   public Object opt(String key)
   {
     return key == null ? null : this.__map.get(key);
@@ -799,6 +816,7 @@ public class WritableJSONObject
    *          A key string.
    * @return The truth.
    */
+  @Override
   public boolean optBoolean(String key)
   {
     return optBoolean(key, false);
@@ -814,6 +832,7 @@ public class WritableJSONObject
    *          The default.
    * @return The truth.
    */
+  @Override
   public boolean optBoolean(String key,
                             boolean defaultValue)
   {
@@ -832,6 +851,7 @@ public class WritableJSONObject
    *          A string which is the key.
    * @return An object which is the value.
    */
+  @Override
   public double optDouble(String key)
   {
     return optDouble(key, Double.NaN);
@@ -848,6 +868,7 @@ public class WritableJSONObject
    *          The default.
    * @return An object which is the value.
    */
+  @Override
   public double optDouble(String key,
                           double defaultValue)
   {
@@ -867,6 +888,7 @@ public class WritableJSONObject
    *          A key string.
    * @return An object which is the value.
    */
+  @Override
   public int optInt(String key)
   {
     return optInt(key, 0);
@@ -883,6 +905,7 @@ public class WritableJSONObject
    *          The default.
    * @return An object which is the value.
    */
+  @Override
   public int optInt(String key,
                     int defaultValue)
   {
@@ -901,6 +924,7 @@ public class WritableJSONObject
    *          A key string.
    * @return A JSONArray which is the value.
    */
+  @Override
   public WritableJSONArray optJSONArray(String key)
   {
     Object o = opt(key);
@@ -915,6 +939,7 @@ public class WritableJSONObject
    *          A key string.
    * @return A JSONObject which is the value.
    */
+  @Override
   public WritableJSONObject optJSONObject(String key)
   {
     Object object = opt(key);
@@ -930,6 +955,7 @@ public class WritableJSONObject
    *          A key string.
    * @return An object which is the value.
    */
+  @Override
   public long optLong(String key)
   {
     return optLong(key, 0);
@@ -946,6 +972,7 @@ public class WritableJSONObject
    *          The default.
    * @return An object which is the value.
    */
+  @Override
   public long optLong(String key,
                       long defaultValue)
   {
@@ -964,6 +991,7 @@ public class WritableJSONObject
    *          A key string.
    * @return A string which is the value.
    */
+  @Override
   public String optString(String key)
   {
     return optString(key, "");
@@ -979,6 +1007,7 @@ public class WritableJSONObject
    *          The default.
    * @return A string which is the value.
    */
+  @Override
   public String optString(String key,
                           String defaultValue)
   {
@@ -1040,6 +1069,7 @@ public class WritableJSONObject
    * @throws JSONException
    *           If the key is null.
    */
+  @Override
   public WritableJSONObject put(String key,
                                 boolean value)
       throws JSONException
@@ -1059,6 +1089,7 @@ public class WritableJSONObject
    * @return this.
    * @throws JSONException
    */
+  @Override
   public WritableJSONObject put(String key,
                                 Collection<?> value)
       throws JSONException
@@ -1078,6 +1109,7 @@ public class WritableJSONObject
    * @throws JSONException
    *           If the key is null or if the number is invalid.
    */
+  @Override
   public WritableJSONObject put(String key,
                                 double value)
       throws JSONException
@@ -1097,6 +1129,7 @@ public class WritableJSONObject
    * @throws JSONException
    *           If the key is null.
    */
+  @Override
   public WritableJSONObject put(String key,
                                 int value)
       throws JSONException
@@ -1116,6 +1149,7 @@ public class WritableJSONObject
    * @throws JSONException
    *           If the key is null.
    */
+  @Override
   public WritableJSONObject put(String key,
                                 long value)
       throws JSONException
@@ -1135,6 +1169,7 @@ public class WritableJSONObject
    * @return this.
    * @throws JSONException
    */
+  @Override
   public WritableJSONObject put(String key,
                                 Map<String, ?> value)
       throws JSONException
@@ -1156,6 +1191,7 @@ public class WritableJSONObject
    * @throws JSONException
    *           If the value is non-finite number or if the key is null.
    */
+  @Override
   public WritableJSONObject put(String key,
                                 Object value)
       throws JSONException
@@ -1182,6 +1218,7 @@ public class WritableJSONObject
    * @throws JSONException
    *           if the key is a duplicate
    */
+  @Override
   public WritableJSONObject putOnce(String key,
                                     Object value)
       throws JSONException
@@ -1207,6 +1244,7 @@ public class WritableJSONObject
    * @throws JSONException
    *           If the value is a non-finite number.
    */
+  @Override
   public WritableJSONObject putOpt(String key,
                                    Object value)
       throws JSONException
@@ -1290,6 +1328,7 @@ public class WritableJSONObject
    *          The name to be removed.
    * @return The value that was associated with the name, or null if there was no value.
    */
+  @Override
   public Object remove(String key)
   {
     return this.__map.remove(key);
@@ -1300,6 +1339,7 @@ public class WritableJSONObject
    * 
    * @return An iterator of the keys.
    */
+  @Override
   public Iterator<String> sortedKeys()
   {
     return new TreeSet<String>(this.__map.keySet()).iterator();
@@ -1394,6 +1434,7 @@ public class WritableJSONObject
    * @throws JSONException
    *           If any of the values are non-finite numbers.
    */
+  @Override
   public WritableJSONArray toJSONArray(JSONArray names)
       throws JSONException
   {
@@ -1465,6 +1506,7 @@ public class WritableJSONObject
    * @throws JSONException
    *           If the object contains an invalid number.
    */
+  @Override
   public String toString(int indentFactor)
   {
     return toString(indentFactor, 0);
@@ -1708,6 +1750,7 @@ public class WritableJSONObject
    * @return The writer.
    * @throws JSONException
    */
+  @Override
   public Writer write(Writer writer)
       throws JSONException
   {
