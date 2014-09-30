@@ -990,8 +990,9 @@ public class WritableJSONArray
    * @return a printable, displayable, transmittable representation of the array.
    * @throws JSONException
    */
-  String toString(int indentFactor,
-                  int indent)
+  @Override
+  public final String toString(int indentFactor,
+                               int indent)
   {
     try {
       int len = length();

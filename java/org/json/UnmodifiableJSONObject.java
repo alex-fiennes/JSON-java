@@ -265,4 +265,11 @@ public class UnmodifiableJSONObject
     return __jObj.optInteger(key, defaultValue);
   }
 
+  @Override
+  public String toString(int indentFactor,
+                         int indent)
+  {
+    return __jObj.toString(indentFactor, indent);
+  }
+
 }

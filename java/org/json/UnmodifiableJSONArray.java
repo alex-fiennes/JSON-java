@@ -378,4 +378,11 @@ public class UnmodifiableJSONArray
     return __jArr.indexOf(value);
   }
 
+  @Override
+  public String toString(int indentFactor,
+                         int indent)
+  {
+    return __jArr.toString(indentFactor, indent);
+  }
+
 }
