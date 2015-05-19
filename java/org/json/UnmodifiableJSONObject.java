@@ -7,6 +7,13 @@ import java.util.Map;
 public class UnmodifiableJSONObject
   extends AbstractUnmodifiableJSONObject
 {
+  private final static UnmodifiableJSONObject EMPTY = getInstance(new WritableJSONObject());
+
+  public static final UnmodifiableJSONObject emptyInstance()
+  {
+    return EMPTY;
+  }
+
   public static UnmodifiableJSONObject getInstance(JSONObject jObj)
   {
     if (jObj == null) {
@@ -24,13 +31,13 @@ public class UnmodifiableJSONObject
   {
     __jObj = jObj;
   }
-  
+
   @Override
   public WritableJSONObject writableClone()
   {
     return __jObj.clone();
   }
-  
+
   @Override
   public Object get(String key)
       throws JSONException
