@@ -27,56 +27,78 @@ public abstract class MapBasedJSONObject
     if (string == null || string.length() == 0) {
       return "\"\"";
     }
+    StringBuilder sb = new StringBuilder(string.length() + 4);
+    sb.append('"');
+    try {
+      quote(string, sb);
+    } catch (IOException e) {
+      throw new RuntimeException("StringBuilder should not thrown an IOException", e);
+    }
+    sb.append('"');
+    return sb.toString();
+  }
 
+  /**
+   * Append a string with backslash sequences in all the right places. A backslash will be inserted
+   * within </, producing <\/, allowing JSON text to be delivered in HTML. In JSON text, a string
+   * cannot contain a control character or an unescaped quote or backslash.
+   * 
+   * @param string
+   *          A String
+   * @param buf
+   *          The Appendable that the escaped String will be appended onto.
+   * @throws IOException
+   *           if it is not possible to write to the buf
+   */
+  public static void quote(String string,
+                           Appendable buf)
+      throws IOException
+  {
     char b;
     char c = 0;
     String hhhh;
     int i;
     int len = string.length();
-    StringBuilder sb = new StringBuilder(len + 4);
 
-    sb.append('"');
     for (i = 0; i < len; i += 1) {
       b = c;
       c = string.charAt(i);
       switch (c) {
         case '\\':
         case '"':
-          sb.append('\\');
-          sb.append(c);
+          buf.append('\\');
+          buf.append(c);
           break;
         case '/':
           if (b == '<') {
-            sb.append('\\');
+            buf.append('\\');
           }
-          sb.append(c);
+          buf.append(c);
           break;
         case '\b':
-          sb.append("\\b");
+          buf.append("\\b");
           break;
         case '\t':
-          sb.append("\\t");
+          buf.append("\\t");
           break;
         case '\n':
-          sb.append("\\n");
+          buf.append("\\n");
           break;
         case '\f':
-          sb.append("\\f");
+          buf.append("\\f");
           break;
         case '\r':
-          sb.append("\\r");
+          buf.append("\\r");
           break;
         default:
           if (c < ' ' || (c >= '\u0080' && c < '\u00a0') || (c >= '\u2000' && c < '\u2100')) {
             hhhh = "000" + Integer.toHexString(c);
-            sb.append("\\u" + hhhh.substring(hhhh.length() - 4));
+            buf.append("\\u" + hhhh.substring(hhhh.length() - 4));
           } else {
-            sb.append(c);
+            buf.append(c);
           }
       }
     }
-    sb.append('"');
-    return sb.toString();
   }
 
   /**
@@ -398,7 +420,7 @@ public abstract class MapBasedJSONObject
     }
     Object object = opt(key);
     if (object == null) {
-      throw new JSONException("JSONObject[" + quote(key) + "] not found.");
+      throw new JSONException("JSONObject[" + quote(key) + "] not found in " + this);
     }
     return object;
   }
