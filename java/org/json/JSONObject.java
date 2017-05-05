@@ -320,6 +320,19 @@ public interface JSONObject
                           double defaultValue);
 
   /**
+   * Get the compulsory number as a Double Object throwing a JSONException if this is not possible.
+   */
+  public Double getDoubleObj(String key)
+      throws JSONException;
+
+  /**
+   * Get the optional number as a Double Object returning the optional defaultValue if this is not
+   * possible.
+   */
+  public Double optDoubleObj(String key,
+                             Double defaultValue);
+
+  /**
    * Get an optional int value associated with a key, or zero if there is no such key or if the
    * value is not a number. If the value is a string, an attempt will be made to evaluate it as a
    * number.

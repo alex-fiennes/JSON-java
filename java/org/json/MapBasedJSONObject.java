@@ -448,6 +448,42 @@ public abstract class MapBasedJSONObject
       throw new JSONException("JSONObject[" + quote(key) + "] is not a number.");
     }
   }
+  
+  public final Double optDoubleObj(String key, Double defaultValue)
+  {
+    Object object = opt(key);
+    if (object == null) {
+      return defaultValue;
+    }
+    if (object instanceof Double) {
+      return (Double) object;
+    }
+    if (object instanceof Number) {
+      return Double.valueOf(((Number) object).doubleValue());
+    }
+    try {
+      return Double.valueOf(Double.parseDouble(object.toString()));
+    } catch (NumberFormatException e) {
+      return defaultValue;
+    }
+  }
+
+  public final Double getDoubleObj(String key)
+      throws JSONException
+  {
+    Object object = get(key);
+    if (object instanceof Double) {
+      return (Double) object;
+    }
+    if (object instanceof Number) {
+      return Double.valueOf(((Number) object).doubleValue());
+    }
+    try {
+      return Double.valueOf(Double.parseDouble(object.toString()));
+    } catch (NumberFormatException e) {
+      throw new JSONException("JSONObject[" + quote(key) + "] is not a number.");
+    }
+  }
 
   /**
    * Get the int value associated with a key.

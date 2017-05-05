@@ -279,4 +279,18 @@ public class UnmodifiableJSONObject
     return __jObj.toString(indentFactor, indent);
   }
 
+  @Override
+  public Double getDoubleObj(String key)
+      throws JSONException
+  {
+    return __jObj.getDoubleObj(key);
+  }
+
+  @Override
+  public Double optDoubleObj(String key,
+                             Double defaultValue)
+  {
+    return __jObj.optDoubleObj(key, defaultValue);
+  }
+
 }
