@@ -7,7 +7,8 @@ import java.util.Map;
 public class UnmodifiableJSONObject
   extends AbstractUnmodifiableJSONObject
 {
-  private final static UnmodifiableJSONObject EMPTY = getInstance(new WritableJSONObject());
+  private final static UnmodifiableJSONObject EMPTY =
+      new UnmodifiableJSONObject(new WritableJSONObject());
 
   public static final UnmodifiableJSONObject emptyInstance()
   {
