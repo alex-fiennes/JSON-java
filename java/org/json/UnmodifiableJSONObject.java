@@ -28,6 +28,15 @@ public class UnmodifiableJSONObject
     return new UnmodifiableJSONObject((WritableJSONObject) jObj);
   }
 
+  public static UnmodifiableJSONObject getInstance(String source)
+      throws JSONException
+  {
+    if ("{}".equals(source)) {
+      return emptyInstance();
+    }
+    return new UnmodifiableJSONObject(new WritableJSONObject(source));
+  }
+
   private final WritableJSONObject __jObj;
 
   private UnmodifiableJSONObject(WritableJSONObject jObj)
