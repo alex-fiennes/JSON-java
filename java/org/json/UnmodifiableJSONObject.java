@@ -22,6 +22,9 @@ public class UnmodifiableJSONObject
     if (jObj instanceof UnmodifiableJSONObject) {
       return (UnmodifiableJSONObject) jObj;
     }
+    if (jObj.length() == 0) {
+      return emptyInstance();
+    }
     return new UnmodifiableJSONObject((WritableJSONObject) jObj);
   }
 
