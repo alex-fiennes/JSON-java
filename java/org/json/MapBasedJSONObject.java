@@ -111,17 +111,19 @@ public abstract class MapBasedJSONObject
    */
   public static Object stringToValue(String string)
   {
-    if (string.equals("")) {
-      return string;
-    }
-    if (string.equalsIgnoreCase("true")) {
-      return Boolean.TRUE;
-    }
-    if (string.equalsIgnoreCase("false")) {
-      return Boolean.FALSE;
-    }
-    if (string.equalsIgnoreCase("null")) {
-      return JSONObject.NULL;
+    switch (string.length()) {
+      case 0:
+        return string;
+      case 4:
+        if (string.equalsIgnoreCase("true")) {
+          return Boolean.TRUE;
+        }
+        if (string.equalsIgnoreCase("false")) {
+          return Boolean.FALSE;
+        }
+        if (string.equalsIgnoreCase("null")) {
+          return JSONObject.NULL;
+        }
     }
 
     /*
@@ -132,27 +134,42 @@ public abstract class MapBasedJSONObject
      */
 
     char b = string.charAt(0);
-    if ((b >= '0' && b <= '9') || b == '.' || b == '-' || b == '+') {
-      if (b == '0' && string.length() > 2 && (string.charAt(1) == 'x' || string.charAt(1) == 'X')) {
-        try {
-          return Integer.valueOf(Integer.parseInt(string.substring(2), 16));
-        } catch (Exception ignore) {
-        }
-      }
-      try {
-        if (string.indexOf('.') > -1 || string.indexOf('e') > -1 || string.indexOf('E') > -1) {
-          return Double.valueOf(string);
-        } else {
-          Long myLong = Long.valueOf(string);
-          if (myLong.longValue() == myLong.intValue()) {
-            return Integer.valueOf(myLong.intValue());
-          } else {
-            return myLong;
+
+    switch (b) {
+      case '0':
+        if (string.length() > 2 && (string.charAt(1) == 'x' || string.charAt(1) == 'X')) {
+          try {
+            return Integer.valueOf(Integer.parseInt(string.substring(2), 16));
+          } catch (Exception ignore) {
           }
         }
-      } catch (Exception ignore) {
-      }
+      case '1':
+      case '2':
+      case '3':
+      case '4':
+      case '5':
+      case '6':
+      case '7':
+      case '8':
+      case '9':
+      case '.':
+      case '-':
+      case '+':
+        try {
+          if (string.indexOf('.') > -1 || string.indexOf('e') > -1 || string.indexOf('E') > -1) {
+            return Double.valueOf(string);
+          } else {
+            long myLong = Long.parseLong(string);
+            if (myLong < Integer.MAX_VALUE & myLong > Integer.MIN_VALUE) {
+              return Integer.valueOf((int) myLong);
+            } else {
+              return Long.valueOf(myLong);
+            }
+          }
+        } catch (Exception ignore) {
+        }
     }
+
     return string;
   }
 
@@ -448,8 +465,10 @@ public abstract class MapBasedJSONObject
       throw new JSONException("JSONObject[" + quote(key) + "] is not a number.");
     }
   }
-  
-  public final Double optDoubleObj(String key, Double defaultValue)
+
+  @Override
+  public final Double optDoubleObj(String key,
+                                   Double defaultValue)
   {
     Object object = opt(key);
     if (object == null) {
@@ -468,6 +487,7 @@ public abstract class MapBasedJSONObject
     }
   }
 
+  @Override
   public final Double getDoubleObj(String key)
       throws JSONException
   {
@@ -770,7 +790,7 @@ public abstract class MapBasedJSONObject
       return (Integer) object;
     }
     if (object instanceof Number) {
-      return ((Number) object).intValue();
+      return Integer.valueOf(((Number) object).intValue());
     }
     try {
       Integer.parseInt(object.toString());
