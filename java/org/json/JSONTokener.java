@@ -229,7 +229,7 @@ public class JSONTokener {
     public char nextClean() throws JSONException {
         for (;;) {
             char c = next();
-            if (c == 0 || c > ' ') {
+            if (c > ' ' | c == 0) {
                 return c;
             }
         }
