@@ -1670,6 +1670,7 @@ public class Test extends TestCase {
             return "x";
         }
 
+        @Override
         public String toJSONString() {
             return "{" + WritableJSONObject.quote(this.aString) + ":" +
                     WritableJSONObject.doubleToString(this.aNumber) + "}";
