@@ -536,7 +536,6 @@ public interface JSONArray
    * @param indent
    *          The indention of the top level.
    * @return a printable, displayable, transmittable representation of the array.
-   * @throws JSONException
    */
   public String toString(int indentFactor,
                          int indent);

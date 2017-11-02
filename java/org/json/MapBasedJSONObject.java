@@ -900,8 +900,6 @@ public abstract class MapBasedJSONObject
    * @return a printable, displayable, portable, transmittable representation of the object,
    *         beginning with <code>{</code>&nbsp;<small>(left brace)</small> and ending with
    *         <code>}</code>&nbsp;<small>(right brace)</small>.
-   * @throws JSONException
-   *           If the object contains an invalid number.
    */
   @Override
   public final String toString(int indentFactor)

@@ -971,7 +971,6 @@ public class WritableJSONArray
    * @return a printable, displayable, transmittable representation of the object, beginning with
    *         <code>[</code>&nbsp;<small>(left bracket)</small> and ending with <code>]</code>
    *         &nbsp;<small>(right bracket)</small>.
-   * @throws JSONException
    */
   @Override
   public String toString(int indentFactor)
@@ -988,7 +987,6 @@ public class WritableJSONArray
    * @param indent
    *          The indention of the top level.
    * @return a printable, displayable, transmittable representation of the array.
-   * @throws JSONException
    */
   @Override
   public final String toString(int indentFactor,
