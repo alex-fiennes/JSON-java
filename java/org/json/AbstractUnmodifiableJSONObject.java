@@ -1,8 +1,5 @@
 package org.json;
 
-import java.util.Collection;
-import java.util.Map;
-
 /**
  * Abstract implementation of JSONObject that only implements final versions of
  * all the methods that change the state of the JSONOBject all of which are
@@ -45,13 +42,13 @@ public abstract class AbstractUnmodifiableJSONObject
     throw new UnsupportedOperationException();
   }
 
-  @Override
-  public final JSONObject put(String key,
-                              Collection<?> value)
-      throws JSONException
-  {
-    throw new UnsupportedOperationException();
-  }
+//  @Override
+//  public final JSONObject put(String key,
+//                              Collection<?> value)
+//      throws JSONException
+//  {
+//    throw new UnsupportedOperationException();
+//  }
 
   @Override
   public final JSONObject put(String key,
@@ -77,13 +74,13 @@ public abstract class AbstractUnmodifiableJSONObject
     throw new UnsupportedOperationException();
   }
 
-  @Override
-  public final JSONObject put(String key,
-                              Map<String, ?> value)
-      throws JSONException
-  {
-    throw new UnsupportedOperationException();
-  }
+//  @Override
+//  public final JSONObject put(String key,
+//                              Map<String, ?> value)
+//      throws JSONException
+//  {
+//    throw new UnsupportedOperationException();
+//  }
 
   @Override
   public final JSONObject put(String key,

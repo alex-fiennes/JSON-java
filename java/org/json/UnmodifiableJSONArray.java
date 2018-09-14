@@ -1,10 +1,8 @@
 package org.json;
 
 import java.io.Writer;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 public class UnmodifiableJSONArray
   implements JSONArray
@@ -27,11 +25,11 @@ public class UnmodifiableJSONArray
     __jArr = jArr;
   }
 
-  @Override
-  public WritableJSONArray writableClone()
-  {
-    return __jArr.clone();
-  }
+//  @Override
+//  public WritableJSONArray writableClone()
+//  {
+//    return __jArr.clone();
+//  }
 
   @Override
   public Object get(int index)
@@ -95,12 +93,12 @@ public class UnmodifiableJSONArray
     return __jArr.isNull(index);
   }
 
-  @Override
-  public String join(String separator)
-      throws JSONException
-  {
-    return __jArr.join(separator);
-  }
+//  @Override
+//  public String join(String separator)
+//      throws JSONException
+//  {
+//    return __jArr.join(separator);
+//  }
 
   @Override
   public int length()
@@ -197,11 +195,11 @@ public class UnmodifiableJSONArray
     throw new UnsupportedOperationException();
   }
 
-  @Override
-  public JSONArray put(Collection<?> value)
-  {
-    throw new UnsupportedOperationException();
-  }
+  // @Override
+  // public JSONArray put(Collection<?> value)
+  // {
+  // throw new UnsupportedOperationException();
+  // }
 
   @Override
   public JSONArray put(double value)
@@ -222,11 +220,11 @@ public class UnmodifiableJSONArray
     throw new UnsupportedOperationException();
   }
 
-  @Override
-  public JSONArray put(Map<String, ?> value)
-  {
-    throw new UnsupportedOperationException();
-  }
+  // @Override
+  // public JSONArray put(Map<String, ?> value)
+  // {
+  // throw new UnsupportedOperationException();
+  // }
 
   @Override
   public JSONArray put(Object value)
@@ -242,13 +240,13 @@ public class UnmodifiableJSONArray
     throw new UnsupportedOperationException();
   }
 
-  @Override
-  public JSONArray put(int index,
-                       Collection<?> value)
-      throws JSONException
-  {
-    throw new UnsupportedOperationException();
-  }
+  // @Override
+  // public JSONArray put(int index,
+  // Collection<?> value)
+  // throws JSONException
+  // {
+  // throw new UnsupportedOperationException();
+  // }
 
   @Override
   public JSONArray put(int index,
@@ -274,13 +272,13 @@ public class UnmodifiableJSONArray
     throw new UnsupportedOperationException();
   }
 
-  @Override
-  public JSONArray put(int index,
-                       Map<String, ?> value)
-      throws JSONException
-  {
-    throw new UnsupportedOperationException();
-  }
+  // @Override
+  // public JSONArray put(int index,
+  // Map<String, ?> value)
+  // throws JSONException
+  // {
+  // throw new UnsupportedOperationException();
+  // }
 
   @Override
   public JSONArray put(int index,
@@ -296,12 +294,12 @@ public class UnmodifiableJSONArray
     throw new UnsupportedOperationException();
   }
 
-  @Override
-  public JSONObject toJSONObject(JSONArray names)
-      throws JSONException
-  {
-    return UnmodifiableJSONObject.getInstance(__jArr.toJSONObject(names));
-  }
+  // @Override
+  // public JSONObject toJSONObject(JSONArray names)
+  // throws JSONException
+  // {
+  // return UnmodifiableJSONObject.getInstance(__jArr.toJSONObject(names));
+  // }
 
   @Override
   public boolean remove(Object obj)
@@ -383,6 +381,13 @@ public class UnmodifiableJSONArray
                          int indent)
   {
     return __jArr.toString(indentFactor, indent);
+  }
+
+  @Override
+  public <A extends JSONArray, O extends JSONObject> A clone(JSONBuilder<A, O> builder)
+      throws JSONException
+  {
+    return JSONArrays.clone(__jArr.getBackingList(), builder);
   }
 
 }

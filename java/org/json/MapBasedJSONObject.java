@@ -3,7 +3,6 @@ package org.json;
 import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.Field;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeSet;
@@ -30,147 +29,12 @@ public abstract class MapBasedJSONObject
     StringBuilder sb = new StringBuilder(string.length() + 4);
     sb.append('"');
     try {
-      quote(string, sb);
+      JSONObjects.quote(string, sb);
     } catch (IOException e) {
       throw new RuntimeException("StringBuilder should not thrown an IOException", e);
     }
     sb.append('"');
     return sb.toString();
-  }
-
-  /**
-   * Append a string with backslash sequences in all the right places. A backslash will be inserted
-   * within </, producing <\/, allowing JSON text to be delivered in HTML. In JSON text, a string
-   * cannot contain a control character or an unescaped quote or backslash.
-   * 
-   * @param string
-   *          A String
-   * @param buf
-   *          The Appendable that the escaped String will be appended onto.
-   * @throws IOException
-   *           if it is not possible to write to the buf
-   */
-  public static void quote(String string,
-                           Appendable buf)
-      throws IOException
-  {
-    char b;
-    char c = 0;
-    String hhhh;
-    int i;
-    int len = string.length();
-
-    for (i = 0; i < len; i += 1) {
-      b = c;
-      c = string.charAt(i);
-      switch (c) {
-        case '\\':
-        case '"':
-          buf.append('\\');
-          buf.append(c);
-          break;
-        case '/':
-          if (b == '<') {
-            buf.append('\\');
-          }
-          buf.append(c);
-          break;
-        case '\b':
-          buf.append("\\b");
-          break;
-        case '\t':
-          buf.append("\\t");
-          break;
-        case '\n':
-          buf.append("\\n");
-          break;
-        case '\f':
-          buf.append("\\f");
-          break;
-        case '\r':
-          buf.append("\\r");
-          break;
-        default:
-          if (c < ' ' || (c >= '\u0080' && c < '\u00a0') || (c >= '\u2000' && c < '\u2100')) {
-            hhhh = "000" + Integer.toHexString(c);
-            buf.append("\\u" + hhhh.substring(hhhh.length() - 4));
-          } else {
-            buf.append(c);
-          }
-      }
-    }
-  }
-
-  /**
-   * Try to convert a string into a number, boolean, or null. If the string can't be converted,
-   * return the string.
-   * 
-   * @param string
-   *          A String.
-   * @return A simple JSON value.
-   */
-  public static Object stringToValue(String string)
-  {
-    switch (string.length()) {
-      case 0:
-        return string;
-      case 4:
-        if (string.equalsIgnoreCase("true")) {
-          return Boolean.TRUE;
-        }
-        if (string.equalsIgnoreCase("false")) {
-          return Boolean.FALSE;
-        }
-        if (string.equalsIgnoreCase("null")) {
-          return JSONObject.NULL;
-        }
-    }
-
-    /*
-     * If it might be a number, try converting it. We support the non-standard 0x- convention. If a
-     * number cannot be produced, then the value will just be a string. Note that the 0x-, plus, and
-     * implied string conventions are non-standard. A JSON parser may accept non-JSON forms as long
-     * as it accepts all correct JSON forms.
-     */
-
-    char b = string.charAt(0);
-
-    switch (b) {
-      case '0':
-        if (string.length() > 2 && (string.charAt(1) == 'x' || string.charAt(1) == 'X')) {
-          try {
-            return Integer.valueOf(Integer.parseInt(string.substring(2), 16));
-          } catch (Exception ignore) {
-          }
-        }
-      case '1':
-      case '2':
-      case '3':
-      case '4':
-      case '5':
-      case '6':
-      case '7':
-      case '8':
-      case '9':
-      case '.':
-      case '-':
-      case '+':
-        try {
-          if (string.indexOf('.') > -1 || string.indexOf('e') > -1 || string.indexOf('E') > -1) {
-            return Double.valueOf(string);
-          } else {
-            long myLong = Long.parseLong(string);
-            if (myLong < Integer.MAX_VALUE & myLong > Integer.MIN_VALUE) {
-              return Integer.valueOf((int) myLong);
-            } else {
-              return Long.valueOf(myLong);
-            }
-          }
-        } catch (Exception ignore) {
-        }
-    }
-
-    return string;
   }
 
   /**
@@ -306,6 +170,8 @@ public abstract class MapBasedJSONObject
   }
 
   public static Writer write(JSONObject jObj,
+                             // Supplier<? extends JSONObjectBuilder> jsonObjectBuilderSupplier,
+                             // Supplier<? extends JSONArrayBuilder> jsonArrayBuilderSupplier,
                              Writer writer)
       throws JSONException
   {
@@ -327,7 +193,8 @@ public abstract class MapBasedJSONObject
         } else if (value instanceof JSONArray) {
           ((JSONArray) value).write(writer);
         } else {
-          writer.write(WritableJSONObject.valueToString(value));
+          writer.write(valueToString(value));
+          // , jsonObjectBuilderSupplier, jsonArrayBuilderSupplier));
         }
         commanate = true;
       }
@@ -339,6 +206,8 @@ public abstract class MapBasedJSONObject
   }
 
   public static String toString(JSONObject jObj)
+  // Supplier<? extends JSONObjectBuilder> jsonObjectBuilderSupplier,
+  // Supplier<? extends JSONArrayBuilder> jsonArrayBuilderSupplier)
   {
     try {
       Iterator<String> keys = jObj.keys();
@@ -352,6 +221,8 @@ public abstract class MapBasedJSONObject
         sb.append(quote(string));
         sb.append(':');
         sb.append(valueToString(jObj.opt(string)));
+        // jsonObjectBuilderSupplier,
+        // jsonArrayBuilderSupplier));
       }
       sb.append('}');
       return sb.toString();
@@ -886,8 +757,11 @@ public abstract class MapBasedJSONObject
    */
   @Override
   public final String toString()
+  // (Supplier<JSONObjectBuilder> jsonObjectBuilderSupplier,
+  // Supplier<JSONArrayBuilder> jsonArrayBuilderSupplier)
   {
     return toString(this);
+    // , jsonObjectBuilderSupplier, jsonArrayBuilderSupplier);
   }
 
   /**
@@ -997,6 +871,8 @@ public abstract class MapBasedJSONObject
    *           If the value is or contains an invalid number.
    */
   public static String valueToString(Object value)
+      // Supplier<? extends JSONObjectBuilder> jsonObjectBuilderSupplier,
+      // Supplier<? extends JSONArrayBuilder> jsonArrayBuilderSupplier)
       throws JSONException
   {
     if (value == null || value.equals(null)) {
@@ -1020,15 +896,27 @@ public abstract class MapBasedJSONObject
     if (value instanceof Boolean || value instanceof JSONObject || value instanceof JSONArray) {
       return value.toString();
     }
-    if (value instanceof Map<?, ?>) {
-      return new WritableJSONObject((Map<?, ?>) value).toString();
-    }
-    if (value instanceof Collection<?>) {
-      return new WritableJSONArray((Collection<?>) value).toString();
-    }
-    if (value.getClass().isArray()) {
-      return new WritableJSONArray(value).toString();
-    }
+    // if (value instanceof Map<?, ?>) {
+    // JSONObjectBuilder builder = jsonObjectBuilderSupplier.get();
+    // for (Map.Entry<?, ?> entry : ((Map<?, ?>) value).entrySet()) {
+    // builder.putOnce(entry.getKey().toString(), entry.getValue());
+    // }
+    // return builder.build().toString();
+    // }
+    // if (value instanceof Collection<?>) {
+    // JSONArrayBuilder builder = jsonArrayBuilderSupplier.get();
+    // for (Object v : ((Collection<?>) value)) {
+    // builder.put(v);
+    // }
+    // return builder.build().toString();
+    // }
+    // if (value.getClass().isArray()) {
+    // JSONArrayBuilder builder = jsonArrayBuilderSupplier.get();
+    // for (Object v : ((Object[]) value)) {
+    // builder.put(v);
+    // }
+    // return builder.build().toString();
+    // }
     return quote(value.toString());
   }
 
@@ -1078,33 +966,33 @@ public abstract class MapBasedJSONObject
     if (value instanceof JSONArray) {
       return ((JSONArray) value).toString(indentFactor, indent);
     }
-    if (value instanceof Map<?, ?>) {
-      return new WritableJSONObject((Map<?, ?>) value).toString(indentFactor, indent);
-    }
-    if (value instanceof Collection<?>) {
-      return new WritableJSONArray((Collection<?>) value).toString(indentFactor, indent);
-    }
-    if (value.getClass().isArray()) {
-      return new WritableJSONArray(value).toString(indentFactor, indent);
-    }
+    // if (value instanceof Map<?, ?>) {
+    // return new WritableJSONObject((Map<?, ?>) value).toString(indentFactor, indent);
+    // }
+    // if (value instanceof Collection<?>) {
+    // return new WritableJSONArray((Collection<?>) value).toString(indentFactor, indent);
+    // }
+    // if (value.getClass().isArray()) {
+    // return new WritableJSONArray(value).toString(indentFactor, indent);
+    // }
     return quote(value.toString());
   }
 
-  /**
-   * Write the contents of the JSONObject as JSON text to a writer. For compactness, no whitespace
-   * is added.
-   * <p>
-   * Warning: This method assumes that the data structure is acyclical.
-   * 
-   * @return The writer.
-   * @throws JSONException
-   */
-  @Override
-  public final Writer write(Writer writer)
-      throws JSONException
-  {
-    return MapBasedJSONObject.write(this, writer);
-  }
+  // /**
+  // * Write the contents of the JSONObject as JSON text to a writer. For compactness, no whitespace
+  // * is added.
+  // * <p>
+  // * Warning: This method assumes that the data structure is acyclical.
+  // *
+  // * @return The writer.
+  // * @throws JSONException
+  // */
+  // @Override
+  // public final Writer write(Writer writer)
+  // throws JSONException
+  // {
+  // return MapBasedJSONObject.write(this, writer);
+  // }
 
   /**
    * Get an optional JSONArray associated with a key. It returns null if there is no such key, or if
@@ -1176,6 +1064,13 @@ public abstract class MapBasedJSONObject
       ja.put(jObj.opt(names.getString(i)));
     }
     return ja;
+  }
+
+  @Override
+  public <A extends JSONArray, O extends JSONObject> O clone(JSONBuilder<A, O> builder)
+      throws JSONException
+  {
+    return JSONObjects.clone(getMap(), builder);
   }
 
 }

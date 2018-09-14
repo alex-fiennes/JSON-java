@@ -1,20 +1,20 @@
 package org.json;
 
-import java.io.Writer;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 public interface JSONArray
-  extends Iterable<Object>
+  extends Iterable<Object>, JSONComponent
 {
   @Override
   public Iterator<Object> iterator();
 
   public boolean equalsList(List<Object> list);
 
-  public WritableJSONArray writableClone();
+//  public WritableJSONArray writableClone();
+
+  public <A extends JSONArray, O extends JSONObject> A clone(JSONBuilder<A, O> builder)
+      throws JSONException;
 
   /**
    * Get the object value associated with an index.
@@ -122,19 +122,19 @@ public interface JSONArray
    */
   public boolean isNull(int index);
 
-  /**
-   * Make a string from the contents of this JSONArray. The <code>separator</code> string is
-   * inserted between each element. Warning: This method assumes that the data structure is
-   * acyclical.
-   * 
-   * @param separator
-   *          A string that will be inserted between the elements.
-   * @return a string.
-   * @throws JSONException
-   *           If the array contains an invalid number.
-   */
-  public String join(String separator)
-      throws JSONException;
+//  /**
+//   * Make a string from the contents of this JSONArray. The <code>separator</code> string is
+//   * inserted between each element. Warning: This method assumes that the data structure is
+//   * acyclical.
+//   * 
+//   * @param separator
+//   *          A string that will be inserted between the elements.
+//   * @return a string.
+//   * @throws JSONException
+//   *           If the array contains an invalid number.
+//   */
+//  public String join(String separator)
+//      throws JSONException;
 
   /**
    * Get the number of elements in the JSONArray, included nulls.
@@ -298,15 +298,15 @@ public interface JSONArray
    */
   public JSONArray put(boolean value);
 
-  /**
-   * Put a value in the JSONArray, where the value will be a JSONArray which is produced from a
-   * Collection.
-   * 
-   * @param value
-   *          A Collection value.
-   * @return this.
-   */
-  public JSONArray put(Collection<?> value);
+  // /**
+  // * Put a value in the JSONArray, where the value will be a JSONArray which is produced from a
+  // * Collection.
+  // *
+  // * @param value
+  // * A Collection value.
+  // * @return this.
+  // */
+  // public JSONArray put(Collection<?> value);
 
   /**
    * Append a double value. This increases the array's length by one.
@@ -338,15 +338,15 @@ public interface JSONArray
    */
   public JSONArray put(long value);
 
-  /**
-   * Put a value in the JSONArray, where the value will be a JSONObject which is produced from a
-   * Map.
-   * 
-   * @param value
-   *          A Map value.
-   * @return this.
-   */
-  public JSONArray put(Map<String, ?> value);
+  // /**
+  // * Put a value in the JSONArray, where the value will be a JSONObject which is produced from a
+  // * Map.
+  // *
+  // * @param value
+  // * A Map value.
+  // * @return this.
+  // */
+  // public JSONArray put(Map<String, ?> value);
 
   /**
    * Append an object value. This increases the array's length by one.
@@ -374,21 +374,21 @@ public interface JSONArray
                        boolean value)
       throws JSONException;
 
-  /**
-   * Put a value in the JSONArray, where the value will be a JSONArray which is produced from a
-   * Collection.
-   * 
-   * @param index
-   *          The subscript.
-   * @param value
-   *          A Collection value.
-   * @return this.
-   * @throws JSONException
-   *           If the index is negative or if the value is not finite.
-   */
-  public JSONArray put(int index,
-                       Collection<?> value)
-      throws JSONException;
+  // /**
+  // * Put a value in the JSONArray, where the value will be a JSONArray which is produced from a
+  // * Collection.
+  // *
+  // * @param index
+  // * The subscript.
+  // * @param value
+  // * A Collection value.
+  // * @return this.
+  // * @throws JSONException
+  // * If the index is negative or if the value is not finite.
+  // */
+  // public JSONArray put(int index,
+  // Collection<?> value)
+  // throws JSONException;
 
   /**
    * Put or replace a double value. If the index is greater than the length of the JSONArray, then
@@ -438,21 +438,21 @@ public interface JSONArray
                        long value)
       throws JSONException;
 
-  /**
-   * Put a value in the JSONArray, where the value will be a JSONObject which is produced from a
-   * Map.
-   * 
-   * @param index
-   *          The subscript.
-   * @param value
-   *          The Map value.
-   * @return this.
-   * @throws JSONException
-   *           If the index is negative or if the the value is an invalid number.
-   */
-  public JSONArray put(int index,
-                       Map<String, ?> value)
-      throws JSONException;
+  // /**
+  // * Put a value in the JSONArray, where the value will be a JSONObject which is produced from a
+  // * Map.
+  // *
+  // * @param index
+  // * The subscript.
+  // * @param value
+  // * The Map value.
+  // * @return this.
+  // * @throws JSONException
+  // * If the index is negative or if the the value is an invalid number.
+  // */
+  // public JSONArray put(int index,
+  // Map<String, ?> value)
+  // throws JSONException;
 
   /**
    * Put or replace an object value in the JSONArray. If the index is greater than the length of the
@@ -489,68 +489,17 @@ public interface JSONArray
    */
   public boolean remove(Object obj);
 
-  /**
-   * Produce a JSONObject by combining a JSONArray of names with the values of this JSONArray.
-   * 
-   * @param names
-   *          A JSONArray containing a list of key strings. These will be paired with the values.
-   * @return A JSONObject, or null if there are no names or if this JSONArray has no values.
-   * @throws JSONException
-   *           If any of the names are null.
-   */
-  public JSONObject toJSONObject(JSONArray names)
-      throws JSONException;
-
-  /**
-   * Make a JSON text of this JSONArray. For compactness, no unnecessary whitespace is added. If it
-   * is not possible to produce a syntactically correct JSON text then null will be returned
-   * instead. This could occur if the array contains an invalid number.
-   * <p>
-   * Warning: This method assumes that the data structure is acyclical.
-   * 
-   * @return a printable, displayable, transmittable representation of the array.
-   */
-  @Override
-  public String toString();
-
-  /**
-   * Make a prettyprinted JSON text of this JSONArray. Warning: This method assumes that the data
-   * structure is acyclical.
-   * 
-   * @param indentFactor
-   *          The number of spaces to add to each level of indentation.
-   * @return a printable, displayable, transmittable representation of the object, beginning with
-   *         <code>[</code>&nbsp;<small>(left bracket)</small> and ending with <code>]</code>
-   *         &nbsp;<small>(right bracket)</small>.
-   * @throws RuntimeException
-   *           if there is an unformattable item inside the JSONArray.
-   */
-  public String toString(int indentFactor);
-
-  /**
-   * Make a prettyprinted JSON text of this JSONArray. Warning: This method assumes that the data
-   * structure is acyclical.
-   * 
-   * @param indentFactor
-   *          The number of spaces to add to each level of indentation.
-   * @param indent
-   *          The indention of the top level.
-   * @return a printable, displayable, transmittable representation of the array.
-   */
-  public String toString(int indentFactor,
-                         int indent);
-
-  /**
-   * Write the contents of the JSONArray as JSON text to a writer. For compactness, no whitespace is
-   * added.
-   * <p>
-   * Warning: This method assumes that the data structure is acyclical.
-   * 
-   * @return The writer.
-   * @throws JSONException
-   */
-  public Writer write(Writer writer)
-      throws JSONException;
+  // /**
+  // * Produce a JSONObject by combining a JSONArray of names with the values of this JSONArray.
+  // *
+  // * @param names
+  // * A JSONArray containing a list of key strings. These will be paired with the values.
+  // * @return A JSONObject, or null if there are no names or if this JSONArray has no values.
+  // * @throws JSONException
+  // * If any of the names are null.
+  // */
+  // public JSONObject toJSONObject(JSONArray names)
+  // throws JSONException;
 
   public int indexOf(Object value);
 }

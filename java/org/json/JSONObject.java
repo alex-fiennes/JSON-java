@@ -1,11 +1,10 @@
 package org.json;
 
-import java.io.Writer;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
 public interface JSONObject
+  extends JSONComponent
 {
   /**
    * JSONObject.NULL is equivalent to the value that JavaScript calls null, whilst Java's null is
@@ -73,7 +72,10 @@ public interface JSONObject
 
   public boolean equalsMap(Map<String, Object> map);
 
-  public WritableJSONObject writableClone();
+//  public WritableJSONObject writableClone();
+
+  public <A extends JSONArray, O extends JSONObject> O clone(JSONBuilder<A, O> builder)
+      throws JSONException;
 
   /**
    * Accumulate values under a key. It is similar to the put method except that if there is already
@@ -454,20 +456,20 @@ public interface JSONObject
                         boolean value)
       throws JSONException;
 
-  /**
-   * Put a key/value pair in the JSONObject, where the value will be a JSONArray which is produced
-   * from a Collection.
-   * 
-   * @param key
-   *          A key string.
-   * @param value
-   *          A Collection value.
-   * @return this.
-   * @throws JSONException
-   */
-  public JSONObject put(String key,
-                        Collection<?> value)
-      throws JSONException;
+  // /**
+  // * Put a key/value pair in the JSONObject, where the value will be a JSONArray which is produced
+  // * from a Collection.
+  // *
+  // * @param key
+  // * A key string.
+  // * @param value
+  // * A Collection value.
+  // * @return this.
+  // * @throws JSONException
+  // */
+  // public JSONObject put(String key,
+  // Collection<?> value)
+  // throws JSONException;
 
   /**
    * Put a key/double pair in the JSONObject.
@@ -514,20 +516,21 @@ public interface JSONObject
                         long value)
       throws JSONException;
 
-  /**
-   * Put a key/value pair in the JSONObject, where the value will be a JSONObject which is produced
-   * from a Map.
-   * 
-   * @param key
-   *          A key string.
-   * @param value
-   *          A Map value.
-   * @return this.
-   * @throws JSONException
-   */
-  public JSONObject put(String key,
-                        Map<String, ?> value)
-      throws JSONException;
+  // /**
+  // * Put a key/value pair in the JSONObject, where the value will be a JSONObject which is
+  // produced
+  // * from a Map.
+  // *
+  // * @param key
+  // * A key string.
+  // * @param value
+  // * A Map value.
+  // * @return this.
+  // * @throws JSONException
+  // */
+  // public JSONObject put(String key,
+  // Map<String, ?> value)
+  // throws JSONException;
 
   /**
    * Put a key/value pair in the JSONObject. If the value is null, then the key will be removed from
@@ -603,62 +606,6 @@ public interface JSONObject
    *           If any of the values are non-finite numbers.
    */
   public JSONArray toJSONArray(JSONArray names)
-      throws JSONException;
-
-  /**
-   * Make a JSON text of this JSONObject. For compactness, no whitespace is added. If this would not
-   * result in a syntactically correct JSON text, then null will be returned instead.
-   * <p>
-   * Warning: This method assumes that the data structure is acyclical.
-   * 
-   * @return a printable, displayable, portable, transmittable representation of the object,
-   *         beginning with <code>{</code>&nbsp;<small>(left brace)</small> and ending with
-   *         <code>}</code>&nbsp;<small>(right brace)</small>.
-   */
-  @Override
-  public String toString();
-
-  /**
-   * Make a prettyprinted JSON text of this JSONObject.
-   * <p>
-   * Warning: This method assumes that the data structure is acyclical.
-   * 
-   * @param indentFactor
-   *          The number of spaces to add to each level of indentation.
-   * @return a printable, displayable, portable, transmittable representation of the object,
-   *         beginning with <code>{</code>&nbsp;<small>(left brace)</small> and ending with
-   *         <code>}</code>&nbsp;<small>(right brace)</small>.
-   */
-  public String toString(int indentFactor);
-
-  /**
-   * Make a prettyprinted JSON text of this JSONObject.
-   * <p>
-   * Warning: This method assumes that the data structure is acyclical.
-   * 
-   * @param indentFactor
-   *          The number of spaces to add to each level of indentation.
-   * @param indent
-   *          The indentation of the top level.
-   * @return a printable, displayable, transmittable representation of the object, beginning with
-   *         <code>{</code>&nbsp;<small>(left brace)</small> and ending with <code>}</code>
-   *         &nbsp;<small>(right brace)</small>.
-   * @throws RuntimeException
-   *           If the object contains an invalid number.
-   */
-  public String toString(int indentFactor,
-                         int indent);
-
-  /**
-   * Write the contents of the JSONObject as JSON text to a writer. For compactness, no whitespace
-   * is added.
-   * <p>
-   * Warning: This method assumes that the data structure is acyclical.
-   * 
-   * @return The writer.
-   * @throws JSONException
-   */
-  public Writer write(Writer writer)
       throws JSONException;
 
 }

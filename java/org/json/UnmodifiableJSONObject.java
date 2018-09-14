@@ -35,7 +35,7 @@ public class UnmodifiableJSONObject
     if ("{}".equals(source)) {
       return emptyInstance();
     }
-    return new UnmodifiableJSONObject(new WritableJSONObject(source));
+    return new UnmodifiableJSONObject(WritableJSONBuilder.getInstance().toJSONObject(source));
   }
 
   private final WritableJSONObject __jObj;
@@ -45,11 +45,11 @@ public class UnmodifiableJSONObject
     __jObj = jObj;
   }
 
-  @Override
-  public WritableJSONObject writableClone()
-  {
-    return __jObj.clone();
-  }
+  // @Override
+  // public WritableJSONObject writableClone()
+  // {
+  // return __jObj.clone();
+  // }
 
   @Override
   public Object get(String key)
@@ -304,6 +304,13 @@ public class UnmodifiableJSONObject
                              Double defaultValue)
   {
     return __jObj.optDoubleObj(key, defaultValue);
+  }
+
+  @Override
+  public <A extends JSONArray, O extends JSONObject> O clone(JSONBuilder<A, O> builder)
+      throws JSONException
+  {
+    return JSONObjects.clone(__jObj.getMap(), builder);
   }
 
 }
