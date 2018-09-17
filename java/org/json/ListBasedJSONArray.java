@@ -289,7 +289,7 @@ public abstract class ListBasedJSONArray
       throws JSONException
   {
     Object object = get(index);
-    return object == JSONObject.NULL ? null : object.toString();
+    return Null.getInstance().equals(object) ? null : object.toString();
   }
 
   /**
@@ -302,7 +302,7 @@ public abstract class ListBasedJSONArray
   @Override
   public boolean isNull(int index)
   {
-    return JSONObject.NULL.equals(opt(index));
+    return Null.getInstance().equals(opt(index));
   }
 
   // /**
@@ -822,7 +822,7 @@ public abstract class ListBasedJSONArray
       this.__backingList.set(index, value);
     } else {
       while (index != length()) {
-        put(JSONObject.NULL);
+        put(Null.getInstance());
       }
       put(value);
     }

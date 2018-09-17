@@ -90,7 +90,7 @@ public class JSONObjects
           return Boolean.FALSE;
         }
         if (string.equalsIgnoreCase("null")) {
-          return JSONObject.NULL;
+          return Null.getInstance();
         }
     }
 

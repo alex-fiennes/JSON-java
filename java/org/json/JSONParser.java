@@ -66,7 +66,7 @@ public class JSONParser
       for (;;) {
         if (x.nextClean() == ',') {
           x.back();
-          builder.put(JSONObject.NULL);
+          builder.put(Null.getInstance());
         } else {
           x.back();
           builder.put(x.nextValue());

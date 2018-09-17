@@ -74,14 +74,13 @@ public class JSONUtils
    * @return obj or null if obj equalled NULL
    * @throws NullPointerException
    *           if obj was null
-   * @see JSONObject#NULL
    */
   public static Object stripNULL(Object obj)
   {
     if (obj == null) {
       throw new NullPointerException();
     }
-    if (JSONObject.NULL.equals(obj)) {
+    if (Null.getInstance().equals(obj)) {
       return null;
     }
     return obj;

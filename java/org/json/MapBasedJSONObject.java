@@ -476,7 +476,7 @@ public abstract class MapBasedJSONObject
       throws JSONException
   {
     Object object = get(key);
-    return object == JSONObject.NULL ? null : object.toString();
+    return Null.getInstance().equals(object) ? null : object.toString();
   }
 
   /**
@@ -503,7 +503,7 @@ public abstract class MapBasedJSONObject
   @Override
   public final boolean isNull(String key)
   {
-    return JSONObject.NULL.equals(opt(key));
+    return Null.getInstance().equals(opt(key));
   }
 
   /**
@@ -742,7 +742,7 @@ public abstract class MapBasedJSONObject
                                 String defaultValue)
   {
     Object object = opt(key);
-    return JSONObject.NULL.equals(object) ? defaultValue : object.toString();
+    return Null.getInstance().equals(object) ? defaultValue : object.toString();
   }
 
   /**

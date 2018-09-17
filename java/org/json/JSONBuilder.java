@@ -45,7 +45,7 @@ public abstract class JSONBuilder<A extends JSONArray, O extends JSONObject>
       throws JSONException
   {
     if (object == null) {
-      return JSONObject.NULL;
+      return Null.getInstance();
     }
     if (object instanceof JSONObject) {
       return ((JSONObject) object).clone(this);
@@ -56,7 +56,7 @@ public abstract class JSONBuilder<A extends JSONArray, O extends JSONObject>
     if (object instanceof JSONString || object instanceof Byte || object instanceof Character
         || object instanceof Short || object instanceof Integer || object instanceof Long
         || object instanceof Boolean || object instanceof Float || object instanceof Double
-        || object instanceof String || object instanceof JSONObject.Null) {
+        || object instanceof String || object instanceof Null) {
       return object;
     }
 
