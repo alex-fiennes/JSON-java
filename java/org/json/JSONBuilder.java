@@ -2,6 +2,7 @@ package org.json;
 
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.Iterator;
 
 import com.google.common.base.Preconditions;
 
@@ -86,6 +87,36 @@ public abstract class JSONBuilder<A extends JSONArray, O extends JSONObject>
   {
     return source.clone(this);
   }
+  
+  public A toJSONArray(Iterable<?> values)
+  {
+    JSONArrayBuilder<A> jsonArrayBuilder = createJSONArrayBuilder();
+    Iterator<?> i = values.iterator();
+    while (i.hasNext()) {
+      Object value = i.next();
+      try {
+        jsonArrayBuilder.put(value);
+      } catch (JSONException e) {
+        throw new JSONLogicException(String.format("Unable to clone %s from %s", value, values));
+      }
+    }
+    return jsonArrayBuilder.build();
+  }
+
+  public A toJSONArray(JSONArray source)
+  {
+    JSONArrayBuilder<A> jsonArrayBuilder = createJSONArrayBuilder();
+    final int length = source.length();
+    for (int i = 0; i < length; i++) {
+      Object value = source.opt(i);
+      try {
+        jsonArrayBuilder.put(value);
+      } catch (JSONException e) {
+        throw new JSONLogicException(String.format("Unable to clone %s from %s", value, source));
+      }
+    }
+    return jsonArrayBuilder.build();
+  }
 
   public A toJSONArray(JSONTokener<A, O> source)
       throws JSONException
@@ -111,6 +142,22 @@ public abstract class JSONBuilder<A extends JSONArray, O extends JSONObject>
       throws JSONException
   {
     return source.clone(this);
+  }
+
+  public O toJSONObject(JSONObject source)
+  {
+    JSONObjectBuilder<O> jsonObjectBuilder = createJSONObjectBuilder();
+    Iterator<String> keys = source.keys();
+    while (keys.hasNext()) {
+      String key = keys.next();
+      Object value = source.opt(key);
+      try {
+        jsonObjectBuilder.putOnce(key, value);
+      } catch (JSONException e) {
+        throw new JSONLogicException(String.format("Unable to clone %s from %s", value, source));
+      }
+    }
+    return jsonObjectBuilder.build();
   }
 
   public O toJSONObject(JSONTokener<A, O> source)
