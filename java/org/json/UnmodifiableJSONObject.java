@@ -35,7 +35,7 @@ public class UnmodifiableJSONObject
     if ("{}".equals(source)) {
       return emptyInstance();
     }
-    return new UnmodifiableJSONObject(WritableJSONBuilder.getInstance().toJSONObject(source));
+    return new UnmodifiableJSONObject(WritableJSON.get().toJSONObject(source));
   }
 
   private final WritableJSONObject __jObj;

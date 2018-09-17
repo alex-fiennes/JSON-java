@@ -60,12 +60,12 @@ public class WritableJSONObject
   implements Cloneable
 {
   /**
-   * @see WritableJSONBuilder#toJSONObject(String)
+   * @see WritableJSON#toJSONObject(String)
    */
   public static WritableJSONObject create(String source)
       throws JSONException
   {
-    return WritableJSONBuilder.getInstance().toJSONObject(source);
+    return WritableJSON.get().toJSONObject(source);
   }
 
   /**
@@ -724,7 +724,7 @@ public class WritableJSONObject
                            Object value)
         throws JSONException
     {
-      __builder.put(key, WritableJSONBuilder.getInstance().wrap(value));
+      __builder.put(key, WritableJSON.get().wrap(value));
       return this;
     }
   }

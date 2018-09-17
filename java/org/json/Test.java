@@ -111,7 +111,7 @@ public class Test
     System.out.println(jObj.getClass());
     System.out.println(jObj.get("a").getClass());
     System.out.println(jObj.getJSONObject("a").getJSONArray("c").getClass());
-    jObj = WritableJSONBuilder.getInstance().clone(jObj);
+    jObj = WritableJSON.get().clone(jObj);
     System.out.println(jObj);
     System.out.println(jObj.getClass());
     System.out.println(jObj.get("a").getClass());

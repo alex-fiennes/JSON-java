@@ -1,16 +1,16 @@
 package org.json;
 
-public class WritableJSONBuilder
+public class WritableJSON
   extends JSONBuilder<WritableJSONArray, WritableJSONObject>
 {
-  private static final WritableJSONBuilder INSTANCE = new WritableJSONBuilder();
+  private static final WritableJSON INSTANCE = new WritableJSON();
 
-  public static final WritableJSONBuilder getInstance()
+  public static final WritableJSON get()
   {
     return INSTANCE;
   }
 
-  private WritableJSONBuilder()
+  private WritableJSON()
   {
     super(WritableJSONArray.class,
           WritableJSONObject.class);
