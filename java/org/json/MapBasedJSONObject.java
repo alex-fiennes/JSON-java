@@ -94,18 +94,14 @@ public abstract class MapBasedJSONObject
 
   public static String toString(MapBasedJSONObject jObj)
   {
-    try {
-      StringBuilder sb = new StringBuilder("{");
-      for (Entry<String, Object> entry : jObj.getMap().entrySet()) {
-        sb.append(JSONComponents.quote(entry.getKey()));
-        sb.append(':');
-        sb.append(JSONComponents.valueToString(entry.getValue()));
-      }
-      sb.append("}");
-      return sb.toString();
-    } catch (JSONException e) {
-      throw new RuntimeException("Unexpected Serialisation Error", e);
+    StringBuilder sb = new StringBuilder("{");
+    for (Entry<String, Object> entry : jObj.getMap().entrySet()) {
+      sb.append(JSONComponents.quote(entry.getKey()));
+      sb.append(':');
+      sb.append(JSONComponents.valueToString(entry.getValue()));
     }
+    sb.append("}");
+    return sb.toString();
   }
 
   // public static WritableJSONArray names(JSONObject jObj)
@@ -649,8 +645,6 @@ public abstract class MapBasedJSONObject
   {
     return JSONObjects.toString(this, indentFactor, indent);
   }
-
-  
 
   // /**
   // * Write the contents of the JSONObject as JSON text to a writer. For compactness, no whitespace

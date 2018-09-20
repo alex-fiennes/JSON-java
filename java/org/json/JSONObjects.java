@@ -18,30 +18,41 @@ public class JSONObjects
     return objBuilder.build();
   }
 
-  public static String toString(JSONObject jObj)
-  // Supplier<? extends JSONObjectBuilder> jsonObjectBuilderSupplier,
-  // Supplier<? extends JSONArrayBuilder> jsonArrayBuilderSupplier)
-  {
-    try {
-      Iterator<String> keys = jObj.keys();
-      StringBuilder sb = new StringBuilder("{");
+  // public static String toString(JSONObject jObj)
+  // // Supplier<? extends JSONObjectBuilder> jsonObjectBuilderSupplier,
+  // // Supplier<? extends JSONArrayBuilder> jsonArrayBuilderSupplier)
+  // {
+  // try {
+  // Iterator<String> keys = jObj.keys();
+  // StringBuilder sb = new StringBuilder("{");
+  //
+  // while (keys.hasNext()) {
+  // if (sb.length() > 1) {
+  // sb.append(',');
+  // }
+  // String string = keys.next();
+  // sb.append(JSONComponents.quote(string));
+  // sb.append(':');
+  // sb.append(JSONComponents.valueToString(jObj.opt(string)));
+  // // jsonObjectBuilderSupplier,
+  // // jsonArrayBuilderSupplier));
+  // }
+  // sb.append('}');
+  // return sb.toString();
+  // } catch (Exception e) {
+  // return null;
+  // }
+  // }
 
-      while (keys.hasNext()) {
-        if (sb.length() > 1) {
-          sb.append(',');
-        }
-        String string = keys.next();
-        sb.append(JSONComponents.quote(string));
-        sb.append(':');
-        sb.append(JSONComponents.valueToString(jObj.opt(string)));
-        // jsonObjectBuilderSupplier,
-        // jsonArrayBuilderSupplier));
-      }
-      sb.append('}');
-      return sb.toString();
-    } catch (Exception e) {
-      return null;
+  public static String toString(JSONObject jObj)
+  {
+    StringBuilder buf = new StringBuilder();
+    try {
+      write(jObj, buf);
+    } catch (IOException e) {
+      throw new RuntimeException("Impossible", e);
     }
+    return buf.toString();
   }
 
   public static String toString(JSONObject jObj,
@@ -96,35 +107,31 @@ public class JSONObjects
                                  // Supplier<? extends JSONObjectBuilder> jsonObjectBuilderSupplier,
                                  // Supplier<? extends JSONArrayBuilder> jsonArrayBuilderSupplier,
                                  Appendable writer)
-      throws JSONException
+      throws IOException
   {
-    try {
-      boolean commanate = false;
-      Iterator<String> keys = jObj.keys();
-      writer.append('{');
+    boolean commanate = false;
+    Iterator<String> keys = jObj.keys();
+    writer.append('{');
 
-      while (keys.hasNext()) {
-        if (commanate) {
-          writer.append(',');
-        }
-        String key = keys.next();
-        writer.append(JSONComponents.quote(key.toString()));
-        writer.append(':');
-        Object value = jObj.opt(key);
-        if (value instanceof JSONObject) {
-          ((JSONObject) value).write(writer);
-        } else if (value instanceof JSONArray) {
-          ((JSONArray) value).write(writer);
-        } else {
-          writer.append(JSONComponents.valueToString(value));
-          // , jsonObjectBuilderSupplier, jsonArrayBuilderSupplier));
-        }
-        commanate = true;
+    while (keys.hasNext()) {
+      if (commanate) {
+        writer.append(',');
       }
-      writer.append('}');
-      return writer;
-    } catch (IOException exception) {
-      throw new JSONException(exception);
+      String key = keys.next();
+      writer.append(JSONComponents.quote(key.toString()));
+      writer.append(':');
+      Object value = jObj.opt(key);
+      if (value instanceof JSONObject) {
+        ((JSONObject) value).write(writer);
+      } else if (value instanceof JSONArray) {
+        ((JSONArray) value).write(writer);
+      } else {
+        writer.append(JSONComponents.valueToString(value));
+        // , jsonObjectBuilderSupplier, jsonArrayBuilderSupplier));
+      }
+      commanate = true;
     }
+    writer.append('}');
+    return writer;
   }
 }

@@ -1,5 +1,6 @@
 package org.json;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -386,11 +387,10 @@ public class WritableJSONArray
    * Warning: This method assumes that the data structure is acyclical.
    * 
    * @return The writer.
-   * @throws JSONException
    */
   @Override
   public Appendable write(Appendable writer)
-      throws JSONException
+      throws IOException
   {
     write(writer);
 //    ,

@@ -1,5 +1,7 @@
 package org.json;
 
+import java.io.IOException;
+
 public interface JSONComponent
 {
   /**
@@ -53,9 +55,7 @@ public interface JSONComponent
    * Warning: This method assumes that the data structure is acyclical.
    * 
    * @return The writer.
-   * @throws JSONException
    */
-  public Appendable write(Appendable writer)
-      throws JSONException;
+  public Appendable write(Appendable writer) throws IOException;
 
 }

@@ -1,5 +1,6 @@
 package org.json;
 
+import java.io.IOException;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
@@ -216,7 +217,7 @@ public class ImmutableJSONObject
 
   @Override
   public Appendable write(Appendable writer)
-      throws JSONException
+      throws IOException
   {
     JSONObjects.write(this,
                       // ImmutableJSONObject.getJSONObjectBuilderSupplier(),

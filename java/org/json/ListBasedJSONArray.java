@@ -884,23 +884,19 @@ public abstract class ListBasedJSONArray
   @Override
   public String toString()
   {
-    try {
-      int len = length();
-      StringBuilder sb = new StringBuilder("[");
+    int len = length();
+    StringBuilder sb = new StringBuilder("[");
 
-      for (int i = 0; i < len; i += 1) {
-        if (i > 0) {
-          sb.append(',');
-        }
-        sb.append(JSONComponents.valueToString(this.__backingList.get(i)));
-        // jsonObjectBuilderSupplier,
-        // jsonArrayBuilderSupplier));
+    for (int i = 0; i < len; i += 1) {
+      if (i > 0) {
+        sb.append(',');
       }
-      sb.append("]");
-      return sb.toString();
-    } catch (JSONException e) {
-      throw new RuntimeException("immpossible?", e);
+      sb.append(JSONComponents.valueToString(this.__backingList.get(i)));
+      // jsonObjectBuilderSupplier,
+      // jsonArrayBuilderSupplier));
     }
+    sb.append("]");
+    return sb.toString();
     //
     // try {
     // return '[' + join(",") + ']';
@@ -981,43 +977,38 @@ public abstract class ListBasedJSONArray
    * Warning: This method assumes that the data structure is acyclical.
    * 
    * @return The writer.
-   * @throws JSONException
    */
   @Override
   public Appendable write(Appendable writer)
       // ,
       // Supplier<? extends JSONObjectBuilder> jsonObjectBuilderSupplier,
       // Supplier<? extends JSONArrayBuilder> jsonArrayBuilderSupplier)
-      throws JSONException
+      throws IOException
   {
-    try {
-      boolean b = false;
-      int len = length();
+    boolean b = false;
+    int len = length();
 
-      writer.append('[');
+    writer.append('[');
 
-      for (int i = 0; i < len; i += 1) {
-        if (b) {
-          writer.append(',');
-        }
-        Object v = this.__backingList.get(i);
-        if (v instanceof WritableJSONObject) {
-          ((WritableJSONObject) v).write(writer);
-        } else if (v instanceof ListBasedJSONArray) {
-          ((ListBasedJSONArray) v).write(writer);
-        } else {
-          writer.append(JSONComponents.valueToString(v));
-          // ,
-          // jsonObjectBuilderSupplier,
-          // jsonArrayBuilderSupplier));
-        }
-        b = true;
+    for (int i = 0; i < len; i += 1) {
+      if (b) {
+        writer.append(',');
       }
-      writer.append(']');
-      return writer;
-    } catch (IOException e) {
-      throw new JSONException(e);
+      Object v = this.__backingList.get(i);
+      if (v instanceof WritableJSONObject) {
+        ((WritableJSONObject) v).write(writer);
+      } else if (v instanceof ListBasedJSONArray) {
+        ((ListBasedJSONArray) v).write(writer);
+      } else {
+        writer.append(JSONComponents.valueToString(v));
+        // ,
+        // jsonObjectBuilderSupplier,
+        // jsonArrayBuilderSupplier));
+      }
+      b = true;
     }
+    writer.append(']');
+    return writer;
   }
 
   @Override

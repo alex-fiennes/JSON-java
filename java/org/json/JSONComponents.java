@@ -170,20 +170,20 @@ public class JSONComponents
    * 
    * @param o
    *          The object to test.
-   * @throws JSONException
+   * @throws JSONRuntimeException
    *           If o is a non-finite number.
    */
   public static void testValidity(Object o)
-      throws JSONException
+      throws JSONRuntimeException
   {
     if (o != null) {
       if (o instanceof Double) {
         if (((Double) o).isInfinite() || ((Double) o).isNaN()) {
-          throw new JSONException("JSON does not allow non-finite numbers.");
+          throw new JSONRuntimeException("JSON does not allow non-finite numbers.");
         }
       } else if (o instanceof Float) {
         if (((Float) o).isInfinite() || ((Float) o).isNaN()) {
-          throw new JSONException("JSON does not allow non-finite numbers.");
+          throw new JSONRuntimeException("JSON does not allow non-finite numbers.");
         }
       }
     }
@@ -222,14 +222,14 @@ public class JSONComponents
    * @param number
    *          A Number
    * @return A String.
-   * @throws JSONException
+   * @throws JSONRuntimeException
    *           If n is a non-finite number.
    */
   public static String numberToString(Number number)
-      throws JSONException
+      throws JSONRuntimeException
   {
     if (number == null) {
-      throw new JSONException("Null pointer");
+      throw new JSONRuntimeException("Null pointer");
     }
     testValidity(number);
   
@@ -263,13 +263,12 @@ public class JSONComponents
    * @return a printable, displayable, transmittable representation of the object, beginning with
    *         <code>{</code>&nbsp;<small>(left brace)</small> and ending with <code>}</code>
    *         &nbsp;<small>(right brace)</small>.
-   * @throws JSONException
+   * @throws JSONRuntimeException
    *           If the value is or contains an invalid number.
    */
   public static String valueToString(Object value)
       // Supplier<? extends JSONObjectBuilder> jsonObjectBuilderSupplier,
       // Supplier<? extends JSONArrayBuilder> jsonArrayBuilderSupplier)
-      throws JSONException
   {
     if (value == null || value.equals(null)) {
       return "null";

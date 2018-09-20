@@ -1,5 +1,6 @@
 package org.json;
 
+import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Map;
@@ -730,7 +731,7 @@ public class WritableJSONObject
 
   @Override
   public Appendable write(Appendable writer)
-      throws JSONException
+      throws IOException
   {
     return JSONObjects.write(this,
                              // WritableJSONObject.getJSONObjectBuilderSupplier(),
