@@ -28,7 +28,7 @@ public class ImmutableJSONArray
   public <A extends JSONArray, O extends JSONObject> A clone(JSONBuilder<A, O> builder)
       throws JSONException
   {
-    return (A) (ImmutableJSONBuilder.getInstance().equals(builder) ? this : super.clone(builder));
+    return (A) (ImmutableJSON.getInstance().equals(builder) ? this : super.clone(builder));
   }
 
 

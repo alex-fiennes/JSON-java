@@ -1,16 +1,16 @@
 package org.json;
 
-public class ImmutableJSONBuilder
+public class ImmutableJSON
   extends JSONBuilder<ImmutableJSONArray, ImmutableJSONObject>
 {
-  private static final ImmutableJSONBuilder INSTANCE = new ImmutableJSONBuilder();
+  private static final ImmutableJSON INSTANCE = new ImmutableJSON();
 
-  public static final ImmutableJSONBuilder getInstance()
+  public static final ImmutableJSON getInstance()
   {
     return INSTANCE;
   }
 
-  private ImmutableJSONBuilder()
+  private ImmutableJSON()
   {
     super(ImmutableJSONArray.class,
           ImmutableJSONObject.class);
