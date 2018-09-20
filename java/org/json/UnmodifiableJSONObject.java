@@ -131,11 +131,11 @@ public class UnmodifiableJSONObject
     return __jObj.length();
   }
 
-  @Override
-  public UnmodifiableJSONArray names()
-  {
-    return UnmodifiableJSONArray.getInstance(__jObj.names());
-  }
+//  @Override
+//  public UnmodifiableJSONArray names()
+//  {
+//    return UnmodifiableJSONArray.getInstance(__jObj.names());
+//  }
 
   @Override
   public Object opt(String key)

@@ -197,12 +197,12 @@ public interface JSONObject
    */
   public int length();
 
-  /**
-   * Produce a JSONArray containing the names of the elements of this JSONObject.
-   * 
-   * @return A JSONArray containing the key strings, or null if the JSONObject is empty.
-   */
-  public JSONArray names();
+//  /**
+//   * Produce a JSONArray containing the names of the elements of this JSONObject.
+//   * 
+//   * @return A JSONArray containing the key strings, or null if the JSONObject is empty.
+//   */
+//  public JSONArray names();
 
   /**
    * Get an optional value associated with a key.

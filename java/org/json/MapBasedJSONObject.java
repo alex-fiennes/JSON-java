@@ -110,28 +110,28 @@ public abstract class MapBasedJSONObject
     return names;
   }
 
-  /**
-   * Get an array of field names from an Object.
-   * 
-   * @return An array of field names, or null if there are no names.
-   */
-  public static String[] getNames(Object object)
-  {
-    if (object == null) {
-      return null;
-    }
-    Class<?> klass = object.getClass();
-    Field[] fields = klass.getFields();
-    int length = fields.length;
-    if (length == 0) {
-      return null;
-    }
-    String[] names = new String[length];
-    for (int i = 0; i < length; i += 1) {
-      names[i] = fields[i].getName();
-    }
-    return names;
-  }
+//  /**
+//   * Get an array of field names from an Object.
+//   * 
+//   * @return An array of field names, or null if there are no names.
+//   */
+//  public static String[] getNames(Object object)
+//  {
+//    if (object == null) {
+//      return null;
+//    }
+//    Class<?> klass = object.getClass();
+//    Field[] fields = klass.getFields();
+//    int length = fields.length;
+//    if (length == 0) {
+//      return null;
+//    }
+//    String[] names = new String[length];
+//    for (int i = 0; i < length; i += 1) {
+//      names[i] = fields[i].getName();
+//    }
+//    return names;
+//  }
 
   /**
    * Get an optional value associated with a key.
@@ -529,18 +529,18 @@ public abstract class MapBasedJSONObject
     return getMap().size();
   }
 
-  /**
-   * Produce a WritableJSONArray containing the names of the elements of this JSONObject. Note that
-   * this is not a view - ie changes to the original JSONObject or the names JSONArray are not
-   * connected.
-   * 
-   * @return A WritableJSONArray containing the key strings, or null if the JSONObject is empty.
-   */
-  @Override
-  public final WritableJSONArray names()
-  {
-    return MapBasedJSONObject.names(this);
-  }
+//  /**
+//   * Produce a WritableJSONArray containing the names of the elements of this JSONObject. Note that
+//   * this is not a view - ie changes to the original JSONObject or the names JSONArray are not
+//   * connected.
+//   * 
+//   * @return A WritableJSONArray containing the key strings, or null if the JSONObject is empty.
+//   */
+//  @Override
+//  public final WritableJSONArray names()
+//  {
+//    return MapBasedJSONObject.names(this);
+//  }
 
   /**
    * Get an optional boolean associated with a key. It returns false if there is no such key, or if
