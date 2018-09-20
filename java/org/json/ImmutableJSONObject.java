@@ -30,22 +30,6 @@ public class ImmutableJSONObject
   }
 
   @Override
-  public JSONObject accumulate(String key,
-                               Object value)
-      throws JSONException
-  {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
-  public JSONObject append(String key,
-                           Object value)
-      throws JSONException
-  {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
   public JSONObject put(String key,
                         boolean value)
       throws JSONException

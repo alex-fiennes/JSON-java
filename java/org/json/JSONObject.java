@@ -15,42 +15,6 @@ public interface JSONObject
       throws JSONException;
 
   /**
-   * Accumulate values under a key. It is similar to the put method except that if there is already
-   * an object stored under the key then a JSONArray is stored under the key to hold all of the
-   * accumulated values. If there is already a JSONArray, then the new value is appended to it. In
-   * contrast, the put method replaces the previous value.
-   * 
-   * @param key
-   *          A key string.
-   * @param value
-   *          An object to be accumulated under the key.
-   * @return this.
-   * @throws JSONException
-   *           If the value is an invalid number or if the key is null.
-   */
-  public JSONObject accumulate(String key,
-                               Object value)
-      throws JSONException;
-
-  /**
-   * Append values to the array under a key. If the key does not exist in the JSONObject, then the
-   * key is put in the JSONObject with its value being a JSONArray containing the value parameter.
-   * If the key was already associated with a JSONArray, then the value parameter is appended to it.
-   * 
-   * @param key
-   *          A key string.
-   * @param value
-   *          An object to be accumulated under the key.
-   * @return this.
-   * @throws JSONException
-   *           If the key is null or if the current value associated with the key is not a
-   *           JSONArray.
-   */
-  public JSONObject append(String key,
-                           Object value)
-      throws JSONException;
-
-  /**
    * Get the value object associated with a key.
    * 
    * @param key

@@ -1,6 +1,5 @@
 package org.json;
 
-import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Map;
@@ -183,68 +182,6 @@ public class WritableJSONObject
         target.put(path[last], r.getString((String) key));
       }
     }
-  }
-
-  /**
-   * Accumulate values under a key. It is similar to the put method except that if there is already
-   * an object stored under the key then a JSONArray is stored under the key to hold all of the
-   * accumulated values. If there is already a JSONArray, then the new value is appended to it. In
-   * contrast, the put method replaces the previous value.
-   * 
-   * @param key
-   *          A key string.
-   * @param value
-   *          An object to be accumulated under the key.
-   * @return this.
-   * @throws JSONException
-   *           If the value is an invalid number or if the key is null.
-   */
-  @Override
-  public WritableJSONObject accumulate(String key,
-                                       Object value)
-      throws JSONException
-  {
-    JSONComponents.testValidity(value);
-    Object object = opt(key);
-    if (object == null) {
-      put(key, value instanceof WritableJSONArray ? new WritableJSONArray().put(value) : value);
-    } else if (object instanceof WritableJSONArray) {
-      ((WritableJSONArray) object).put(value);
-    } else {
-      put(key, new WritableJSONArray().put(object).put(value));
-    }
-    return this;
-  }
-
-  /**
-   * Append values to the array under a key. If the key does not exist in the JSONObject, then the
-   * key is put in the JSONObject with its value being a JSONArray containing the value parameter.
-   * If the key was already associated with a JSONArray, then the value parameter is appended to it.
-   * 
-   * @param key
-   *          A key string.
-   * @param value
-   *          An object to be accumulated under the key.
-   * @return this.
-   * @throws JSONException
-   *           If the key is null or if the current value associated with the key is not a
-   *           JSONArray.
-   */
-  @Override
-  public WritableJSONObject append(String key,
-                                   Object value)
-      throws JSONException
-  {
-    JSONComponents.testValidity(value);
-    Object object = opt(key);
-    if (object == null) {
-      put(key, new WritableJSONArray().put(value));
-    } else if (object instanceof WritableJSONArray) {
-      put(key, ((WritableJSONArray) object).put(value));
-    } else {
-      throw new JSONException("JSONObject[" + key + "] is not a JSONArray.");
-    }
-    return this;
   }
 
   @Override

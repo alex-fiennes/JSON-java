@@ -10,23 +10,6 @@ package org.json;
 public abstract class AbstractUnmodifiableJSONObject
   implements JSONObject
 {
-
-  @Override
-  public final JSONObject accumulate(String key,
-                                     Object value)
-      throws JSONException
-  {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
-  public final JSONObject append(String key,
-                                 Object value)
-      throws JSONException
-  {
-    throw new UnsupportedOperationException();
-  }
-
   @Override
   public final JSONObject put(String key,
                               boolean value)
