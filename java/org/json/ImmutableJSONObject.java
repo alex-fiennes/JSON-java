@@ -46,13 +46,6 @@ public class ImmutableJSONObject
   }
 
   @Override
-  public JSONObject increment(String key)
-      throws JSONException
-  {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
   public JSONObject put(String key,
                         boolean value)
       throws JSONException

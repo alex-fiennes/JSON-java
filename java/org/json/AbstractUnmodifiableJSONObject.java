@@ -28,27 +28,12 @@ public abstract class AbstractUnmodifiableJSONObject
   }
 
   @Override
-  public final JSONObject increment(String key)
-      throws JSONException
-  {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
   public final JSONObject put(String key,
                               boolean value)
       throws JSONException
   {
     throw new UnsupportedOperationException();
   }
-
-//  @Override
-//  public final JSONObject put(String key,
-//                              Collection<?> value)
-//      throws JSONException
-//  {
-//    throw new UnsupportedOperationException();
-//  }
 
   @Override
   public final JSONObject put(String key,
@@ -73,14 +58,6 @@ public abstract class AbstractUnmodifiableJSONObject
   {
     throw new UnsupportedOperationException();
   }
-
-//  @Override
-//  public final JSONObject put(String key,
-//                              Map<String, ?> value)
-//      throws JSONException
-//  {
-//    throw new UnsupportedOperationException();
-//  }
 
   @Override
   public final JSONObject put(String key,

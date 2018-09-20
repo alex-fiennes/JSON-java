@@ -156,20 +156,6 @@ public interface JSONObject
    */
   public boolean has(String key);
 
-  /**
-   * Increment a property of a JSONObject. If there is no such property, create one with a value of
-   * 1. If there is such a property, and if it is an Integer, Long, Double, or Float, then add one
-   * to it.
-   * 
-   * @param key
-   *          A key string.
-   * @return this.
-   * @throws JSONException
-   *           If there is already a property with this name that is not an Integer, Long, Double,
-   *           or Float.
-   */
-  public JSONObject increment(String key)
-      throws JSONException;
 
   /**
    * Determine if the value associated with the key is null or if there is no value.
