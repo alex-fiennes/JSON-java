@@ -403,7 +403,7 @@ public class JSONTokener<A extends JSONArray, O extends JSONObject>
     if (string.equals("")) {
       throw syntaxError("Missing value");
     }
-    return JSONObjects.stringToValue(string);
+    return JSONComponents.stringToValue(string);
   }
 
   /**

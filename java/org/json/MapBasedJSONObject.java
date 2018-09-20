@@ -89,7 +89,7 @@ public abstract class MapBasedJSONObject
                || (object instanceof String && ((String) object).equalsIgnoreCase("true"))) {
       return true;
     }
-    throw new JSONException("JSONObject[" + JSONObjects.quote(key) + "] is not a Boolean.");
+    throw new JSONException("JSONObject[" + JSONComponents.quote(key) + "] is not a Boolean.");
   }
 
   public static String toString(MapBasedJSONObject jObj)
@@ -97,9 +97,9 @@ public abstract class MapBasedJSONObject
     try {
       StringBuilder sb = new StringBuilder("{");
       for (Entry<String, Object> entry : jObj.getMap().entrySet()) {
-        sb.append(JSONObjects.quote(entry.getKey()));
+        sb.append(JSONComponents.quote(entry.getKey()));
         sb.append(':');
-        sb.append(JSONObjects.valueToString(entry.getValue()));
+        sb.append(JSONComponents.valueToString(entry.getValue()));
       }
       sb.append("}");
       return sb.toString();
@@ -154,7 +154,7 @@ public abstract class MapBasedJSONObject
     }
     Object object = opt(key);
     if (object == null) {
-      throw new JSONException("JSONObject[" + JSONObjects.quote(key) + "] not found in " + this);
+      throw new JSONException("JSONObject[" + JSONComponents.quote(key) + "] not found in " + this);
     }
     return object;
   }
@@ -179,7 +179,7 @@ public abstract class MapBasedJSONObject
           ? ((Number) object).doubleValue()
           : Double.parseDouble((String) object);
     } catch (Exception e) {
-      throw new JSONException("JSONObject[" + JSONObjects.quote(key) + "] is not a number.");
+      throw new JSONException("JSONObject[" + JSONComponents.quote(key) + "] is not a number.");
     }
   }
 
@@ -218,7 +218,7 @@ public abstract class MapBasedJSONObject
     try {
       return Double.valueOf(Double.parseDouble(object.toString()));
     } catch (NumberFormatException e) {
-      throw new JSONException("JSONObject[" + JSONObjects.quote(key) + "] is not a number.");
+      throw new JSONException("JSONObject[" + JSONComponents.quote(key) + "] is not a number.");
     }
   }
 
@@ -241,7 +241,7 @@ public abstract class MapBasedJSONObject
           ? ((Number) object).intValue()
           : Integer.parseInt((String) object);
     } catch (Exception e) {
-      throw new JSONException("JSONObject[" + JSONObjects.quote(key) + "] is not an int.");
+      throw new JSONException("JSONObject[" + JSONComponents.quote(key) + "] is not an int.");
     }
   }
 
@@ -262,7 +262,7 @@ public abstract class MapBasedJSONObject
     if (object instanceof JSONArray) {
       return (JSONArray) object;
     }
-    throw new JSONException("JSONObject[" + JSONObjects.quote(key) + "] is not a JSONArray.");
+    throw new JSONException("JSONObject[" + JSONComponents.quote(key) + "] is not a JSONArray.");
   }
 
   /**
@@ -282,7 +282,7 @@ public abstract class MapBasedJSONObject
     if (object instanceof JSONObject) {
       return (JSONObject) object;
     }
-    throw new JSONException("JSONObject[" + JSONObjects.quote(key) + "] is not a JSONObject.");
+    throw new JSONException("JSONObject[" + JSONComponents.quote(key) + "] is not a JSONObject.");
   }
 
   /**
@@ -304,7 +304,7 @@ public abstract class MapBasedJSONObject
           ? ((Number) object).longValue()
           : Long.parseLong((String) object);
     } catch (Exception e) {
-      throw new JSONException("JSONObject[" + JSONObjects.quote(key) + "] is not a long.");
+      throw new JSONException("JSONObject[" + JSONComponents.quote(key) + "] is not a long.");
     }
   }
 

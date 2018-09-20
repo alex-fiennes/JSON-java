@@ -1,6 +1,5 @@
 package org.json;
 
-import java.io.Writer;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
@@ -16,25 +15,23 @@ public class ImmutableJSONObject
     __map = map;
   }
 
-//  public static ImmutableJSONObject create(JSONTokener x)
-//      throws JSONException
-//  {
-//    Builder builder = getJSONObjectBuilderSupplier().get();
-//    JSONParser.populateObjectBuilder(x, builder);
-//    return builder.build();
-//  }
-//
-//  public static ImmutableJSONObject create(Map<?, ?> values)
-//      throws JSONException
-//  {
-//    Builder builder = getJSONObjectBuilderSupplier().get();
-//    for (Map.Entry<?, ?> entry : values.entrySet()) {
-//      builder.putOnce(entry.getKey().toString(), entry.getValue());
-//    }
-//    return builder.build();
-//  }
-  
-  
+  // public static ImmutableJSONObject create(JSONTokener x)
+  // throws JSONException
+  // {
+  // Builder builder = getJSONObjectBuilderSupplier().get();
+  // JSONParser.populateObjectBuilder(x, builder);
+  // return builder.build();
+  // }
+  //
+  // public static ImmutableJSONObject create(Map<?, ?> values)
+  // throws JSONException
+  // {
+  // Builder builder = getJSONObjectBuilderSupplier().get();
+  // for (Map.Entry<?, ?> entry : values.entrySet()) {
+  // builder.putOnce(entry.getKey().toString(), entry.getValue());
+  // }
+  // return builder.build();
+  // }
 
   @Override
   public boolean equalsMap(Map<String, Object> map)
@@ -42,25 +39,25 @@ public class ImmutableJSONObject
     return __map.equals(map);
   }
 
-//  @Override
-//  public WritableJSONObject writableClone()
-//  {
-//    WritableJSONObject clone = new WritableJSONObject();
-//    try {
-//      for (Map.Entry<String, Object> entry : __map.entrySet()) {
-//        Object value = entry.getValue();
-//        if (value instanceof JSONObject) {
-//          value = ((JSONObject) value).writableClone();
-//        } else if (value instanceof JSONArray) {
-//          value = ((JSONArray) value).writableClone();
-//        }
-//        clone.put(entry.getKey(), value);
-//      }
-//    } catch (JSONException e) {
-//      throw new RuntimeException(e);
-//    }
-//    return clone;
-//  }
+  // @Override
+  // public WritableJSONObject writableClone()
+  // {
+  // WritableJSONObject clone = new WritableJSONObject();
+  // try {
+  // for (Map.Entry<String, Object> entry : __map.entrySet()) {
+  // Object value = entry.getValue();
+  // if (value instanceof JSONObject) {
+  // value = ((JSONObject) value).writableClone();
+  // } else if (value instanceof JSONArray) {
+  // value = ((JSONArray) value).writableClone();
+  // }
+  // clone.put(entry.getKey(), value);
+  // }
+  // } catch (JSONException e) {
+  // throw new RuntimeException(e);
+  // }
+  // return clone;
+  // }
 
   @SuppressWarnings("unchecked")
   @Override
@@ -101,13 +98,13 @@ public class ImmutableJSONObject
     throw new UnsupportedOperationException();
   }
 
-//  @Override
-//  public JSONObject put(String key,
-//                        Collection<?> value)
-//      throws JSONException
-//  {
-//    throw new UnsupportedOperationException();
-//  }
+  // @Override
+  // public JSONObject put(String key,
+  // Collection<?> value)
+  // throws JSONException
+  // {
+  // throw new UnsupportedOperationException();
+  // }
 
   @Override
   public JSONObject put(String key,
@@ -133,13 +130,13 @@ public class ImmutableJSONObject
     throw new UnsupportedOperationException();
   }
 
-//  @Override
-//  public JSONObject put(String key,
-//                        Map<String, ?> value)
-//      throws JSONException
-//  {
-//    throw new UnsupportedOperationException();
-//  }
+  // @Override
+  // public JSONObject put(String key,
+  // Map<String, ?> value)
+  // throws JSONException
+  // {
+  // throw new UnsupportedOperationException();
+  // }
 
   @Override
   public JSONObject put(String key,
@@ -204,27 +201,27 @@ public class ImmutableJSONObject
 
   }
 
-//  private static final Supplier<Builder> BUILDERSUPPLIER = new Supplier<Builder>() {
-//    @Override
-//    public Builder get()
-//    {
-//      return new Builder();
-//    }
-//  };
+  // private static final Supplier<Builder> BUILDERSUPPLIER = new Supplier<Builder>() {
+  // @Override
+  // public Builder get()
+  // {
+  // return new Builder();
+  // }
+  // };
 
-//  public static Supplier<Builder> getJSONObjectBuilderSupplier()
-//  {
-//    return BUILDERSUPPLIER;
-//  }
+  // public static Supplier<Builder> getJSONObjectBuilderSupplier()
+  // {
+  // return BUILDERSUPPLIER;
+  // }
 
   @Override
-  public Writer write(Writer writer)
+  public Appendable write(Appendable writer)
       throws JSONException
   {
     JSONObjects.write(this,
-//          ImmutableJSONObject.getJSONObjectBuilderSupplier(),
-//          ImmutableJSONArray.getJSONArrayBuilderSupplier(),
-          writer);
+                      // ImmutableJSONObject.getJSONObjectBuilderSupplier(),
+                      // ImmutableJSONArray.getJSONArrayBuilderSupplier(),
+                      writer);
     return writer;
   }
 

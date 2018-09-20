@@ -1,6 +1,5 @@
 package org.json;
 
-import java.io.Writer;
 import java.util.Iterator;
 import java.util.List;
 
@@ -321,7 +320,7 @@ public class UnmodifiableJSONArray
   }
 
   @Override
-  public Writer write(Writer writer)
+  public Appendable write(Appendable writer)
       throws JSONException
   {
     return __jArr.write(writer);

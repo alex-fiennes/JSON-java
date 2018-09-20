@@ -1,7 +1,5 @@
 package org.json;
 
-import java.io.Writer;
-
 public interface JSONComponent
 {
   /**
@@ -57,7 +55,7 @@ public interface JSONComponent
    * @return The writer.
    * @throws JSONException
    */
-  public Writer write(Writer writer)
+  public Appendable write(Appendable writer)
       throws JSONException;
 
 }

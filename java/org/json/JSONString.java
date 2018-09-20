@@ -1,5 +1,7 @@
 package org.json;
 
+import java.io.IOException;
+
 /**
  * The <code>JSONString</code> interface allows a <code>toJSONString()</code> method so that a class
  * can change the behavior of <code>JSONObject.toString()</code>, <code>JSONArray.toString()</code>,
@@ -15,4 +17,10 @@ public interface JSONString
    * @return A strictly syntactically correct JSON text.
    */
   public String toJSONString();
+
+  /**
+   * Serialize yourself to JSON and append the representation to the given Appendable.
+   */
+  public void toJSONString(Appendable buf)
+      throws IOException;
 }

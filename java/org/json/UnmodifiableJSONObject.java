@@ -1,6 +1,5 @@
 package org.json;
 
-import java.io.Writer;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -242,7 +241,7 @@ public class UnmodifiableJSONObject
   }
 
   @Override
-  public Writer write(Writer writer)
+  public Appendable write(Appendable writer)
       throws JSONException
   {
     return __jObj.write(writer);

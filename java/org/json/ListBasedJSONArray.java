@@ -1,7 +1,6 @@
 package org.json;
 
 import java.io.IOException;
-import java.io.Writer;
 import java.util.Iterator;
 import java.util.List;
 
@@ -607,7 +606,7 @@ public abstract class ListBasedJSONArray
       throws JSONException
   {
     Double d = Double.valueOf(value);
-    JSONObjects.testValidity(d);
+    JSONComponents.testValidity(d);
     put(d);
     return this;
   }
@@ -814,7 +813,7 @@ public abstract class ListBasedJSONArray
                                 Object value)
       throws JSONException
   {
-    JSONObjects.testValidity(value);
+    JSONComponents.testValidity(value);
     if (index < 0) {
       throw new JSONException("JSONArray[" + index + "] not found.");
     }
@@ -893,7 +892,7 @@ public abstract class ListBasedJSONArray
         if (i > 0) {
           sb.append(',');
         }
-        sb.append(JSONObjects.valueToString(this.__backingList.get(i)));
+        sb.append(JSONComponents.valueToString(this.__backingList.get(i)));
         // jsonObjectBuilderSupplier,
         // jsonArrayBuilderSupplier));
       }
@@ -948,9 +947,7 @@ public abstract class ListBasedJSONArray
       int i;
       StringBuilder sb = new StringBuilder("[");
       if (len == 1) {
-        sb.append(JSONObjects.valueToString(this.__backingList.get(0),
-                                                   indentFactor,
-                                                   indent));
+        sb.append(JSONComponents.valueToString(this.__backingList.get(0), indentFactor, indent));
       } else {
         int newindent = indent + indentFactor;
         sb.append('\n');
@@ -961,9 +958,9 @@ public abstract class ListBasedJSONArray
           for (int j = 0; j < newindent; j += 1) {
             sb.append(' ');
           }
-          sb.append(JSONObjects.valueToString(this.__backingList.get(i),
-                                                     indentFactor,
-                                                     newindent));
+          sb.append(JSONComponents.valueToString(this.__backingList.get(i),
+                                                 indentFactor,
+                                                 newindent));
         }
         sb.append('\n');
         for (i = 0; i < indent; i += 1) {
@@ -987,7 +984,7 @@ public abstract class ListBasedJSONArray
    * @throws JSONException
    */
   @Override
-  public Writer write(Writer writer)
+  public Appendable write(Appendable writer)
       // ,
       // Supplier<? extends JSONObjectBuilder> jsonObjectBuilderSupplier,
       // Supplier<? extends JSONArrayBuilder> jsonArrayBuilderSupplier)
@@ -997,11 +994,11 @@ public abstract class ListBasedJSONArray
       boolean b = false;
       int len = length();
 
-      writer.write('[');
+      writer.append('[');
 
       for (int i = 0; i < len; i += 1) {
         if (b) {
-          writer.write(',');
+          writer.append(',');
         }
         Object v = this.__backingList.get(i);
         if (v instanceof WritableJSONObject) {
@@ -1009,14 +1006,14 @@ public abstract class ListBasedJSONArray
         } else if (v instanceof ListBasedJSONArray) {
           ((ListBasedJSONArray) v).write(writer);
         } else {
-          writer.write(JSONObjects.valueToString(v));
+          writer.append(JSONComponents.valueToString(v));
           // ,
           // jsonObjectBuilderSupplier,
           // jsonArrayBuilderSupplier));
         }
         b = true;
       }
-      writer.write(']');
+      writer.append(']');
       return writer;
     } catch (IOException e) {
       throw new JSONException(e);

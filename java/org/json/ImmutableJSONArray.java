@@ -1,7 +1,5 @@
 package org.json;
 
-import java.io.Writer;
-
 import com.google.common.collect.ImmutableList;
 
 public class ImmutableJSONArray
@@ -13,7 +11,7 @@ public class ImmutableJSONArray
   }
 
   @Override
-  public Writer write(Writer writer)
+  public Appendable write(Appendable writer)
       throws JSONException
   {
     write(writer);

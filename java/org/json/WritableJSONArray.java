@@ -1,6 +1,5 @@
 package org.json;
 
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -390,7 +389,7 @@ public class WritableJSONArray
    * @throws JSONException
    */
   @Override
-  public Writer write(Writer writer)
+  public Appendable write(Appendable writer)
       throws JSONException
   {
     write(writer);

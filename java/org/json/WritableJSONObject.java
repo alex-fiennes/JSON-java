@@ -1,6 +1,5 @@
 package org.json;
 
-import java.io.Writer;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Map;
@@ -322,7 +321,7 @@ public class WritableJSONObject
                                        Object value)
       throws JSONException
   {
-    JSONObjects.testValidity(value);
+    JSONComponents.testValidity(value);
     Object object = opt(key);
     if (object == null) {
       put(key, value instanceof WritableJSONArray ? new WritableJSONArray().put(value) : value);
@@ -353,7 +352,7 @@ public class WritableJSONObject
                                    Object value)
       throws JSONException
   {
-    JSONObjects.testValidity(value);
+    JSONComponents.testValidity(value);
     Object object = opt(key);
     if (object == null) {
       put(key, new WritableJSONArray().put(value));
@@ -416,7 +415,7 @@ public class WritableJSONObject
     } else if (value instanceof Float) {
       put(key, ((Float) value).floatValue() + 1);
     } else {
-      throw new JSONException("Unable to increment [" + JSONObjects.quote(key) + "].");
+      throw new JSONException("Unable to increment [" + JSONComponents.quote(key) + "].");
     }
     return this;
   }
@@ -635,7 +634,7 @@ public class WritableJSONObject
       throw new JSONException("Null key.");
     }
     if (value != null) {
-      JSONObjects.testValidity(value);
+      JSONComponents.testValidity(value);
       this.__map.put(key, value);
     } else {
       remove(key);
@@ -730,13 +729,13 @@ public class WritableJSONObject
   }
 
   @Override
-  public Writer write(Writer writer)
+  public Appendable write(Appendable writer)
       throws JSONException
   {
     return JSONObjects.write(this,
-                                    // WritableJSONObject.getJSONObjectBuilderSupplier(),
-                                    // WritableJSONArray.getJSONArrayBuilderSupplier(),
-                                    writer);
+                             // WritableJSONObject.getJSONObjectBuilderSupplier(),
+                             // WritableJSONArray.getJSONArrayBuilderSupplier(),
+                             writer);
   }
 
 }
