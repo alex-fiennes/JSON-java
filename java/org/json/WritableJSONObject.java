@@ -131,129 +131,11 @@ public class WritableJSONObject
     return this.__map.equals(map);
   }
 
-  // /**
-  // * Construct a JSONObject from a subset of another JSONObject. An array of strings is used to
-  // * identify the keys that should be copied. Missing keys are ignored.
-  // *
-  // * @param jo
-  // * A JSONObject.
-  // * @param names
-  // * An array of strings.
-  // */
-  // public WritableJSONObject(JSONObject jo,
-  // String[] names)
-  // {
-  // this();
-  // for (int i = 0; i < names.length; i += 1) {
-  // try {
-  // putOnce(names[i], jo.opt(names[i]));
-  // } catch (Exception ignore) {
-  // }
-  // }
-  // }
-
-  // /**
-  // * Construct a JSONObject from a JSONTokener.
-  // *
-  // * @param x
-  // * A JSONTokener object containing the source string.
-  // * @throws JSONException
-  // * If there is a syntax error in the source string or a duplicated key.
-  // */
-  // public WritableJSONObject(JSONTokener x) throws JSONException
-  // {
-  // this();
-  // JSONParser.populateObjectBuilder(x, WritableJSONBuilder.getInstance());
-  // }
-
   private <K, V> WritableJSONObject(Map<String, Object> map)
   {
     super();
     __map = map;
   }
-
-  // /**
-  // * Construct a JSONObject from a Map.
-  // *
-  // * @param map
-  // * A map object that can be used to initialize the contents of the JSONObject.
-  // */
-  // public <K, V> WritableJSONObject(Map<K, V> map)
-  // {
-  // this.__map = new HashMap<String, Object>();
-  // if (map != null) {
-  // Iterator<Entry<K, V>> i = map.entrySet().iterator();
-  // while (i.hasNext()) {
-  // Entry<K, V> e = i.next();
-  // V value = e.getValue();
-  // if (value != null) {
-  // this.__map.put(e.getKey().toString(), wrap(value));
-  // }
-  // }
-  // }
-  // }
-
-  // /**
-  // * Construct a JSONObject from an Object using bean getters. It reflects on all of the public
-  // * methods of the object. For each of the methods with no parameters and a name starting with
-  // * <code>"get"</code> or <code>"is"</code> followed by an uppercase letter, the method is
-  // invoked,
-  // * and a key and the value returned from the getter method are put into the new JSONObject. The
-  // * key is formed by removing the <code>"get"</code> or <code>"is"</code> prefix. If the second
-  // * remaining character is not upper case, then the first character is converted to lower case.
-  // For
-  // * example, if an object has a method named <code>"getName"</code>, and if the result of calling
-  // * <code>object.getName()</code> is <code>"Larry Fine"</code>, then the JSONObject will contain
-  // * <code>"name": "Larry Fine"</code>.
-  // *
-  // * @param bean
-  // * An object that has getter methods that should be used to make a JSONObject.
-  // */
-  // public WritableJSONObject(Object bean)
-  // {
-  // this();
-  // populateMap(bean);
-  // }
-
-  // /**
-  // * Construct a JSONObject from an Object, using reflection to find the public members. The
-  // * resulting JSONObject's keys will be the strings from the names array, and the values will be
-  // * the field values associated with those keys in the object. If a key is not found or not
-  // * visible, then it will not be copied into the new JSONObject.
-  // *
-  // * @param object
-  // * An object that has fields that should be used to make a JSONObject.
-  // * @param names
-  // * An array of strings, the names of the fields to be obtained from the object.
-  // */
-  // public WritableJSONObject(Object object,
-  // String names[])
-  // {
-  // this();
-  // Class<?> c = object.getClass();
-  // for (int i = 0; i < names.length; i += 1) {
-  // String name = names[i];
-  // try {
-  // putOpt(name, c.getField(name).get(object));
-  // } catch (Exception ignore) {
-  // }
-  // }
-  // }
-
-  // /**
-  // * Construct a JSONObject from a source JSON text string. This is the most commonly used
-  // * JSONObject constructor.
-  // *
-  // * @param source
-  // * A string beginning with <code>{</code>&nbsp;<small>(left brace)</small> and ending
-  // * with <code>}</code>&nbsp;<small>(right brace)</small>.
-  // * @exception JSONException
-  // * If there is a syntax error in the source string or a duplicated key.
-  // */
-  // public WritableJSONObject(String source) throws JSONException
-  // {
-  // this(new JSONTokener(new StringReader(source), WritableJSONBuilder.getInstance()));
-  // }
 
   /**
    * Construct a JSONObject from a ResourceBundle.
@@ -416,49 +298,6 @@ public class WritableJSONObject
     return (WritableJSONObject) super.optJSONObject(key);
   }
 
-  // private void populateMap(Object bean)
-  // {
-  // Class<?> klass = bean.getClass();
-  //
-  // // If klass is a System class then set includeSuperClass to false.
-  //
-  // boolean includeSuperClass = klass.getClassLoader() != null;
-  //
-  // Method[] methods = (includeSuperClass) ? klass.getMethods() : klass.getDeclaredMethods();
-  // for (int i = 0; i < methods.length; i += 1) {
-  // try {
-  // Method method = methods[i];
-  // if (Modifier.isPublic(method.getModifiers())) {
-  // String name = method.getName();
-  // String key = "";
-  // if (name.startsWith("get")) {
-  // if (name.equals("getClass") || name.equals("getDeclaringClass")) {
-  // key = "";
-  // } else {
-  // key = name.substring(3);
-  // }
-  // } else if (name.startsWith("is")) {
-  // key = name.substring(2);
-  // }
-  // if (key.length() > 0 && Character.isUpperCase(key.charAt(0))
-  // && method.getParameterTypes().length == 0) {
-  // if (key.length() == 1) {
-  // key = key.toLowerCase();
-  // } else if (!Character.isUpperCase(key.charAt(1))) {
-  // key = key.substring(0, 1).toLowerCase() + key.substring(1);
-  // }
-  //
-  // Object result = method.invoke(bean, (Object[]) null);
-  // if (result != null) {
-  // __map.put(key, JSONObjects.wrap(result));
-  // }
-  // }
-  // }
-  // } catch (Exception ignore) {
-  // }
-  // }
-  // }
-
   /**
    * Put a key/boolean pair in the JSONObject.
    * 
@@ -478,26 +317,6 @@ public class WritableJSONObject
     put(key, value ? Boolean.TRUE : Boolean.FALSE);
     return this;
   }
-
-  // /**
-  // * Put a key/value pair in the JSONObject, where the value will be a JSONArray which is produced
-  // * from a Collection.
-  // *
-  // * @param key
-  // * A key string.
-  // * @param value
-  // * A Collection value.
-  // * @return this.
-  // * @throws JSONException
-  // */
-  // @Override
-  // public WritableJSONObject put(String key,
-  // Collection<?> value)
-  // throws JSONException
-  // {
-  // put(key, new WritableJSONArray(value));
-  // return this;
-  // }
 
   /**
    * Put a key/double pair in the JSONObject.
@@ -558,27 +377,6 @@ public class WritableJSONObject
     put(key, Long.valueOf(value));
     return this;
   }
-
-  // /**
-  // * Put a key/value pair in the JSONObject, where the value will be a JSONObject which is
-  // produced
-  // * from a Map.
-  // *
-  // * @param key
-  // * A key string.
-  // * @param value
-  // * A Map value.
-  // * @return this.
-  // * @throws JSONException
-  // */
-  // @Override
-  // public WritableJSONObject put(String key,
-  // Map<String, ?> value)
-  // throws JSONException
-  // {
-  // put(key, new WritableJSONObject(value));
-  // return this;
-  // }
 
   /**
    * Put a key/value pair in the JSONObject. If the value is null, then the key will be removed from
