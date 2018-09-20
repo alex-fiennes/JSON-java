@@ -5,6 +5,7 @@ import java.io.Writer;
 import java.lang.reflect.Field;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeSet;
 
 public abstract class MapBasedJSONObject
@@ -1025,14 +1026,21 @@ public abstract class MapBasedJSONObject
   }
 
   /**
-   * Get an enumeration of the keys of the JSONObject. The keys will be sorted alphabetically.
+   * Get an Iterator of the keys of the JSONObject. The keys will be sorted alphabetically.
    * 
    * @return An iterator of the keys.
    */
   @Override
   public final Iterator<String> sortedKeys()
   {
-    return new TreeSet<String>(getMap().keySet()).iterator();
+    Set<String> unsortedKeys = getMap().keySet();
+    switch (unsortedKeys.size()) {
+      case 0:
+      case 1:
+        return unsortedKeys.iterator();
+      default:
+        return new TreeSet<String>(unsortedKeys).iterator();
+    }
   }
 
   /**
