@@ -729,14 +729,5 @@ public class WritableJSONObject
     }
   }
 
-  @Override
-  public Appendable write(Appendable writer)
-      throws IOException
-  {
-    return JSONObjects.write(this,
-                             // WritableJSONObject.getJSONObjectBuilderSupplier(),
-                             // WritableJSONArray.getJSONArrayBuilderSupplier(),
-                             writer);
-  }
 
 }

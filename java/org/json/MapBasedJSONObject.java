@@ -1,5 +1,6 @@
 package org.json;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -10,50 +11,6 @@ public abstract class MapBasedJSONObject
   implements JSONObject
 {
   protected abstract Map<String, Object> getMap();
-
-  // /**
-  // * Get an array of field names from a JSONObject.
-  // *
-  // * @return An array of field names, or null if there are no names.
-  // */
-  // public static String[] getNames(WritableJSONObject jo)
-  // {
-  // int length = jo.length();
-  // if (length == 0) {
-  // return null;
-  // }
-  // Iterator<String> iterator = jo.keys();
-  // String[] names = new String[length];
-  // int i = 0;
-  // while (iterator.hasNext()) {
-  // names[i] = iterator.next();
-  // i += 1;
-  // }
-  // return names;
-  // }
-
-  // /**
-  // * Get an array of field names from an Object.
-  // *
-  // * @return An array of field names, or null if there are no names.
-  // */
-  // public static String[] getNames(Object object)
-  // {
-  // if (object == null) {
-  // return null;
-  // }
-  // Class<?> klass = object.getClass();
-  // Field[] fields = klass.getFields();
-  // int length = fields.length;
-  // if (length == 0) {
-  // return null;
-  // }
-  // String[] names = new String[length];
-  // for (int i = 0; i < length; i += 1) {
-  // names[i] = fields[i].getName();
-  // }
-  // return names;
-  // }
 
   /**
    * Get an optional value associated with a key.
@@ -103,16 +60,6 @@ public abstract class MapBasedJSONObject
     sb.append("}");
     return sb.toString();
   }
-
-  // public static WritableJSONArray names(JSONObject jObj)
-  // {
-  // WritableJSONArray ja = new WritableJSONArray();
-  // Iterator<String> keys = jObj.keys();
-  // while (keys.hasNext()) {
-  // ja.put(keys.next());
-  // }
-  // return ja.length() == 0 ? null : ja;
-  // }
 
   @Override
   public final boolean equals(Object obj)
@@ -370,20 +317,6 @@ public abstract class MapBasedJSONObject
     return getMap().size();
   }
 
-  // /**
-  // * Produce a WritableJSONArray containing the names of the elements of this JSONObject. Note
-  // that
-  // * this is not a view - ie changes to the original JSONObject or the names JSONArray are not
-  // * connected.
-  // *
-  // * @return A WritableJSONArray containing the key strings, or null if the JSONObject is empty.
-  // */
-  // @Override
-  // public final WritableJSONArray names()
-  // {
-  // return MapBasedJSONObject.names(this);
-  // }
-
   /**
    * Get an optional boolean associated with a key. It returns false if there is no such key, or if
    * the value is not Boolean.TRUE or the String "true".
@@ -600,11 +533,8 @@ public abstract class MapBasedJSONObject
    */
   @Override
   public final String toString()
-  // (Supplier<JSONObjectBuilder> jsonObjectBuilderSupplier,
-  // Supplier<JSONArrayBuilder> jsonArrayBuilderSupplier)
   {
     return JSONObjects.toString(this);
-    // , jsonObjectBuilderSupplier, jsonArrayBuilderSupplier);
   }
 
   /**
@@ -646,21 +576,12 @@ public abstract class MapBasedJSONObject
     return JSONObjects.toString(this, indentFactor, indent);
   }
 
-  // /**
-  // * Write the contents of the JSONObject as JSON text to a writer. For compactness, no whitespace
-  // * is added.
-  // * <p>
-  // * Warning: This method assumes that the data structure is acyclical.
-  // *
-  // * @return The writer.
-  // * @throws JSONException
-  // */
-  // @Override
-  // public final Writer write(Writer writer)
-  // throws JSONException
-  // {
-  // return MapBasedJSONObject.write(this, writer);
-  // }
+  @Override
+  public final Appendable write(Appendable buf)
+      throws IOException
+  {
+    return JSONObjects.write(this, buf);
+  }
 
   /**
    * Get an optional JSONArray associated with a key. It returns null if there is no such key, or if
@@ -709,37 +630,6 @@ public abstract class MapBasedJSONObject
         return new TreeSet<String>(unsortedKeys).iterator();
     }
   }
-
-  // /**
-  // * Produce a JSONArray containing the values of the members of this JSONObject.
-  // *
-  // * @param names
-  // * A JSONArray containing a list of key strings. This determines the sequence of the
-  // * values in the result.
-  // * @return A JSONArray of values.
-  // * @throws JSONException
-  // * If any of the values are non-finite numbers.
-  // */
-  // @Override
-  // public final WritableJSONArray toJSONArray(JSONArray names)
-  // throws JSONException
-  // {
-  // return toJSONArray(this, names);
-  // }
-
-  // public static WritableJSONArray toJSONArray(JSONObject jObj,
-  // JSONArray names)
-  // throws JSONException
-  // {
-  // if (names == null || names.length() == 0) {
-  // return null;
-  // }
-  // WritableJSONArray ja = new WritableJSONArray();
-  // for (int i = 0; i < names.length(); i += 1) {
-  // ja.put(jObj.opt(names.getString(i)));
-  // }
-  // return ja;
-  // }
 
   @Override
   public <A extends JSONArray, O extends JSONObject> O clone(JSONBuilder<A, O> builder)
