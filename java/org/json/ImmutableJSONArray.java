@@ -16,10 +16,7 @@ public class ImmutableJSONArray
   public Appendable write(Appendable writer)
       throws IOException
   {
-    write(writer);
-    // ,
-    // ImmutableJSONObject.getJSONObjectBuilderSupplier(),
-    // ImmutableJSONArray.getJSONArrayBuilderSupplier());
+    JSONArrays.write(this, writer);
     return writer;
   }
   

@@ -18,32 +18,6 @@ public class JSONObjects
     return objBuilder.build();
   }
 
-  // public static String toString(JSONObject jObj)
-  // // Supplier<? extends JSONObjectBuilder> jsonObjectBuilderSupplier,
-  // // Supplier<? extends JSONArrayBuilder> jsonArrayBuilderSupplier)
-  // {
-  // try {
-  // Iterator<String> keys = jObj.keys();
-  // StringBuilder sb = new StringBuilder("{");
-  //
-  // while (keys.hasNext()) {
-  // if (sb.length() > 1) {
-  // sb.append(',');
-  // }
-  // String string = keys.next();
-  // sb.append(JSONComponents.quote(string));
-  // sb.append(':');
-  // sb.append(JSONComponents.valueToString(jObj.opt(string)));
-  // // jsonObjectBuilderSupplier,
-  // // jsonArrayBuilderSupplier));
-  // }
-  // sb.append('}');
-  // return sb.toString();
-  // } catch (Exception e) {
-  // return null;
-  // }
-  // }
-
   public static String toString(JSONObject jObj)
   {
     StringBuilder buf = new StringBuilder();
@@ -55,83 +29,85 @@ public class JSONObjects
     return buf.toString();
   }
 
-  public static String toString(JSONObject jObj,
-                                int indentFactor,
-                                int indent)
-  {
-    try {
-      int i;
-      int length = jObj.length();
-      if (length == 0) {
-        return "{}";
-      }
-      Iterator<String> keys = jObj.sortedKeys();
-      int newindent = indent + indentFactor;
-      String key;
-      StringBuilder sb = new StringBuilder("{");
-      if (length == 1) {
-        key = keys.next();
-        sb.append(JSONComponents.quote(key.toString()));
-        sb.append(": ");
-        sb.append(JSONComponents.valueToString(jObj.opt(key), indentFactor, indent));
-      } else {
-        while (keys.hasNext()) {
-          key = keys.next();
-          if (sb.length() > 1) {
-            sb.append(",\n");
-          } else {
-            sb.append('\n');
-          }
-          for (i = 0; i < newindent; i += 1) {
-            sb.append(' ');
-          }
-          sb.append(JSONComponents.quote(key.toString()));
-          sb.append(": ");
-          sb.append(JSONComponents.valueToString(jObj.opt(key), indentFactor, newindent));
-        }
-        if (sb.length() > 1) {
-          sb.append('\n');
-          for (i = 0; i < indent; i += 1) {
-            sb.append(' ');
-          }
-        }
-      }
-      sb.append('}');
-      return sb.toString();
-    } catch (JSONException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
   public static Appendable write(JSONObject jObj,
-                                 // Supplier<? extends JSONObjectBuilder> jsonObjectBuilderSupplier,
-                                 // Supplier<? extends JSONArrayBuilder> jsonArrayBuilderSupplier,
-                                 Appendable writer)
+                                 Appendable buf)
       throws IOException
   {
     boolean commanate = false;
     Iterator<String> keys = jObj.keys();
-    writer.append('{');
+    buf.append('{');
 
     while (keys.hasNext()) {
       if (commanate) {
-        writer.append(',');
+        buf.append(',');
       }
       String key = keys.next();
-      writer.append(JSONComponents.quote(key.toString()));
-      writer.append(':');
+      buf.append(JSONComponents.quote(key.toString()));
+      buf.append(':');
       Object value = jObj.opt(key);
       if (value instanceof JSONObject) {
-        ((JSONObject) value).write(writer);
+        ((JSONObject) value).write(buf);
       } else if (value instanceof JSONArray) {
-        ((JSONArray) value).write(writer);
+        ((JSONArray) value).write(buf);
       } else {
-        writer.append(JSONComponents.valueToString(value));
-        // , jsonObjectBuilderSupplier, jsonArrayBuilderSupplier));
+        JSONComponents.writeValue(value, buf);
       }
       commanate = true;
     }
-    writer.append('}');
-    return writer;
+    buf.append('}');
+    return buf;
   }
+
+  public static String toString(JSONObject jObj,
+                                int indentFactor,
+                                int indent)
+  {
+    StringBuilder buf = new StringBuilder();
+    try {
+      write(jObj, buf, indentFactor, indent);
+    } catch (IOException e) {
+      throw new RuntimeException("Impossible", e);
+    }
+    return buf.toString();
+  }
+
+  public static void write(JSONObject jObj,
+                           Appendable buf,
+                           int indentFactor,
+                           int indent)
+      throws IOException
+  {
+    buf.append('{');
+    String key;
+    switch (jObj.length()) {
+      case 0:
+        break;
+      case 1:
+        key = jObj.keys().next();
+        buf.append(JSONComponents.quote(key.toString())).append(": ");
+        JSONComponents.writeValue(jObj.opt(key), buf, indentFactor, indent);
+        break;
+      default:
+        Iterator<String> keys = jObj.sortedKeys();
+        int newindent = indent + indentFactor;
+        boolean isFirst = true;
+        while (keys.hasNext()) {
+          key = keys.next();
+          if (isFirst) {
+            buf.append('\n');
+            isFirst = false;
+          } else {
+            buf.append(",\n");
+          }
+          JSONComponents.indent(buf, newindent);
+          buf.append(JSONComponents.quote(key.toString()));
+          buf.append(": ");
+          JSONComponents.writeValue(jObj.opt(key), buf, indentFactor, newindent);
+        }
+        buf.append('\n');
+        JSONComponents.indent(buf, indent);
+    }
+    buf.append('}');
+  }
+
 }

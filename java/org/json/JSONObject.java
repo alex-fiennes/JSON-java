@@ -11,8 +11,6 @@ public interface JSONObject
 
   public boolean equalsMap(Map<String, Object> map);
 
-//  public WritableJSONObject writableClone();
-
   public <A extends JSONArray, O extends JSONObject> O clone(JSONBuilder<A, O> builder)
       throws JSONException;
 
@@ -196,13 +194,6 @@ public interface JSONObject
    * @return The number of keys in the JSONObject.
    */
   public int length();
-
-//  /**
-//   * Produce a JSONArray containing the names of the elements of this JSONObject.
-//   * 
-//   * @return A JSONArray containing the key strings, or null if the JSONObject is empty.
-//   */
-//  public JSONArray names();
 
   /**
    * Get an optional value associated with a key.
@@ -395,21 +386,6 @@ public interface JSONObject
                         boolean value)
       throws JSONException;
 
-  // /**
-  // * Put a key/value pair in the JSONObject, where the value will be a JSONArray which is produced
-  // * from a Collection.
-  // *
-  // * @param key
-  // * A key string.
-  // * @param value
-  // * A Collection value.
-  // * @return this.
-  // * @throws JSONException
-  // */
-  // public JSONObject put(String key,
-  // Collection<?> value)
-  // throws JSONException;
-
   /**
    * Put a key/double pair in the JSONObject.
    * 
@@ -454,22 +430,6 @@ public interface JSONObject
   public JSONObject put(String key,
                         long value)
       throws JSONException;
-
-  // /**
-  // * Put a key/value pair in the JSONObject, where the value will be a JSONObject which is
-  // produced
-  // * from a Map.
-  // *
-  // * @param key
-  // * A key string.
-  // * @param value
-  // * A Map value.
-  // * @return this.
-  // * @throws JSONException
-  // */
-  // public JSONObject put(String key,
-  // Map<String, ?> value)
-  // throws JSONException;
 
   /**
    * Put a key/value pair in the JSONObject. If the value is null, then the key will be removed from
@@ -533,18 +493,4 @@ public interface JSONObject
    * @return An iterator of the keys.
    */
   public Iterator<String> sortedKeys();
-
-//  /**
-//   * Produce a JSONArray containing the values of the members of this JSONObject.
-//   * 
-//   * @param names
-//   *          A JSONArray containing a list of key strings. This determines the sequence of the
-//   *          values in the result.
-//   * @return A JSONArray of values.
-//   * @throws JSONException
-//   *           If any of the values are non-finite numbers.
-//   */
-//  public JSONArray toJSONArray(JSONArray names)
-//      throws JSONException;
-
 }

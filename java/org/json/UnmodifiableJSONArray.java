@@ -33,7 +33,6 @@ public class UnmodifiableJSONArray
 
   @Override
   public Object get(int index)
-      throws JSONException
   {
     return JSONUtils.unmodifiable(__jArr.get(index));
   }

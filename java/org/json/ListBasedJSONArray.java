@@ -126,16 +126,13 @@ public abstract class ListBasedJSONArray
    * @param index
    *          The index must be between 0 and length() - 1.
    * @return An object value.
-   * @throws JSONException
-   *           If there is no value for the index.
    */
   @Override
   public Object get(int index)
-      throws JSONException
   {
     Object object = opt(index);
     if (object == null) {
-      throw new JSONException("JSONArray[" + index + "] not found.");
+      throw new IllegalStateException("JSONArray[" + index + "] not found.");
     }
     return object;
   }

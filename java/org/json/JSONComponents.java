@@ -17,8 +17,8 @@ public class JSONComponents
    * @throws IOException
    *           if it is not possible to write to the buf
    */
-  public static void quote(String string,
-                           Appendable buf)
+  public static void escapeChars(String string,
+                                 Appendable buf)
       throws IOException
   {
     char b;
@@ -26,7 +26,7 @@ public class JSONComponents
     String hhhh;
     int i;
     int len = string.length();
-  
+
     for (i = 0; i < len; i += 1) {
       b = c;
       c = string.charAt(i);
@@ -92,16 +92,13 @@ public class JSONComponents
           return Null.getInstance();
         }
     }
-  
     /*
      * If it might be a number, try converting it. We support the non-standard 0x- convention. If a
      * number cannot be produced, then the value will just be a string. Note that the 0x-, plus, and
      * implied string conventions are non-standard. A JSON parser may accept non-JSON forms as long
      * as it accepts all correct JSON forms.
      */
-  
     char b = string.charAt(0);
-  
     switch (b) {
       case '0':
         if (string.length() > 2 && (string.charAt(1) == 'x' || string.charAt(1) == 'X')) {
@@ -136,7 +133,7 @@ public class JSONComponents
         } catch (Exception ignore) {
         }
     }
-  
+
     return string;
   }
 
@@ -155,14 +152,21 @@ public class JSONComponents
       return "\"\"";
     }
     StringBuilder sb = new StringBuilder(string.length() + 4);
-    sb.append('"');
     try {
       quote(string, sb);
     } catch (IOException e) {
       throw new RuntimeException("StringBuilder should not thrown an IOException", e);
     }
-    sb.append('"');
     return sb.toString();
+  }
+
+  public static void quote(String string,
+                           Appendable buf)
+      throws IOException
+  {
+    buf.append('"');
+    escapeChars(string, buf);
+    buf.append('"');
   }
 
   /**
@@ -190,33 +194,6 @@ public class JSONComponents
   }
 
   /**
-   * Produce a string from a double. The string "null" will be returned if the number is not finite.
-   * 
-   * @param d
-   *          A double.
-   * @return A String.
-   */
-  public static String doubleToString(double d)
-  {
-    if (Double.isInfinite(d) || Double.isNaN(d)) {
-      return "null";
-    }
-  
-    // Shave off trailing zeros and decimal point, if possible.
-  
-    String string = Double.toString(d);
-    if (string.indexOf('.') > 0 && string.indexOf('e') < 0 && string.indexOf('E') < 0) {
-      while (string.endsWith("0")) {
-        string = string.substring(0, string.length() - 1);
-      }
-      if (string.endsWith(".")) {
-        string = string.substring(0, string.length() - 1);
-      }
-    }
-    return string;
-  }
-
-  /**
    * Produce a string from a Number.
    * 
    * @param number
@@ -232,9 +209,7 @@ public class JSONComponents
       throw new JSONRuntimeException("Null pointer");
     }
     testValidity(number);
-  
     // Shave off trailing zeros and decimal point, if possible.
-  
     String string = number.toString();
     if (string.indexOf('.') > 0 && string.indexOf('e') < 0 && string.indexOf('E') < 0) {
       while (string.endsWith("0")) {
@@ -267,8 +242,6 @@ public class JSONComponents
    *           If the value is or contains an invalid number.
    */
   public static String valueToString(Object value)
-      // Supplier<? extends JSONObjectBuilder> jsonObjectBuilderSupplier,
-      // Supplier<? extends JSONArrayBuilder> jsonArrayBuilderSupplier)
   {
     if (value == null || value.equals(null)) {
       return "null";
@@ -282,28 +255,37 @@ public class JSONComponents
     if (value instanceof Boolean || value instanceof JSONObject || value instanceof JSONArray) {
       return value.toString();
     }
-    // if (value instanceof Map<?, ?>) {
-    // JSONObjectBuilder builder = jsonObjectBuilderSupplier.get();
-    // for (Map.Entry<?, ?> entry : ((Map<?, ?>) value).entrySet()) {
-    // builder.putOnce(entry.getKey().toString(), entry.getValue());
-    // }
-    // return builder.build().toString();
-    // }
-    // if (value instanceof Collection<?>) {
-    // JSONArrayBuilder builder = jsonArrayBuilderSupplier.get();
-    // for (Object v : ((Collection<?>) value)) {
-    // builder.put(v);
-    // }
-    // return builder.build().toString();
-    // }
-    // if (value.getClass().isArray()) {
-    // JSONArrayBuilder builder = jsonArrayBuilderSupplier.get();
-    // for (Object v : ((Object[]) value)) {
-    // builder.put(v);
-    // }
-    // return builder.build().toString();
-    // }
     return quote(value.toString());
+  }
+
+  public static void writeValue(Object value,
+                                Appendable buf)
+      throws IOException
+  {
+    if (value == null || value.equals(null)) {
+      buf.append("null");
+      return;
+    }
+    if (value instanceof JSONString) {
+      ((JSONString) value).toJSONString(buf);
+      return;
+    }
+    if (value instanceof Number) {
+      buf.append(numberToString((Number) value));
+      return;
+    }
+    if (value instanceof Boolean) {
+      buf.append(value.toString());
+      return;
+    }
+    if (value instanceof JSONObject) {
+      JSONObjects.write(((JSONObject) value), buf);
+      return;
+    }
+    if (value instanceof JSONArray) {
+      JSONArrays.write(((JSONArray) value), buf);
+    }
+    buf.append(quote(value.toString()));
   }
 
   /**
@@ -352,6 +334,39 @@ public class JSONComponents
     if (value instanceof JSONArray) {
       return ((JSONArray) value).toString(indentFactor, indent);
     }
+    return quote(value.toString());
+  }
+
+  static final void writeValue(Object value,
+                               Appendable buf,
+                               int indentFactor,
+                               int indent)
+      throws IOException
+  {
+    if (value == null || value.equals(Null.getInstance())) {
+      buf.append("null");
+      return;
+    }
+    if (value instanceof JSONString) {
+      buf.append(((JSONString) value).toJSONString());
+      return;
+    }
+    if (value instanceof Number) {
+      buf.append(numberToString((Number) value));
+      return;
+    }
+    if (value instanceof Boolean) {
+      buf.append(value.toString());
+      return;
+    }
+    if (value instanceof JSONObject) {
+      JSONObjects.write(((JSONObject) value), buf, indentFactor, indent);
+      return;
+    }
+    if (value instanceof JSONArray) {
+      JSONArrays.write(((JSONArray) value), buf, indentFactor, indent);
+      return;
+    }
     // if (value instanceof Map<?, ?>) {
     // return new WritableJSONObject((Map<?, ?>) value).toString(indentFactor, indent);
     // }
@@ -361,7 +376,16 @@ public class JSONComponents
     // if (value.getClass().isArray()) {
     // return new WritableJSONArray(value).toString(indentFactor, indent);
     // }
-    return quote(value.toString());
+    buf.append(quote(value.toString()));
+  }
+
+  static void indent(Appendable buf,
+                     int depth)
+      throws IOException
+  {
+    for (int i = 0; i < depth; i++) {
+      buf.append(' ');
+    }
   }
 
 }
