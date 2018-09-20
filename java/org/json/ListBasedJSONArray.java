@@ -607,7 +607,7 @@ public abstract class ListBasedJSONArray
       throws JSONException
   {
     Double d = Double.valueOf(value);
-    WritableJSONObject.testValidity(d);
+    JSONObjects.testValidity(d);
     put(d);
     return this;
   }
@@ -814,7 +814,7 @@ public abstract class ListBasedJSONArray
                                 Object value)
       throws JSONException
   {
-    WritableJSONObject.testValidity(value);
+    JSONObjects.testValidity(value);
     if (index < 0) {
       throw new JSONException("JSONArray[" + index + "] not found.");
     }
@@ -893,7 +893,7 @@ public abstract class ListBasedJSONArray
         if (i > 0) {
           sb.append(',');
         }
-        sb.append(MapBasedJSONObject.valueToString(this.__backingList.get(i)));
+        sb.append(JSONObjects.valueToString(this.__backingList.get(i)));
         // jsonObjectBuilderSupplier,
         // jsonArrayBuilderSupplier));
       }
@@ -948,7 +948,7 @@ public abstract class ListBasedJSONArray
       int i;
       StringBuilder sb = new StringBuilder("[");
       if (len == 1) {
-        sb.append(WritableJSONObject.valueToString(this.__backingList.get(0),
+        sb.append(JSONObjects.valueToString(this.__backingList.get(0),
                                                    indentFactor,
                                                    indent));
       } else {
@@ -961,7 +961,7 @@ public abstract class ListBasedJSONArray
           for (int j = 0; j < newindent; j += 1) {
             sb.append(' ');
           }
-          sb.append(WritableJSONObject.valueToString(this.__backingList.get(i),
+          sb.append(JSONObjects.valueToString(this.__backingList.get(i),
                                                      indentFactor,
                                                      newindent));
         }
@@ -1009,7 +1009,7 @@ public abstract class ListBasedJSONArray
         } else if (v instanceof ListBasedJSONArray) {
           ((ListBasedJSONArray) v).write(writer);
         } else {
-          writer.write(MapBasedJSONObject.valueToString(v));
+          writer.write(JSONObjects.valueToString(v));
           // ,
           // jsonObjectBuilderSupplier,
           // jsonArrayBuilderSupplier));

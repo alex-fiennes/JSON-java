@@ -534,17 +534,17 @@ public interface JSONObject
    */
   public Iterator<String> sortedKeys();
 
-  /**
-   * Produce a JSONArray containing the values of the members of this JSONObject.
-   * 
-   * @param names
-   *          A JSONArray containing a list of key strings. This determines the sequence of the
-   *          values in the result.
-   * @return A JSONArray of values.
-   * @throws JSONException
-   *           If any of the values are non-finite numbers.
-   */
-  public JSONArray toJSONArray(JSONArray names)
-      throws JSONException;
+//  /**
+//   * Produce a JSONArray containing the values of the members of this JSONObject.
+//   * 
+//   * @param names
+//   *          A JSONArray containing a list of key strings. This determines the sequence of the
+//   *          values in the result.
+//   * @return A JSONArray of values.
+//   * @throws JSONException
+//   *           If any of the values are non-finite numbers.
+//   */
+//  public JSONArray toJSONArray(JSONArray names)
+//      throws JSONException;
 
 }

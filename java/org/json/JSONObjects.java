@@ -1,6 +1,8 @@
 package org.json;
 
 import java.io.IOException;
+import java.io.Writer;
+import java.util.Iterator;
 import java.util.Map;
 
 public class JSONObjects
@@ -150,5 +152,340 @@ public class JSONObjects
       objBuilder.putOnce(entry.getKey(), builder.wrap(entry.getValue()));
     }
     return objBuilder.build();
+  }
+
+  public static String toString(JSONObject jObj)
+  // Supplier<? extends JSONObjectBuilder> jsonObjectBuilderSupplier,
+  // Supplier<? extends JSONArrayBuilder> jsonArrayBuilderSupplier)
+  {
+    try {
+      Iterator<String> keys = jObj.keys();
+      StringBuilder sb = new StringBuilder("{");
+  
+      while (keys.hasNext()) {
+        if (sb.length() > 1) {
+          sb.append(',');
+        }
+        String string = keys.next();
+        sb.append(JSONObjects.quote(string));
+        sb.append(':');
+        sb.append(JSONObjects.valueToString(jObj.opt(string)));
+        // jsonObjectBuilderSupplier,
+        // jsonArrayBuilderSupplier));
+      }
+      sb.append('}');
+      return sb.toString();
+    } catch (Exception e) {
+      return null;
+    }
+  }
+
+  /**
+   * Produce a string in double quotes with backslash sequences in all the right places. A backslash
+   * will be inserted within </, producing <\/, allowing JSON text to be delivered in HTML. In JSON
+   * text, a string cannot contain a control character or an unescaped quote or backslash.
+   * 
+   * @param string
+   *          A String
+   * @return A String correctly formatted for insertion in a JSON text.
+   */
+  public static String quote(String string)
+  {
+    if (string == null || string.length() == 0) {
+      return "\"\"";
+    }
+    StringBuilder sb = new StringBuilder(string.length() + 4);
+    sb.append('"');
+    try {
+      quote(string, sb);
+    } catch (IOException e) {
+      throw new RuntimeException("StringBuilder should not thrown an IOException", e);
+    }
+    sb.append('"');
+    return sb.toString();
+  }
+
+  /**
+   * Throw an exception if the object is a NaN or infinite number.
+   * 
+   * @param o
+   *          The object to test.
+   * @throws JSONException
+   *           If o is a non-finite number.
+   */
+  public static void testValidity(Object o)
+      throws JSONException
+  {
+    if (o != null) {
+      if (o instanceof Double) {
+        if (((Double) o).isInfinite() || ((Double) o).isNaN()) {
+          throw new JSONException("JSON does not allow non-finite numbers.");
+        }
+      } else if (o instanceof Float) {
+        if (((Float) o).isInfinite() || ((Float) o).isNaN()) {
+          throw new JSONException("JSON does not allow non-finite numbers.");
+        }
+      }
+    }
+  }
+
+  /**
+   * Produce a string from a double. The string "null" will be returned if the number is not finite.
+   * 
+   * @param d
+   *          A double.
+   * @return A String.
+   */
+  public static String doubleToString(double d)
+  {
+    if (Double.isInfinite(d) || Double.isNaN(d)) {
+      return "null";
+    }
+  
+    // Shave off trailing zeros and decimal point, if possible.
+  
+    String string = Double.toString(d);
+    if (string.indexOf('.') > 0 && string.indexOf('e') < 0 && string.indexOf('E') < 0) {
+      while (string.endsWith("0")) {
+        string = string.substring(0, string.length() - 1);
+      }
+      if (string.endsWith(".")) {
+        string = string.substring(0, string.length() - 1);
+      }
+    }
+    return string;
+  }
+
+  /**
+   * Produce a string from a Number.
+   * 
+   * @param number
+   *          A Number
+   * @return A String.
+   * @throws JSONException
+   *           If n is a non-finite number.
+   */
+  public static String numberToString(Number number)
+      throws JSONException
+  {
+    if (number == null) {
+      throw new JSONException("Null pointer");
+    }
+    testValidity(number);
+  
+    // Shave off trailing zeros and decimal point, if possible.
+  
+    String string = number.toString();
+    if (string.indexOf('.') > 0 && string.indexOf('e') < 0 && string.indexOf('E') < 0) {
+      while (string.endsWith("0")) {
+        string = string.substring(0, string.length() - 1);
+      }
+      if (string.endsWith(".")) {
+        string = string.substring(0, string.length() - 1);
+      }
+    }
+    return string;
+  }
+
+  public static String toString(JSONObject jObj,
+                                int indentFactor,
+                                int indent)
+  {
+    try {
+      int i;
+      int length = jObj.length();
+      if (length == 0) {
+        return "{}";
+      }
+      Iterator<String> keys = jObj.sortedKeys();
+      int newindent = indent + indentFactor;
+      String key;
+      StringBuilder sb = new StringBuilder("{");
+      if (length == 1) {
+        key = keys.next();
+        sb.append(quote(key.toString()));
+        sb.append(": ");
+        sb.append(JSONObjects.valueToString(jObj.opt(key), indentFactor, indent));
+      } else {
+        while (keys.hasNext()) {
+          key = keys.next();
+          if (sb.length() > 1) {
+            sb.append(",\n");
+          } else {
+            sb.append('\n');
+          }
+          for (i = 0; i < newindent; i += 1) {
+            sb.append(' ');
+          }
+          sb.append(quote(key.toString()));
+          sb.append(": ");
+          sb.append(JSONObjects.valueToString(jObj.opt(key), indentFactor, newindent));
+        }
+        if (sb.length() > 1) {
+          sb.append('\n');
+          for (i = 0; i < indent; i += 1) {
+            sb.append(' ');
+          }
+        }
+      }
+      sb.append('}');
+      return sb.toString();
+    } catch (JSONException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  /**
+   * Make a JSON text of an Object value. If the object has an value.toJSONString() method, then
+   * that method will be used to produce the JSON text. The method is required to produce a strictly
+   * conforming text. If the object does not contain a toJSONString method (which is the most common
+   * case), then a text will be produced by other means. If the value is an array or Collection,
+   * then a JSONArray will be made from it and its toJSONString method will be called. If the value
+   * is a MAP, then a JSONObject will be made from it and its toJSONString method will be called.
+   * Otherwise, the value's toString method will be called, and the result will be quoted.
+   * <p>
+   * Warning: This method assumes that the data structure is acyclical.
+   * 
+   * @param value
+   *          The value to be serialized.
+   * @return a printable, displayable, transmittable representation of the object, beginning with
+   *         <code>{</code>&nbsp;<small>(left brace)</small> and ending with <code>}</code>
+   *         &nbsp;<small>(right brace)</small>.
+   * @throws JSONException
+   *           If the value is or contains an invalid number.
+   */
+  public static String valueToString(Object value)
+      // Supplier<? extends JSONObjectBuilder> jsonObjectBuilderSupplier,
+      // Supplier<? extends JSONArrayBuilder> jsonArrayBuilderSupplier)
+      throws JSONException
+  {
+    if (value == null || value.equals(null)) {
+      return "null";
+    }
+    if (value instanceof JSONString) {
+      return ((JSONString) value).toJSONString();
+    }
+    if (value instanceof Number) {
+      return numberToString((Number) value);
+    }
+    if (value instanceof Boolean || value instanceof JSONObject || value instanceof JSONArray) {
+      return value.toString();
+    }
+    // if (value instanceof Map<?, ?>) {
+    // JSONObjectBuilder builder = jsonObjectBuilderSupplier.get();
+    // for (Map.Entry<?, ?> entry : ((Map<?, ?>) value).entrySet()) {
+    // builder.putOnce(entry.getKey().toString(), entry.getValue());
+    // }
+    // return builder.build().toString();
+    // }
+    // if (value instanceof Collection<?>) {
+    // JSONArrayBuilder builder = jsonArrayBuilderSupplier.get();
+    // for (Object v : ((Collection<?>) value)) {
+    // builder.put(v);
+    // }
+    // return builder.build().toString();
+    // }
+    // if (value.getClass().isArray()) {
+    // JSONArrayBuilder builder = jsonArrayBuilderSupplier.get();
+    // for (Object v : ((Object[]) value)) {
+    // builder.put(v);
+    // }
+    // return builder.build().toString();
+    // }
+    return quote(value.toString());
+  }
+
+  /**
+   * Make a prettyprinted JSON text of an object value.
+   * <p>
+   * Warning: This method assumes that the data structure is acyclical.
+   * 
+   * @param value
+   *          The value to be serialized.
+   * @param indentFactor
+   *          The number of spaces to add to each level of indentation.
+   * @param indent
+   *          The indentation of the top level.
+   * @return a printable, displayable, transmittable representation of the object, beginning with
+   *         <code>{</code>&nbsp;<small>(left brace)</small> and ending with <code>}</code>
+   *         &nbsp;<small>(right brace)</small>.
+   * @throws JSONException
+   *           If the object contains an invalid number.
+   */
+  static final String valueToString(Object value,
+                                    int indentFactor,
+                                    int indent)
+      throws JSONException
+  {
+    if (value == null || value.equals(null)) {
+      return "null";
+    }
+    try {
+      if (value instanceof JSONString) {
+        Object o = ((JSONString) value).toJSONString();
+        if (o instanceof String) {
+          return (String) o;
+        }
+      }
+    } catch (Exception ignore) {
+    }
+    if (value instanceof Number) {
+      return numberToString((Number) value);
+    }
+    if (value instanceof Boolean) {
+      return value.toString();
+    }
+    if (value instanceof JSONObject) {
+      return ((JSONObject) value).toString(indentFactor, indent);
+    }
+    if (value instanceof JSONArray) {
+      return ((JSONArray) value).toString(indentFactor, indent);
+    }
+    // if (value instanceof Map<?, ?>) {
+    // return new WritableJSONObject((Map<?, ?>) value).toString(indentFactor, indent);
+    // }
+    // if (value instanceof Collection<?>) {
+    // return new WritableJSONArray((Collection<?>) value).toString(indentFactor, indent);
+    // }
+    // if (value.getClass().isArray()) {
+    // return new WritableJSONArray(value).toString(indentFactor, indent);
+    // }
+    return quote(value.toString());
+  }
+
+  public static Writer write(JSONObject jObj,
+                             // Supplier<? extends JSONObjectBuilder> jsonObjectBuilderSupplier,
+                             // Supplier<? extends JSONArrayBuilder> jsonArrayBuilderSupplier,
+                             Writer writer)
+      throws JSONException
+  {
+    try {
+      boolean commanate = false;
+      Iterator<String> keys = jObj.keys();
+      writer.write('{');
+  
+      while (keys.hasNext()) {
+        if (commanate) {
+          writer.write(',');
+        }
+        String key = keys.next();
+        writer.write(quote(key.toString()));
+        writer.write(':');
+        Object value = jObj.opt(key);
+        if (value instanceof JSONObject) {
+          ((JSONObject) value).write(writer);
+        } else if (value instanceof JSONArray) {
+          ((JSONArray) value).write(writer);
+        } else {
+          writer.write(valueToString(value));
+          // , jsonObjectBuilderSupplier, jsonArrayBuilderSupplier));
+        }
+        commanate = true;
+      }
+      writer.write('}');
+      return writer;
+    } catch (IOException exception) {
+      throw new JSONException(exception);
+    }
   }
 }

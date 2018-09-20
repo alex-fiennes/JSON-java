@@ -228,12 +228,12 @@ public class UnmodifiableJSONObject
     return new UnmodifiableIterator<String>(__jObj.sortedKeys());
   }
 
-  @Override
-  public UnmodifiableJSONArray toJSONArray(JSONArray names)
-      throws JSONException
-  {
-    return UnmodifiableJSONArray.getInstance(__jObj.toJSONArray(names));
-  }
+//  @Override
+//  public UnmodifiableJSONArray toJSONArray(JSONArray names)
+//      throws JSONException
+//  {
+//    return UnmodifiableJSONArray.getInstance(__jObj.toJSONArray(names));
+//  }
 
   @Override
   public String toString(int indentFactor)

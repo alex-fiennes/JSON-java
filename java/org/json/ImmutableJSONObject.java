@@ -221,7 +221,7 @@ public class ImmutableJSONObject
   public Writer write(Writer writer)
       throws JSONException
   {
-    write(this,
+    JSONObjects.write(this,
 //          ImmutableJSONObject.getJSONObjectBuilderSupplier(),
 //          ImmutableJSONArray.getJSONArrayBuilderSupplier(),
           writer);

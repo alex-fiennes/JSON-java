@@ -322,7 +322,7 @@ public class WritableJSONObject
                                        Object value)
       throws JSONException
   {
-    testValidity(value);
+    JSONObjects.testValidity(value);
     Object object = opt(key);
     if (object == null) {
       put(key, value instanceof WritableJSONArray ? new WritableJSONArray().put(value) : value);
@@ -353,7 +353,7 @@ public class WritableJSONObject
                                    Object value)
       throws JSONException
   {
-    testValidity(value);
+    JSONObjects.testValidity(value);
     Object object = opt(key);
     if (object == null) {
       put(key, new WritableJSONArray().put(value));
@@ -416,7 +416,7 @@ public class WritableJSONObject
     } else if (value instanceof Float) {
       put(key, ((Float) value).floatValue() + 1);
     } else {
-      throw new JSONException("Unable to increment [" + quote(key) + "].");
+      throw new JSONException("Unable to increment [" + JSONObjects.quote(key) + "].");
     }
     return this;
   }
@@ -635,7 +635,7 @@ public class WritableJSONObject
       throw new JSONException("Null key.");
     }
     if (value != null) {
-      testValidity(value);
+      JSONObjects.testValidity(value);
       this.__map.put(key, value);
     } else {
       remove(key);
@@ -733,7 +733,7 @@ public class WritableJSONObject
   public Writer write(Writer writer)
       throws JSONException
   {
-    return MapBasedJSONObject.write(this,
+    return JSONObjects.write(this,
                                     // WritableJSONObject.getJSONObjectBuilderSupplier(),
                                     // WritableJSONArray.getJSONArrayBuilderSupplier(),
                                     writer);
