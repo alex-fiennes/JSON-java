@@ -977,34 +977,9 @@ public abstract class ListBasedJSONArray
    */
   @Override
   public Appendable write(Appendable writer)
-      // ,
-      // Supplier<? extends JSONObjectBuilder> jsonObjectBuilderSupplier,
-      // Supplier<? extends JSONArrayBuilder> jsonArrayBuilderSupplier)
       throws IOException
   {
-    boolean b = false;
-    int len = length();
-
-    writer.append('[');
-
-    for (int i = 0; i < len; i += 1) {
-      if (b) {
-        writer.append(',');
-      }
-      Object v = this.__backingList.get(i);
-      if (v instanceof WritableJSONObject) {
-        ((WritableJSONObject) v).write(writer);
-      } else if (v instanceof ListBasedJSONArray) {
-        ((ListBasedJSONArray) v).write(writer);
-      } else {
-        writer.append(JSONComponents.valueToString(v));
-        // ,
-        // jsonObjectBuilderSupplier,
-        // jsonArrayBuilderSupplier));
-      }
-      b = true;
-    }
-    writer.append(']');
+    JSONArrays.write(this, writer);
     return writer;
   }
 

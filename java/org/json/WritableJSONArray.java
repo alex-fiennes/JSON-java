@@ -380,24 +380,25 @@ public class WritableJSONArray
   // return jo;
   // }
 
-  /**
-   * Write the contents of the JSONArray as JSON text to a writer. For compactness, no whitespace is
-   * added.
-   * <p>
-   * Warning: This method assumes that the data structure is acyclical.
-   * 
-   * @return The writer.
-   */
-  @Override
-  public Appendable write(Appendable writer)
-      throws IOException
-  {
-    write(writer);
-//    ,
-//          WritableJSONObject.getJSONObjectBuilderSupplier(),
-//          WritableJSONArray.getJSONArrayBuilderSupplier());
-    return writer;
-  }
+//  /**
+//   * Write the contents of the JSONArray as JSON text to a writer. For compactness, no whitespace is
+//   * added.
+//   * <p>
+//   * Warning: This method assumes that the data structure is acyclical.
+//   * 
+//   * @return The writer.
+//   */
+//  @Override
+//  public Appendable write(Appendable writer)
+//      throws IOException
+//  {
+//    JSONArrays.write(this,  writer);
+////    write(writer);
+////    ,
+////          WritableJSONObject.getJSONObjectBuilderSupplier(),
+////          WritableJSONArray.getJSONArrayBuilderSupplier());
+//    return writer;
+//  }
 
   private static final Supplier<Builder> BUILDERSUPPLIER = new Supplier<Builder>() {
     @Override

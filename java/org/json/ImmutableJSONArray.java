@@ -12,13 +12,13 @@ public class ImmutableJSONArray
     super(list);
   }
 
-  @Override
-  public Appendable write(Appendable writer)
-      throws IOException
-  {
-    JSONArrays.write(this, writer);
-    return writer;
-  }
+//  @Override
+//  public Appendable write(Appendable writer)
+//      throws IOException
+//  {
+//    JSONArrays.write(this, writer);
+//    return writer;
+//  }
   
   @SuppressWarnings("unchecked")
   @Override
