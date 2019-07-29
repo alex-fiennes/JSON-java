@@ -28,4 +28,21 @@ public class ImmutableJSON
     return new ImmutableJSONObject.Builder();
   }
 
+  /**
+   * @return Singleton immutable empty JSONObject
+   */
+  @Override
+  public ImmutableJSONObject emptyJSONObject()
+  {
+    return ImmutableJSONObject.EMPTY;
+  }
+
+  /**
+   * @return Singleton immutable empty JSONArray
+   */
+  @Override
+  public ImmutableJSONArray emptyJSONArray()
+  {
+    return ImmutableJSONArray.EMPTY;
+  }
 }

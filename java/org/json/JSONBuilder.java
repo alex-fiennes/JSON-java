@@ -87,7 +87,16 @@ public abstract class JSONBuilder<A extends JSONArray, O extends JSONObject>
   {
     return source.clone(this);
   }
-  
+
+  /**
+   * Create an empty JSONArray. If this JSONBuilder creates immutable implementations then this can
+   * be overridden with a singleton return.
+   */
+  public A emptyJSONArray()
+  {
+    return createJSONArrayBuilder().build();
+  }
+
   public A toJSONArray(Iterable<?> values)
   {
     JSONArrayBuilder<A> jsonArrayBuilder = createJSONArrayBuilder();
@@ -142,6 +151,15 @@ public abstract class JSONBuilder<A extends JSONArray, O extends JSONObject>
       throws JSONException
   {
     return source.clone(this);
+  }
+
+  /**
+   * Create an empty JSONObject. If this JSONBuilder creates immutable implementations then this can
+   * be overridden with a singleton return.
+   */
+  public O emptyJSONObject()
+  {
+    return createJSONObjectBuilder().build();
   }
 
   public O toJSONObject(JSONObject source)

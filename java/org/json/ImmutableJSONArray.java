@@ -7,6 +7,8 @@ import com.google.common.collect.ImmutableList;
 public class ImmutableJSONArray
   extends ListBasedJSONArray
 {
+  protected final static ImmutableJSONArray EMPTY = new ImmutableJSONArray(ImmutableList.of());
+  
   private ImmutableJSONArray(ImmutableList<Object> list)
   {
     super(list);

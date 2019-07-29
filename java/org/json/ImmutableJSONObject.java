@@ -7,6 +7,8 @@ import com.google.common.collect.ImmutableMap;
 public class ImmutableJSONObject
   extends MapBasedJSONObject
 {
+  protected static final ImmutableJSONObject EMPTY =
+      new ImmutableJSONObject(ImmutableMap.<String, Object> of());
 
   private final ImmutableMap<String, Object> __map;
 
@@ -123,6 +125,5 @@ public class ImmutableJSONObject
     }
 
   }
-
 
 }
