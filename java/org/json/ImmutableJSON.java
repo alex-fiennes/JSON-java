@@ -5,6 +5,15 @@ public class ImmutableJSON
 {
   private static final ImmutableJSON INSTANCE = new ImmutableJSON();
 
+  public static final ImmutableJSON get()
+  {
+    return INSTANCE;
+  }
+
+  /**
+   * @deprecated in preference of {@link #get()}
+   */
+  @Deprecated
   public static final ImmutableJSON getInstance()
   {
     return INSTANCE;
