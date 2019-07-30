@@ -2,6 +2,7 @@ package org.json;
 
 import java.util.Iterator;
 
+@Deprecated
 public class JSONUtils
 {
   private JSONUtils()
@@ -9,6 +10,7 @@ public class JSONUtils
 
   }
 
+  @Deprecated
   public static Object unmodifiable(Object obj)
   {
     if (obj instanceof JSONObject) {
@@ -20,16 +22,19 @@ public class JSONUtils
     return obj;
   }
 
+  @Deprecated
   public static UnmodifiableJSONObject unmodifiable(JSONObject jObj)
   {
     return UnmodifiableJSONObject.getInstance(jObj);
   }
 
+  @Deprecated
   public static UnmodifiableJSONArray unmodifiable(JSONArray jArr)
   {
     return UnmodifiableJSONArray.getInstance(jArr);
   }
 
+  @Deprecated
   public static WritableJSONObject writableDeepCopy(JSONObject jObj)
       throws JSONException
   {
@@ -48,7 +53,8 @@ public class JSONUtils
     }
     return copy;
   }
-  
+
+  @Deprecated
   public static WritableJSONArray writableDeepCopy(JSONArray jArr)
       throws JSONException
   {
@@ -75,6 +81,7 @@ public class JSONUtils
    * @throws NullPointerException
    *           if obj was null
    */
+  @Deprecated
   public static Object stripNULL(Object obj)
   {
     if (obj == null) {
