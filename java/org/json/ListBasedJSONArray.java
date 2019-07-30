@@ -915,7 +915,8 @@ public abstract class ListBasedJSONArray
   @Override
   public String toString(int indentFactor)
   {
-    return toString(indentFactor, 0);
+    return JSONArrays.toString(this);
+    // return toString(indentFactor, 0);
   }
 
   /**
@@ -932,39 +933,40 @@ public abstract class ListBasedJSONArray
   public final String toString(int indentFactor,
                                int indent)
   {
-    try {
-      int len = length();
-      if (len == 0) {
-        return "[]";
-      }
-      int i;
-      StringBuilder sb = new StringBuilder("[");
-      if (len == 1) {
-        sb.append(JSONComponents.valueToString(this.__backingList.get(0), indentFactor, indent));
-      } else {
-        int newindent = indent + indentFactor;
-        sb.append('\n');
-        for (i = 0; i < len; i += 1) {
-          if (i > 0) {
-            sb.append(",\n");
-          }
-          for (int j = 0; j < newindent; j += 1) {
-            sb.append(' ');
-          }
-          sb.append(JSONComponents.valueToString(this.__backingList.get(i),
-                                                 indentFactor,
-                                                 newindent));
-        }
-        sb.append('\n');
-        for (i = 0; i < indent; i += 1) {
-          sb.append(' ');
-        }
-      }
-      sb.append(']');
-      return sb.toString();
-    } catch (JSONException e) {
-      throw new RuntimeException(e);
-    }
+    return JSONArrays.toString(this, indentFactor, indent);
+    // try {
+    // int len = length();
+    // if (len == 0) {
+    // return "[]";
+    // }
+    // int i;
+    // StringBuilder sb = new StringBuilder("[");
+    // if (len == 1) {
+    // sb.append(JSONComponents.valueToString(this.__backingList.get(0), indentFactor, indent));
+    // } else {
+    // int newindent = indent + indentFactor;
+    // sb.append('\n');
+    // for (i = 0; i < len; i += 1) {
+    // if (i > 0) {
+    // sb.append(",\n");
+    // }
+    // for (int j = 0; j < newindent; j += 1) {
+    // sb.append(' ');
+    // }
+    // sb.append(JSONComponents.valueToString(this.__backingList.get(i),
+    // indentFactor,
+    // newindent));
+    // }
+    // sb.append('\n');
+    // for (i = 0; i < indent; i += 1) {
+    // sb.append(' ');
+    // }
+    // }
+    // sb.append(']');
+    // return sb.toString();
+    // } catch (JSONException e) {
+    // throw new RuntimeException(e);
+    // }
   }
 
   /**

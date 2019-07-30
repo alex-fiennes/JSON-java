@@ -16,6 +16,30 @@ public class JSONArrays
     return arrayBuilder.build();
   }
 
+  public static String toString(JSONArray jArr)
+  {
+    StringBuilder buf = new StringBuilder();
+    try {
+      write(jArr, buf);
+    } catch (IOException e) {
+      throw new RuntimeException("Impossible", e);
+    }
+    return buf.toString();
+  }
+
+  public static String toString(JSONArray jArr,
+                                int indentFactor,
+                                int indent)
+  {
+    StringBuilder buf = new StringBuilder();
+    try {
+      write(jArr, buf, indentFactor, indent);
+    } catch (IOException e) {
+      throw new RuntimeException("Impossible", e);
+    }
+    return buf.toString();
+  }
+
   /**
    * Make a prettyprinted JSON text of this JSONArray. Warning: This method assumes that the data
    * structure is acyclical.
