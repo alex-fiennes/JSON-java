@@ -278,12 +278,9 @@ public class JSONComponents
       buf.append(value.toString());
       return;
     }
-    if (value instanceof JSONObject) {
-      JSONObjects.write(((JSONObject) value), buf);
+    if (value instanceof JSONComponent) {
+      ((JSONComponent) value).write(buf);
       return;
-    }
-    if (value instanceof JSONArray) {
-      JSONArrays.write(((JSONArray) value), buf);
     }
     buf.append(quote(value.toString()));
   }
