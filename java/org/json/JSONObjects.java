@@ -44,14 +44,7 @@ public class JSONObjects
       String key = keys.next();
       buf.append(JSONComponents.quote(key.toString()));
       buf.append(':');
-      Object value = jObj.opt(key);
-      if (value instanceof JSONObject) {
-        ((JSONObject) value).write(buf);
-      } else if (value instanceof JSONArray) {
-        ((JSONArray) value).write(buf);
-      } else {
-        JSONComponents.writeValue(value, buf);
-      }
+      JSONComponents.writeValue(jObj.opt(key), buf);
       commanate = true;
     }
     buf.append('}');
