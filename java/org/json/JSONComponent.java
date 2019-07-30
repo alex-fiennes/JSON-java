@@ -49,7 +49,7 @@ public interface JSONComponent
                          int indent);
 
   /**
-   * Write the contents of the JSONObject as JSON text to a writer. For compactness, no whitespace
+   * Write the contents of the JSONComponent as JSON text to a writer. For compactness, no whitespace
    * is added.
    * <p>
    * Warning: This method assumes that the data structure is acyclical.
