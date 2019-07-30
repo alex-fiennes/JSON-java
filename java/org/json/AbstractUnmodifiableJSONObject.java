@@ -7,6 +7,7 @@ package org.json;
  * 
  * @author alex
  */
+@Deprecated
 public abstract class AbstractUnmodifiableJSONObject
   implements JSONObject
 {

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
+@Deprecated
 public class UnmodifiableJSONArray
   implements JSONArray
 {

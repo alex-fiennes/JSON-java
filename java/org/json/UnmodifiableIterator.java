@@ -2,6 +2,7 @@ package org.json;
 
 import java.util.Iterator;
 
+@Deprecated
 public class UnmodifiableIterator<T>
   implements Iterator<T>
 {
