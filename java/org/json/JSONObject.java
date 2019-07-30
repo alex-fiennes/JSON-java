@@ -6,6 +6,10 @@ import java.util.Map;
 public interface JSONObject
   extends JSONComponent
 {
+  /**
+   * @deprecated in preference of {@link ImmutableJSON#emptyJSONObject()}
+   */
+  @Deprecated
   public static final JSONObject EMPTY =
       UnmodifiableJSONObject.getInstance(new WritableJSONObject());
 
