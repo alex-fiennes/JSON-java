@@ -1,12 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="JSON-java" default="all">
+<project xmlns:ivy="antlib:org.apache.ivy.ant" name="JSON-java">
 
-    <property name="project.deps" value="."/>
-    
-    <!-- Place any project-specific properties above this line -->
-    <import file="${basedir}/../build/build-common.xml" />
+	<property name="src.dir" value="java" />
+	<property name="build.dir" value="build" />
+	<property name="classes.dir" value="${build.dir}/classes" />
+	<property name="jarfile" value="JSON-java.jar" />
 
-    <target name="javadoc" depends="compile">
+	<target name="clean">
+		<delete failonerror="false" includeemptydirs="true" dir="${classes.dir}" />
+	</target>
+
+	<target name="compile">
+		<mkdir dir="${classes.dir}" />
+		<javac destdir="${classes.dir}" debug="true" encoding="utf-8">
+			<src path="${src.dir}" />
+			<classpath refid="classpath" />
+		</javac>
+	</target>	
+	
+	<target name="makejar" depends="compile">
+		<jar jarfile="${build.dir}/${jarfile}" basedir="${classes.dir}" includes="**/*.class" />
+	</target>
+
+	<target name="javadoc">
         <javadoc.local>
             <links>
             	<link href="http://download.oracle.com/javase/6/docs/api" />
