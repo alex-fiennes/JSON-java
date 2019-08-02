@@ -106,9 +106,14 @@ public class Test
     Test test = new Test();
     test.testNull();
     
-    JSONObject jObj = ImmutableJSON.getInstance().toJSONObject("{\"a\":{\"b\":2, \"c\": [1,2,{\"d\":\"deep?\",\"e\":2.543}]}}");
+    JSONObject jObj = ImmutableJSON.get().toJSONObject("{\"a\":{\"b\":2, \"c\": [1,2,{\"d\":\"deep?\",\"e\":2.543}]}}");
     System.out.println(jObj);
-    System.out.println(jObj.toString(4));
+    System.out.println(jObj.getClass());
+    System.out.println(jObj.getJSONObject("a").getClass());
+    jObj = WritableJSON.get().cast(jObj);
+    System.out.println(jObj);
+    System.out.println(jObj.getClass());
+    System.out.println(jObj.getJSONObject("a").getClass());    
   }
 
   // public void testJSON()

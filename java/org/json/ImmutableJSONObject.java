@@ -120,7 +120,7 @@ public class ImmutableJSONObject
                            Object value)
         throws JSONException
     {
-      __builder.put(key, value);
+      __builder.put(key, ImmutableJSON.get().cast(value));
       return this;
     }
 

@@ -25,7 +25,7 @@ public class ImmutableJSONArray
   public <A extends JSONArray, O extends JSONObject> A clone(JSONBuilder<A, O> builder)
       throws JSONException
   {
-    return (A) (ImmutableJSON.getInstance().equals(builder) ? this : super.clone(builder));
+    return (A) (ImmutableJSON.get().equals(builder) ? this : super.clone(builder));
   }
 
 
@@ -142,9 +142,9 @@ public class ImmutableJSONArray
     }
 
     @Override
-    public Builder put(Object value)
+    public Builder put(Object value) throws JSONException
     {
-      __builder.add(value);
+      __builder.add(ImmutableJSON.get().cast(value));
       return this;
     }
   }

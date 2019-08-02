@@ -28,4 +28,21 @@ public class WritableJSON
     return new WritableJSONObject.Builder();
   }
 
+  @Override
+  public WritableJSONArray cast(JSONArray source)
+  {
+    if (source instanceof WritableJSONArray) {
+      return (WritableJSONArray) source;
+    }
+    return WritableJSON.get().toJSONArray(source);
+  }
+
+  @Override
+  public WritableJSONObject cast(JSONObject source)
+  {
+    if (source instanceof WritableJSONObject) {
+      return (WritableJSONObject) source;
+    }
+    return WritableJSON.get().toJSONObject(source);
+  }
 }

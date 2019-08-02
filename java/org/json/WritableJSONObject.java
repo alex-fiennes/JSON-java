@@ -426,7 +426,7 @@ public class WritableJSONObject
                            Object value)
         throws JSONException
     {
-      __builder.put(key, WritableJSON.get().wrap(value));
+      __builder.put(key, WritableJSON.get().cast(value));
       return this;
     }
   }

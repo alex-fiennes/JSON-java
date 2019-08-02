@@ -54,4 +54,22 @@ public class ImmutableJSON
   {
     return ImmutableJSONArray.EMPTY;
   }
+
+  @Override
+  public ImmutableJSONArray cast(JSONArray source)
+  {
+    if (source instanceof ImmutableJSONArray) {
+      return (ImmutableJSONArray) source;
+    }
+    return ImmutableJSON.get().toJSONArray(source);
+  }
+
+  @Override
+  public ImmutableJSONObject cast(JSONObject source)
+  {
+    if (source instanceof ImmutableJSONObject) {
+      return (ImmutableJSONObject) source;
+    }
+    return ImmutableJSON.get().toJSONObject(source);
+  }
 }

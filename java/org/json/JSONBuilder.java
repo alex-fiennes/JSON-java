@@ -31,6 +31,29 @@ public abstract class JSONBuilder<A extends JSONArray, O extends JSONObject>
   public abstract JSONArrayBuilder<A> createJSONArrayBuilder();
   public abstract JSONObjectBuilder<O> createJSONObjectBuilder();
 
+  public Object cast(Object object)
+      throws JSONException
+  {
+    if (object == null) {
+      return Null.getInstance();
+    }
+    if (object instanceof JSONObject) {
+      return cast((JSONObject) object);
+    }
+    if (object instanceof JSONArray) {
+      return cast((JSONArray) object);
+    }
+    if (object instanceof JSONString || object instanceof Byte || object instanceof Character
+        || object instanceof Short || object instanceof Integer || object instanceof Long
+        || object instanceof Boolean || object instanceof Float || object instanceof Double
+        || object instanceof String || object instanceof Null) {
+      return object;
+    }
+    throw new JSONException(String.format("Invalid JSON data value %s of class %s",
+                                          object,
+                                          object.getClass()));
+  }
+
   /**
    * Wrap an object, if necessary. If the object is null, return the NULL object. If it is an array
    * or collection, wrap it in a JSONArray. If it is a map, wrap it in a JSONObject. If it is a
@@ -60,7 +83,6 @@ public abstract class JSONBuilder<A extends JSONArray, O extends JSONObject>
         || object instanceof String || object instanceof Null) {
       return object;
     }
-
     // if (object instanceof Collection<?>) {
     // return new WritableJSONArray((Collection<?>) object);
     // }
@@ -87,6 +109,9 @@ public abstract class JSONBuilder<A extends JSONArray, O extends JSONObject>
   {
     return source.clone(this);
   }
+
+  public abstract A cast(JSONArray source);
+  public abstract O cast(JSONObject source);
 
   /**
    * Create an empty JSONArray. If this JSONBuilder creates immutable implementations then this can

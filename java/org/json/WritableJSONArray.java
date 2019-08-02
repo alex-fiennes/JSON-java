@@ -421,7 +421,7 @@ public class WritableJSONArray
     @Override
     public Builder put(Object value) throws JSONException
     {
-      __builder.add(WritableJSON.get().wrap(value));
+      __builder.add(WritableJSON.get().cast(value));
       return this;
     }
 
