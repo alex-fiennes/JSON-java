@@ -1,7 +1,5 @@
 package org.json;
 
-import java.io.IOException;
-
 import com.google.common.collect.ImmutableList;
 
 public class ImmutableJSONArray
