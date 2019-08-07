@@ -28,7 +28,6 @@ import java.io.Reader;
  */
 public class JSONTokener<A extends JSONArray, O extends JSONObject>
 {
-  // private final JSONFactory __jsonFactory;
   private final JSONBuilder<A, O> __jsonBuilder;
 
   private int character;
@@ -46,11 +45,9 @@ public class JSONTokener<A extends JSONArray, O extends JSONObject>
    *          A reader.
    */
   public JSONTokener(Reader reader,
-                     // JSONFactory jsonFactory
                      JSONBuilder<A, O> jsonBuilder)
   {
     this.reader = reader.markSupported() ? reader : new BufferedReader(reader);
-    // __jsonFactory = jsonFactory;
     __jsonBuilder = jsonBuilder;
     this.eof = false;
     this.usePrevious = false;
@@ -59,32 +56,6 @@ public class JSONTokener<A extends JSONArray, O extends JSONObject>
     this.character = 1;
     this.line = 1;
   }
-
-  // /**
-  // * Construct a JSONTokener from an InputStream.
-  // */
-  // public JSONTokener(InputStream inputStream,
-  // // JSONFactory jsonObjectFactory
-  // JSONBuilder jsonBuilder)
-  // throws JSONException
-  // {
-  // this(new InputStreamReader(inputStream),
-  // jsonBuilder);
-  // }
-
-  // /**
-  // * Construct a JSONTokener from a string.
-  // *
-  // * @param s
-  // * A source string.
-  // */
-  // public JSONTokener(String s,
-  // // JSONFactory jsonObjectFactory,
-  // JSONBuilder jsonBuilder)
-  // {
-  // this(new StringReader(s),
-  // jsonBuilder);
-  // }
 
   /**
    * Back up one character. This provides a sort of lookahead capability, so that you can test for a
