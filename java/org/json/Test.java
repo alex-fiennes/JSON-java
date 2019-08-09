@@ -114,6 +114,8 @@ public class Test
     System.out.println(jObj);
     System.out.println(jObj.getClass());
     System.out.println(jObj.getJSONObject("a").getClass());    
+    
+    System.out.println(ImmutableJSON.get().toJSONObject("{ a: 12 3 }"));
   }
 
   // public void testJSON()
