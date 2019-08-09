@@ -163,7 +163,7 @@ public abstract class JSONBuilder<A extends JSONArray, O extends JSONObject>
   public A toJSONArray(Reader source)
       throws JSONException
   {
-    return toJSONArray(new JSONTokener<A, O>(source, this));
+    return toJSONArray(new JSONTokenerReader<A, O>(source, this));
   }
 
   public A toJSONArray(String source)
@@ -214,7 +214,7 @@ public abstract class JSONBuilder<A extends JSONArray, O extends JSONObject>
   public O toJSONObject(Reader source)
       throws JSONException
   {
-    return toJSONObject(new JSONTokener<A, O>(source, this));
+    return toJSONObject(new JSONTokenerReader<A, O>(source, this));
   }
 
   public O toJSONObject(String source)
