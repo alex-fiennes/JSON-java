@@ -21,7 +21,7 @@ public class JSONParser
           return;
         default:
           tokener.back();
-          key = tokener.nextValue().toString();
+          key = tokener.nextKey();
       }
 
       // The key is followed by ':'. We will also tolerate '=' or '=>'.

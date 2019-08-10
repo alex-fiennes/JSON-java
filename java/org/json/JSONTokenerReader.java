@@ -30,7 +30,7 @@ public class JSONTokenerReader<A extends JSONArray, O extends JSONObject>
   implements JSONTokener<A,O>
 {
   private final JSONBuilder<A, O> __jsonBuilder;
-  private final StringCharBuilder __buf = new StringCharBuilder(8);
+  private final StringCharBuilder __sharedBuf = new StringCharBuilder(8);
 
   private int character;
   private boolean eof;
@@ -237,52 +237,51 @@ public class JSONTokenerReader<A extends JSONArray, O extends JSONObject>
   {
     char c;
     // StringBuilder sb = new StringBuilder();
-    __buf.claim();
-    for (;;) {
-      c = next();
-      switch (c) {
-        case 0:
-        case '\n':
-        case '\r':
-          throw syntaxError("Unterminated string");
-        case '\\':
-          c = next();
-          switch (c) {
-            case 'b':
-              __buf.append('\b');
-              break;
-            case 't':
-              __buf.append('\t');
-              break;
-            case 'n':
-              __buf.append('\n');
-              break;
-            case 'f':
-              __buf.append('\f');
-              break;
-            case 'r':
-              __buf.append('\r');
-              break;
-            case 'u':
-              __buf.append((char) Integer.parseInt(next(4), 16));
-              break;
-            case '"':
-            case '\'':
-            case '\\':
-            case '/':
-              __buf.append(c);
-              break;
-            default:
-              throw syntaxError("Illegal escape.");
-          }
-          break;
-        default:
-          if (c == quote) {
-            String result = __buf.toString();
-            __buf.release();
-            return result;
-          }
-          __buf.append(c);
+    try (StringCharBuilder buf = __sharedBuf.open()) {
+      for (;;) {
+        c = next();
+        switch (c) {
+          case 0:
+          case '\n':
+          case '\r':
+            throw syntaxError("Unterminated string");
+          case '\\':
+            c = next();
+            switch (c) {
+              case 'b':
+                buf.append('\b');
+                break;
+              case 't':
+                buf.append('\t');
+                break;
+              case 'n':
+                buf.append('\n');
+                break;
+              case 'f':
+                buf.append('\f');
+                break;
+              case 'r':
+                buf.append('\r');
+                break;
+              case 'u':
+                buf.append((char) Integer.parseInt(next(4), 16));
+                break;
+              case '"':
+              case '\'':
+              case '\\':
+              case '/':
+                buf.append(c);
+                break;
+              default:
+                throw syntaxError("Illegal escape.");
+            }
+            break;
+          default:
+            if (c == quote) {
+              return buf.toString();
+            }
+            buf.append(c);
+        }
       }
     }
   }
@@ -299,16 +298,17 @@ public class JSONTokenerReader<A extends JSONArray, O extends JSONObject>
       throws JSONException
   {
     // StringBuilder sb = new StringBuilder();
-    __buf.claim();
-    for (;;) {
-      char c = next();
-      if (c == delimiter || c == 0 || c == '\n' || c == '\r') {
-        if (c != 0) {
-          back();
+    try (StringCharBuilder buf = __sharedBuf.open()) {
+      for (;;) {
+        char c = next();
+        if (c == delimiter || c == 0 || c == '\n' || c == '\r') {
+          if (c != 0) {
+            back();
+          }
+          return buf.toString().trim();
         }
-        return __buf.toString().trim();
+        buf.append(c);
       }
-      __buf.append(c);
     }
   }
 
@@ -324,17 +324,18 @@ public class JSONTokenerReader<A extends JSONArray, O extends JSONObject>
       throws JSONException
   {
     char c;
-    // StringBuilder sb = new StringBuilder();
-    __buf.claim();
-    for (;;) {
-      c = next();
-      if (delimiters.indexOf(c) >= 0 || c == 0 || c == '\n' || c == '\r') {
-        if (c != 0) {
-          back();
+    try (StringCharBuilder buf = __sharedBuf.open()) {
+      for (;;) {
+        c = next();
+        if (delimiters.indexOf(c) >= 0 || c == 0 || c == '\n' || c == '\r') {
+          if (c != 0) {
+            back();
+          }
+          return buf.toString().trim();
         }
-        return __buf.toString().trim();
+        buf.append(c);
       }
-      __buf.append(c);
+
     }
   }
 
@@ -346,12 +347,11 @@ public class JSONTokenerReader<A extends JSONArray, O extends JSONObject>
    *           If syntax error.
    * @return An object.
    */
+  @Override
   public Object nextValue()
       throws JSONException
   {
     char c = nextClean();
-    String string;
-
     switch (c) {
       case '"':
       case '\'':
@@ -363,34 +363,44 @@ public class JSONTokenerReader<A extends JSONArray, O extends JSONObject>
         back();
         return __jsonBuilder.toJSONArray(this);
     }
+    return JSONComponents.stringToValue(getUnquotedText(c));
+  }
 
-    /*
-     * Handle unquoted text. This could be the values true, false, or null, or it can be a number.
-     * An implementation (such as this one) is allowed to also accept non-standard forms. Accumulate
-     * characters until we reach the end of the text or a formatting character.
-     */
+  @Override
+  public String nextKey()
+      throws JSONException
+  {
+    char c = nextClean();
+    switch (c) {
+      case '"':
+      case '\'':
+        return nextString(c);
+    }
+    return getUnquotedText(c);
+  }
 
+  private String getUnquotedText(char c)
+      throws JSONException
+  {
     while (c <= ' ') {
       c = next();
     }
-    __buf.claim();
-    // StringBuilder sb = new StringBuilder(8);
-    appendUnquotedText(__buf, c);
-    back();
+    try (StringCharBuilder buf = __sharedBuf.open()) {
+      appendUnquotedText(buf, c);
+      back();
 
-    final int length = __buf.length();
-    if (length == 0) {
-      throw syntaxError("Missing value");
-    }
-    int last;
-    for (last = length; last > 0; last--) {
-      if (__buf.charAt(last - 1) > 32) {
-        break;
+      final int length = buf.length();
+      if (length == 0) {
+        throw syntaxError("Missing value");
       }
+      int last;
+      for (last = length; last > 0; last--) {
+        if (buf.charAt(last - 1) > 32) {
+          break;
+        }
+      }
+      return last == length ? buf.toString() : buf.substring(0, last);
     }
-    string = last == length ? __buf.toString() : __buf.substring(0, last);
-    __buf.release();
-    return JSONComponents.stringToValue(string);
   }
 
   private void appendUnquotedText(StringCharBuilder buf,

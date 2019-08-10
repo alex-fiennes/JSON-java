@@ -4,12 +4,13 @@ import java.util.Arrays;
 
 /**
  * simplified copy of StringBuilder that only supports appending characters and which also supports
- * efficient resuse. You should invoke {@link #claim()} before you start using it and
- * {@link #release()} when you are finished with it. You cannot nest usage of a single
- * StringCharBuilder and attempting to call {@link #claim()} before it is {@link #release()}ed will
+ * efficient resuse. You should invoke {@link #open()} before you start using it and
+ * {@link #close()} when you are finished with it. You cannot nest usage of a single
+ * StringCharBuilder and attempting to call {@link #open()} before it is {@link #close()}d will
  * result in an {@link IllegalStateException}.
  */
 public class StringCharBuilder
+  implements AutoCloseable
 {
   public static final int UNCLAIMED = -1;
 
@@ -57,16 +58,18 @@ public class StringCharBuilder
     value = Arrays.copyOf(value, newCapacity);
   }
 
-  public void claim()
+  public StringCharBuilder open()
   {
     if (count != UNCLAIMED) {
       throw new IllegalStateException("Cannot claim a StringCharBuilder that is in use: "
                                       + toStringInternal());
     }
     count = 0;
+    return this;
   }
 
-  public void release()
+  @Override
+  public void close()
   {
     if (count == UNCLAIMED) {
       throw new IllegalStateException("Cannot release a StringCharBuilder that is unclaimed");
@@ -119,4 +122,5 @@ public class StringCharBuilder
   {
     return new String(value, 0, count);
   }
+
 }
