@@ -27,7 +27,7 @@ import java.io.Reader;
  * @version 2010-12-24
  */
 public class JSONTokenerReader<A extends JSONArray, O extends JSONObject>
-  implements JSONTokener<A,O>
+  implements JSONTokener<A, O>
 {
   private final JSONBuilder<A, O> __jsonBuilder;
   private final StringCharBuilder __sharedBuf = new StringCharBuilder(8);
@@ -63,6 +63,7 @@ public class JSONTokenerReader<A extends JSONArray, O extends JSONObject>
    * Back up one character. This provides a sort of lookahead capability, so that you can test for a
    * digit or letter before attempting to parse the next number or identifier.
    */
+  @Override
   public void back()
       throws JSONException
   {
@@ -122,6 +123,7 @@ public class JSONTokenerReader<A extends JSONArray, O extends JSONObject>
    *
    * @return The next character, or 0 if past the end of the source string.
    */
+  @Override
   public char next()
       throws JSONException
   {
@@ -190,6 +192,7 @@ public class JSONTokenerReader<A extends JSONArray, O extends JSONObject>
    * @throws JSONException
    * @return A character, or 0 if there are no more characters.
    */
+  @Override
   public char nextClean()
       throws JSONException
   {
@@ -452,6 +455,7 @@ public class JSONTokenerReader<A extends JSONArray, O extends JSONObject>
    *          The error message.
    * @return A JSONException object, suitable for throwing
    */
+  @Override
   public JSONException syntaxError(String message)
   {
     return new JSONException(message + toString());
