@@ -54,36 +54,40 @@ public class JSONParser
     }
   }
 
-  public static <A extends JSONArray, O extends JSONObject> void populateArrayBuilder(JSONTokener<A, O> x,
+  public static <A extends JSONArray, O extends JSONObject> void populateArrayBuilder(JSONTokener<A, O> tokener,
                                                                                       JSONArrayBuilder<A> builder)
       throws JSONException
   {
-    if (x.nextClean() != '[') {
-      throw x.syntaxError("A JSONArray text must start with '['");
+    if (tokener.nextClean() != '[') {
+      throw tokener.syntaxError("A JSONArray text must start with '['");
     }
-    if (x.nextClean() != ']') {
-      x.back();
+
+    if (tokener.nextClean() != ']') {
+      tokener.back();
       for (;;) {
-        if (x.nextClean() == ',') {
-          x.back();
+
+        if (tokener.nextClean() == ',') {
+          tokener.back();
           builder.put(Null.getInstance());
         } else {
-          x.back();
-          builder.put(x.nextValue());
+          tokener.back();
+          builder.put(tokener.nextValue());
         }
-        switch (x.nextClean()) {
+
+        switch (tokener.nextClean()) {
           case ';':
           case ',':
-            if (x.nextClean() == ']') {
+            if (tokener.nextClean() == ']') {
               return;
             }
-            x.back();
+            tokener.back();
             break;
           case ']':
             return;
           default:
-            throw x.syntaxError("Expected a ',' or ']'");
+            throw tokener.syntaxError("Expected a ',' or ']'");
         }
+
       }
     }
   }
