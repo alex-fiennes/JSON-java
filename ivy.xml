@@ -7,9 +7,17 @@
         organisation="org.json"
         module="build"
         status="release"/>
-    <configurations>
-    <include file="../build/ivy/configurations.ivy.xml"/>
-    </configurations>
+		<configurations
+ 			defaultconfmapping="compile,runtime,provided,test->*,!javadoc,!sources,!optional,!provided;reference->*"
+ 			confmappingoverride="true">
+    		<conf name="compile"/>
+    		<conf name="runtime" extends="compile"/>
+    		<conf name="provided"
+          		visibility="private"
+          			description="Dependencies needed to run the code, but that needn't be packaged as the environment will provide them"/>
+		    <conf name="test" visibility="private"/>
+    		<conf name="reference" extends="runtime, test, provided" visibility="private" description="Used to grab source and documentation jars"/>
+	</configurations>
         
 	<dependencies defaultconf="compile">
   
