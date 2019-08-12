@@ -93,29 +93,38 @@ public class Test
     WritableJSONObject jsonobject;
 
     jsonobject = WritableJSONObject.create("{\"message\":\"null\"}");
+    System.out.println(jsonobject);
     assertFalse(jsonobject.isNull("message"));
     assertEquals("null", jsonobject.getString("message"));
 
     jsonobject = WritableJSONObject.create("{\"message\":null}");
+    System.out.println(jsonobject);
     assertTrue(jsonobject.isNull("message"));
     assertEquals(null, jsonobject.getString("message"));
   }
-  
-  public static void main(String[] args) throws Exception
+
+  public static void main(String[] args)
+      throws Exception
   {
     Test test = new Test();
     test.testNull();
-    
-    JSONObject jObj = ImmutableJSON.get().toJSONObject("{\"a\":{\"b\":2, \"c\": [1,2,{\"d\":\"deep?\",\"e\":2.543}]}}");
+
+    JSONObject jObj =
+        ImmutableJSON.get()
+                     .toJSONObject("{\"a\":{\"b\":2, \"c\": [1,2,{\"d\":\"deep?\",\"e\":2.543}]}}");
     System.out.println(jObj);
     System.out.println(jObj.getClass());
     System.out.println(jObj.getJSONObject("a").getClass());
     jObj = WritableJSON.get().cast(jObj);
     System.out.println(jObj);
     System.out.println(jObj.getClass());
-    System.out.println(jObj.getJSONObject("a").getClass());    
-    
-    System.out.println(ImmutableJSON.get().toJSONObject("{ a: 12 3 }"));
+    System.out.println(jObj.getJSONObject("a").getClass());
+
+    String s = "{ \"a\": \"quoted: \\\"xyz\\\"\" }";
+    System.out.println(s);
+    JSONObject o = ImmutableJSON.get().toJSONObject(s);
+    System.out.println(o);
+    System.out.println(o.getString("a"));
   }
 
   // public void testJSON()
