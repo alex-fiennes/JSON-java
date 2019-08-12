@@ -95,10 +95,6 @@ public class JSONTokenerString<A extends JSONArray, O extends JSONObject>
   private String getUnquotedText(char c)
       throws JSONException
   {
-    while (c <= ' ') {
-      c = next();
-    }
-
     int start = _index - 1;
     appendUnquotedText(c);
     back();
@@ -109,7 +105,7 @@ public class JSONTokenerString<A extends JSONArray, O extends JSONObject>
     }
     int last;
     for (last = length; last > 0; last--) {
-      if (__source.charAt(_index - last - 1) > 32) {
+      if (__source.charAt(start + last - 1) > 32) {
         break;
       }
     }
