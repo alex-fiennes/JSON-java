@@ -102,13 +102,29 @@ public class Test
     assertTrue(jsonobject.isNull("message"));
     assertEquals(null, jsonobject.getString("message"));
   }
+  
+  private static void testArray(String source) throws JSONException
+  {
+    System.err.println(String.format("\"%s\" --> %s", source, ImmutableJSON.get().toJSONArray(source)));
+  }
 
   public static void main(String[] args)
       throws Exception
   {
+    testArray("[]");
+    testArray("[1]");
+    testArray("[1,2]");
+    testArray("[1,2,3]");
+    testArray("[,]");
+    testArray("[,1]");
+    testArray("[1,,2]");
+    testArray("[1,]");
+
     Test test = new Test();
     test.testNull();
 
+    
+    
     JSONObject jObj =
         ImmutableJSON.get()
                      .toJSONObject("{\"a\":{\"b\":2, \"c\": [1,2,{\"d\":\"deep?\",\"e\":2.543}]}}");
