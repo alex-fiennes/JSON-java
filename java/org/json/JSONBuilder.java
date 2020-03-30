@@ -197,7 +197,7 @@ public abstract class JSONBuilder<A extends JSONArray, O extends JSONObject>
       try {
         jsonObjectBuilder.putOnce(key, value);
       } catch (JSONException e) {
-        throw new JSONLogicException(String.format("Unable to clone %s from %s", value, source));
+        throw new JSONLogicException(String.format("Unable to clone %s from %s", value, source), e);
       }
     }
     return jsonObjectBuilder.build();
