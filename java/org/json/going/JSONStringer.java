@@ -9,15 +9,9 @@ package org.json.going;
  * and a <code>key</code> method for adding keys before values in objects. There are
  * <code>array</code> and <code>endArray</code> methods that make and bound array values, and
  * <code>object</code> and <code>endObject</code> methods which make and bound object values. All of
- * these methods return the JSONWriter instance, permitting cascade style. For example,
- * 
- * <pre>
+ * these methods return the JSONWriter instance, permitting cascade style. For example, <pre>
  * myString = new JSONStringer().object().key("JSON").value("Hello, World!").endObject().toString();
- * </pre>
- * 
- * which produces the string
- * 
- * <pre>
+ * </pre> which produces the string <pre>
  * {"JSON":"Hello, World!"}
  * </pre>
  * <p>
@@ -34,34 +28,34 @@ package org.json.going;
 public class JSONStringer
   extends JSONWriter
 {
-//  /**
-//   * Make a fresh JSONStringer. It can be used to build one JSON text.
-//   */
-//  public JSONStringer()
-//  {
-//    super(new StringWriter());
-//  }
-//
-//  /**
-//   * Return the JSON text. This method is used to obtain the product of the JSONStringer instance.
-//   * It will return <code>null</code> if there was a problem in the construction of the JSON text
-//   * (such as the calls to <code>array</code> were not properly balanced with calls to
-//   * <code>endArray</code>).
-//   * 
-//   * @return The JSON text.
-//   */
-//  @Override
-//  public String toString()
-//  {
-//    return this.mode == 'd' ? this.writer.toString() : null;
-//  }
-//
-//  @Override
-//  public JSONWriter value(Object object)
-//      throws JSONException
-//  {
-//    return value(object,
-//                 WritableJSONObject.getJSONObjectBuilderSupplier(),
-//                 WritableJSONArray.getJSONArrayBuilderSupplier());
-//  }
+  // /**
+  // * Make a fresh JSONStringer. It can be used to build one JSON text.
+  // */
+  // public JSONStringer()
+  // {
+  // super(new StringWriter());
+  // }
+  //
+  // /**
+  // * Return the JSON text. This method is used to obtain the product of the JSONStringer instance.
+  // * It will return <code>null</code> if there was a problem in the construction of the JSON text
+  // * (such as the calls to <code>array</code> were not properly balanced with calls to
+  // * <code>endArray</code>).
+  // *
+  // * @return The JSON text.
+  // */
+  // @Override
+  // public String toString()
+  // {
+  // return this.mode == 'd' ? this.writer.toString() : null;
+  // }
+  //
+  // @Override
+  // public JSONWriter value(Object object)
+  // throws JSONException
+  // {
+  // return value(object,
+  // WritableJSONObject.getJSONObjectBuilderSupplier(),
+  // WritableJSONArray.getJSONArrayBuilderSupplier());
+  // }
 }

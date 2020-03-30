@@ -7,7 +7,7 @@ public class UnmodifiableIterator<T>
   implements Iterator<T>
 {
   private final Iterator<T> __i;
-  
+
   public UnmodifiableIterator(Iterator<T> i)
   {
     if (i == null) {

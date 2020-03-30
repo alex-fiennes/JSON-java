@@ -1,9 +1,8 @@
 package org.json;
 
 /**
- * Abstract implementation of JSONObject that only implements final versions of
- * all the methods that change the state of the JSONOBject all of which are
- * implemented as throwing an exception.
+ * Abstract implementation of JSONObject that only implements final versions of all the methods that
+ * change the state of the JSONOBject all of which are implemented as throwing an exception.
  * 
  * @author alex
  */

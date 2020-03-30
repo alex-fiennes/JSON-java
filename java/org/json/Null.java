@@ -7,19 +7,19 @@ package org.json;
 public class Null
 {
   private static final Null INSTANCE = new Null();
-  
+
   public static Null getInstance()
   {
     return INSTANCE;
   }
-  
+
   private Null()
   {
   }
 
   /**
-   * There is only intended to be a single instance of the NULL object, so the clone method
-   * returns itself.
+   * There is only intended to be a single instance of the NULL object, so the clone method returns
+   * itself.
    * 
    * @return NULL.
    */
@@ -60,4 +60,3 @@ public class Null
   }
 
 }
-

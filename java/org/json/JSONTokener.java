@@ -24,10 +24,15 @@ package org.json;
  */
 public interface JSONTokener<A extends JSONArray, O extends JSONObject>
 {
-  public void back() throws JSONException;
-  public char nextClean() throws JSONException;
-  public char next() throws JSONException;
-  public String nextKey() throws JSONException;
-  public Object nextValue() throws JSONException;
+  public void back()
+      throws JSONException;
+  public char nextClean()
+      throws JSONException;
+  public char next()
+      throws JSONException;
+  public String nextKey()
+      throws JSONException;
+  public Object nextValue()
+      throws JSONException;
   public JSONException syntaxError(String message);
 }

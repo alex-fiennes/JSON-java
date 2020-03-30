@@ -124,7 +124,6 @@ public interface JSONObject
    */
   public boolean has(String key);
 
-
   /**
    * Determine if the value associated with the key is null or if there is no value.
    * 

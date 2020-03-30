@@ -27,13 +27,9 @@ import com.google.common.collect.Maps;
  * do type checking and type coercion for you. The opt methods differ from the get methods in that
  * they do not throw. Instead, they return a specified value, such as null.
  * <p>
- * The <code>put</code> methods add or replace values in an object. For example,
- * 
- * <pre>
+ * The <code>put</code> methods add or replace values in an object. For example, <pre>
  * myString = new JSONObject().put(&quot;JSON&quot;, &quot;Hello, World!&quot;).toString();
- * </pre>
- * 
- * produces the string <code>{"JSON": "Hello, World"}</code>.
+ * </pre> produces the string <code>{"JSON": "Hello, World"}</code>.
  * <p>
  * The texts produced by the <code>toString</code> methods strictly conform to the JSON syntax
  * rules. The constructors are more forgiving in the texts they will accept:
@@ -430,6 +426,5 @@ public class WritableJSONObject
       return this;
     }
   }
-
 
 }
